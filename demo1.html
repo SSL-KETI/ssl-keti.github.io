@@ -10,18 +10,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-			<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-		</head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
 	<body class="landing is-preload">
 		<div id="page-wrapper">
 
@@ -159,7 +149,7 @@
 						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
 						<br/><br/>
 						<input type="file" id="file3" accept="image/*" onchange="setThumbnail(event, '#image_container3');"/>
-						<input id="submit_3" type="submit" onclick="postDocker(event, '3', '10031', 'image_contents', '')">
+						<input id="submit_3" type="submit" onclick="postDocker(event, '3', '10031', 'scene_graph', '')">
 						<div id="image_container3"></div> 
 						
 						</p>
@@ -212,11 +202,10 @@
 						// ex) postDocker(event, '1', '10011', 'image_contents', '')
 						function postDocker(event, num, port_num, data_key1, data_key2) {
 							input_url = "http://127.0.0.1:" + port_num + "/api/run"
-							
+
 							// 이미지가 input으로 들어갈 때. (Part 1,2,4)
 							var reader = new FileReader(); 
 							var img = document.getElementById("file"+num).files[0];
-
 							try {
 								reader.readAsDataURL(img);
 							}
@@ -224,22 +213,23 @@
 								// 이미지를 선택하지 않고 Submit 버튼을 눌렀을 경우
 								alert("이미지를 선택하세요.");
 							}
-
 							reader.onload = function() {
 								$('#jsonresults'+num).html("loading...");
-
-								var base64image = reader.result;
-								var commaIndex = base64image.indexOf(",");
-								base64image = base64image.slice(commaIndex+1);
-
-								var jsonArray = new Object();
-								if (data_key2 == '') {
-									jsonArray[data_key1] = base64image;
+								var base64image = "";
+								
+								if (num == 1 || num == 2 || num == 4) {
+									base64image = reader.result;
+									var commaIndex = base64image.indexOf(",");
+									base64image = base64image.slice(commaIndex+1);
 								}
-								else {
+								var jsonArray = new Object();
+								if (data_key1 == 'image_contents' && data_key2 == '') {
+									jsonArray[data_key1] = base64image;
+								} else if (data_key1 == 'image_contents' && data_key2 == 'scene_graph') {
 									jsonArray[data_key1] = base64image;
 									jsonArray[data_key2] = "abab";
-									// data_key2의 value는 json 형식 확정되면 수정 필요
+								} else { // data_key1 == 'scene_graph' && data_key2 == ''
+									jsonArray[data_key1] = "abab";
 								}
 								jsonArray = JSON.stringify(jsonArray);
 								$.ajax({
@@ -247,15 +237,20 @@
 									url: input_url,
 									data: jsonArray,
 									success:function(data){
-										var obj = JSON.parse(data);
-										var resultImage = document.createElement("img"); 
-										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-										resultImage.setAttribute("style", "max-width: 100%; height: auto;");
-										$('#image_container'+num).empty();
-										document.querySelector('#image_container'+num).appendChild(resultImage); 
+										if(num == "1" || num == "4") {
+											var obj = JSON.parse(data);
+											var resultImage = document.createElement("img"); 
+											resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+											resultImage.setAttribute("style", "max-width: 100%; height: auto;");
+											$('#image_container'+num).empty();
+											document.querySelector('#image_container'+num).appendChild(resultImage); 
 
-										resultJson = obj.scene_graph;
-										$('#jsonresults'+num).html(resultJson);
+											resultJson = obj.scene_graph;
+											$('#jsonresults'+num).html("");
+											$('#jsonresults'+num).html(resultJson);
+										} else {
+											$('#jsonresults'+num).html(data);
+										}
 									},
 									error:function(data){
 										//$('#jsonresults'+num).html(JSON.stringify(data));
@@ -328,6 +323,14 @@
 				</footer>
 
 		</div>
-
+				
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
 	</body>
 </html>
