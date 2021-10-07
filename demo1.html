@@ -31,7 +31,7 @@
 									<li><a href="demo1.html#box4">Part 4</a></li>
 								</ul>
 							</li>
-							<li><a href="demo2.html">개별 시연</a></li>
+							<li><a href="demo2.html"><strong style="color:white">Downstream Task</strong></a></li>
 						</ul>
 					</nav>
 				</header>
@@ -55,7 +55,7 @@
 						<li><a href="index.html" class="button">과제 개요</a></li>
 						<li><a href="results.html" class="button">결과물</a></li>
 						<li><a href="demo1.html" class="button primary">통합 시연</a></li>
-						<li><a href="demo2.html" class="button">개별 시연</a></li>
+						<li><a href="demo2.html" class="button">Downstream Task</a></li>
 					</ul>
 					<br/>
 					
@@ -112,16 +112,17 @@
 						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
 						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
 						<br/><br/>
-						<input type="file" id="file1" accept="image/*" onchange="setThumbnail(event, '#image_container1');"/>
-						<input id="submit_1" type="submit" onclick="postDocker(event, '1', '10011', 'image_contents', '')">
-						<div id="image_container1"></div> 
-						
+						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_img1" accept="image/*" onchange="setImageThumbnail(event, '#image_container1');"/>
+						<br/><br/>
+						<input id="submit_1" type="submit" onclick="submitData(event, '1', '10011')">
+						<br/><br/>
+						<h4>미리보기</h4>
+						<div id="image_container1">image preview</div> 
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=jsonresults1>json results
-	json results
-		json results</pre>
+						<pre id=json_results1>json results</pre>
 						
 					</div>
 
@@ -130,16 +131,21 @@
 						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
 						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
 						<br/><br/>
-						<input type="file" id="file2" accept="image/*" onchange="setThumbnail(event, '#image_container2');"/>
-						<input id="submit_2" type="submit" onclick="postDocker(event, '2', '10021', 'image_contents', 'scene_graph')">
+						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_img2" accept="image/*" onchange="setImageThumbnail(event, '#image_container2');"/>
+						<br/><br/>
+						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_json2" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview2')"/>
+						<br/><br/>
+						<input id="submit_2" type="submit" onclick="submitData(event, '2', '10021')">
+						<br/><br/>
+						<h4>미리보기</h4>
 						<div id="image_container2"></div> 
-						
+						<pre id=json_preview2>json file preview</pre>
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=jsonresults2>json results
-	json results
-		json results</pre>
+						<pre id=json_results2>json results</pre>
 						
 					</div>
 
@@ -148,16 +154,17 @@
 						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
 						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
 						<br/><br/>
-						<input type="file" id="file3" accept="image/*" onchange="setThumbnail(event, '#image_container3');"/>
-						<input id="submit_3" type="submit" onclick="postDocker(event, '3', '10031', 'scene_graph', '')">
-						<div id="image_container3"></div> 
-						
+						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
+						<br/><br/>
+						<input id="submit_3" type="submit" onclick="submitData(event, '3', '10031')">
+						<br/><br/>
+						<h4>미리보기</h4>
+						<pre id=json_preview3>json file preview</pre>
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=jsonresults3>json results
-	json results
-		json results</pre>
+						<pre id=json_results3>json results</pre>
 						
 					</div>
 					
@@ -166,16 +173,21 @@
 						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
 						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
 						<br/><br/>
-						<input type="file" id="file4" accept="image/*" onchange="setThumbnail(event, '#image_container4');"/>
-						<input id="submit_4" type="submit" onclick="postDocker(event, '4', '10041', 'image_contents', 'scene_graph')">
+						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
+						<br/><br/>
+						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_json4" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview4')"/>
+						<br/><br/>
+						<input id="submit_4" type="submit" onclick="submitData(event, '4', '10041')">
+						<br/><br/>
+						<h4>미리보기</h4>
 						<div id="image_container4"></div> 
-						
+						<pre id=json_preview4>json file preview</pre>
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=jsonresults4>json results
-	json results
-		json results</pre>
+						<pre id=json_results4>json results</pre>
 						
 					</div>
 					
@@ -187,7 +199,7 @@
 					<p id="show"></p>
 					
 					<script>
-						function setThumbnail(event, image_area) {
+						function setImageThumbnail(event, image_area) {
 							var reader = new FileReader(); 
 							reader.onload = function(event) { 
 								var img = document.createElement("img"); 
@@ -199,65 +211,128 @@
 							reader.readAsDataURL(event.target.files[0]); 
 						}
 
-						// ex) postDocker(event, '1', '10011', 'image_contents', '')
-						function postDocker(event, num, port_num, data_key1, data_key2) {
-							input_url = "http://127.0.0.1:" + port_num + "/api/run"
-
-							// 이미지가 input으로 들어갈 때. (Part 1,2,4)
+						function setJsonThumbnail(event, json_area) {
 							var reader = new FileReader(); 
-							var img = document.getElementById("file"+num).files[0];
-							try {
-								reader.readAsDataURL(img);
-							}
-							catch(err) {
-								// 이미지를 선택하지 않고 Submit 버튼을 눌렀을 경우
-								alert("이미지를 선택하세요.");
-							}
-							reader.onload = function() {
-								$('#jsonresults'+num).html("loading...");
-								var base64image = "";
-								
-								if (num == 1 || num == 2 || num == 4) {
-									base64image = reader.result;
-									var commaIndex = base64image.indexOf(",");
-									base64image = base64image.slice(commaIndex+1);
-								}
-								var jsonArray = new Object();
-								if (data_key1 == 'image_contents' && data_key2 == '') {
-									jsonArray[data_key1] = base64image;
-								} else if (data_key1 == 'image_contents' && data_key2 == 'scene_graph') {
-									jsonArray[data_key1] = base64image;
-									jsonArray[data_key2] = "abab";
-								} else { // data_key1 == 'scene_graph' && data_key2 == ''
-									jsonArray[data_key1] = "abab";
-								}
-								jsonArray = JSON.stringify(jsonArray);
-								$.ajax({
-									type: "POST",
-									url: input_url,
-									data: jsonArray,
-									success:function(data){
-										if(num == "1" || num == "4") {
-											var obj = JSON.parse(data);
-											var resultImage = document.createElement("img"); 
-											resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-											resultImage.setAttribute("style", "max-width: 100%; height: auto;");
-											$('#image_container'+num).empty();
-											document.querySelector('#image_container'+num).appendChild(resultImage); 
-
-											resultJson = obj.scene_graph;
-											$('#jsonresults'+num).html("");
-											$('#jsonresults'+num).html(resultJson);
-										} else {
-											$('#jsonresults'+num).html(data);
-										}
-									},
-									error:function(data){
-										//$('#jsonresults'+num).html(JSON.stringify(data));
-										alert(JSON.stringify(data));
-									}
-								});
+							reader.onload = function(event) { 
+								$(json_area).html("");
+								$(json_area).html(event.target.result);
 							};
+							reader.readAsText(event.target.files[0]);
+						}
+
+						// ex) submitData(event, '1', '10011', 'image_contents', '')
+						function submitData(event, num, port_num) {
+							input_url = "http://127.0.0.1:" + port_num + "/api/run"
+							// 127.0.0.1
+
+							var hasImage = false;
+							var hasJson = false;
+							var readerImg = new FileReader();
+							var readerJson = new FileReader();
+
+							if (num == 1 || num == 2 || num == 4) {
+								hasImage = true;
+								alertIfFileNotSelected(readerImg, "file_img", num);
+							}
+							if (num == 2 || num == 3 || num == 4) {
+								hasJson = true;
+								alertIfFileNotSelected(readerJson, "file_json", num);
+							}
+
+							var jsonArray = new Object();
+							var base64image;
+
+							if(hasImage && hasJson) {
+								readerImg.onload = function() {
+									readerJson.onload = function() {
+										$('#json_results'+num).html("loading...");
+										base64image = getBase64Image(readerImg);
+										jsonArray['image_contents'] = base64image;
+										
+										var jsonData = JSON.parse(readerJson.result);
+										jsonArray['scene_graph'] = jsonData;
+
+										jsonArray = JSON.stringify(jsonArray);
+										postData(input_url, jsonArray, num);
+									}
+								}
+							}
+							else if(hasImage) {
+								readerImg.onload = function() {
+									$('#json_results'+num).html("loading...");
+									base64image = getBase64Image(readerImg);
+									jsonArray['image_contents'] = base64image;
+
+									jsonArray = JSON.stringify(jsonArray);
+									postData(input_url, jsonArray, num);
+								}
+							}
+							else if(hasJson) {
+								readerJson.onload = function() {
+									$('#json_results'+num).html("loading...");
+									var jsonData = JSON.parse(readerJson.result);
+									jsonArray['scene_graph'] = jsonData;
+
+									jsonArray = JSON.stringify(jsonArray);
+									postData(input_url, jsonArray, num);
+								}
+							}
+						}
+
+						function alertIfFileNotSelected(reader, file, num) {
+							if (file == "file_img") {
+								var img = document.getElementById("file_img"+num).files[0];
+								try {
+									reader.readAsDataURL(img);
+								}
+								catch(err) {
+									alert("이미지를 선택하세요.");
+								}
+							}
+							else {
+								var json = document.getElementById("file_json"+num).files[0];
+								try {
+									reader.readAsText(json);
+								}
+								catch(err) {
+									alert("JSON 파일을 선택하세요.");
+								}
+							}
+						}
+
+						function getBase64Image(reader) {
+							var base64image = reader.result;
+							var commaIndex = base64image.indexOf(",");
+							base64image = base64image.slice(commaIndex+1);
+							return base64image;
+						}
+
+						function postData(input_url, jsonArray, num) {
+							$.ajax({
+								type: "POST",
+								url: input_url,
+								data: jsonArray,
+								success:function(data){
+									if(num == "1" || num == "4") {
+										var obj = JSON.parse(data);
+										var resultImage = document.createElement("img");
+										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+										$('#image_container'+num).empty();
+										document.querySelector('#image_container'+num).appendChild(resultImage); 
+										var resultJson = obj.scene_graph;
+										$('#json_results'+num).html("");
+										$('#json_results'+num).html(resultJson);
+									}
+									else {
+										$('#json_results'+num).html(data);
+									}
+								},
+								error:function(data){
+									//$('#json_results'+num).html(JSON.stringify(data));
+									alert(JSON.stringify(data));
+								}
+							});
 						}
 
 						// docker GET
