@@ -59,11 +59,12 @@
 					</ul>
 					<br/>
 					
+					<!--
 					<div class="box">
 						<span class="image featured"><img src="images/demo1-1.png" alt="" /></span>
 						.
 					</div>
-					
+					-->
 					<!--
 					<div class="box" id="button_box">
 						<ul class="actions special">
@@ -80,13 +81,13 @@
 							<section>
 								<a href="#box1">
 									<h3>Part 1</h3>
-									<p>객체의 의도, 관계성을 상식화하는 기술</p>
+									<p>영상 내 존재하는 객체들 간의 관계를 파악해 장면그래프로 상식화</p>
 									</a>
 							</section>
 							<section>
 								<a href="#box2">
 								<h3>Part 2</h3>
-								<p>객체의 기능, 외형, 속성 등을 상식화하는 기술</p>
+								<p>영상의 정교한 분석을 기반으로 객체의 기능, 외형, 속성 정보를 장면그래프로 상식화</p>
 								</a>
 							</section>
 						</div>
@@ -94,13 +95,13 @@
 							<section>
 								<a href="#box3">
 								<h3>Part 3</h3>
-								<p>복원될 객체의 영상 정보를 활용하여 환경과의 영상 관계를 연상 (추론)하는 기술</p>
+								<p>보이지 않는 부분에 대한 상식 융합 관계그래프를 시각적 상식으로 추론</p>
 								</a>
 							</section>
 							<section>
 								<a href="#box4">
 								<h3>Part 4</h3>
-								<p>시각적 상식 기반으로 사물의 영상 형상/구조 및 색상을 복원하는 기술</p>
+								<p>상식 융합 장면그래프를 활용해 객체의 형태와 구조를 사실적으로 복원하고 생성</p>
 								</a>
 							</section>
 						</div>
@@ -109,15 +110,17 @@
 					
 					<div class="box" id="box1">
 						<h3>Part 1</h3>
-						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
-						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
+						<p><!--<span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>-->
+							영상 내 존재하는 객체들 간의 관계를 파악해 장면그래프로 상식화
+						</p>
+						<p>
 						<br/><br/>
 						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_img1" accept="image/*" onchange="setImageThumbnail(event, '#image_container1');"/>
 						<br/><br/>
 						<input id="submit_1" type="submit" onclick="submitData(event, '1', '10011')">
 						<br/><br/>
-						<h4>미리보기</h4>
+						<h4>파일 미리보기</h4>
 						<div id="image_container1">image preview</div> 
 						</p>
 						
@@ -128,8 +131,10 @@
 
 					<div class="box" id="box2">
 						<h3>Part 2</h3>
-						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
-						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
+						<p><!--<span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>-->
+							영상의 정교한 분석을 기반으로 객체의 기능, 외형, 속성 정보를 장면그래프로 상식화
+						</p>
+						<p>
 						<br/><br/>
 						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_img2" accept="image/*" onchange="setImageThumbnail(event, '#image_container2');"/>
@@ -139,7 +144,7 @@
 						<br/><br/>
 						<input id="submit_2" type="submit" onclick="submitData(event, '2', '10021')">
 						<br/><br/>
-						<h4>미리보기</h4>
+						<h4>파일 미리보기</h4>
 						<div id="image_container2"></div> 
 						<pre id=json_preview2>json file preview</pre>
 						</p>
@@ -151,15 +156,17 @@
 
 					<div class="box" id="box3">
 						<h3>Part 3</h3>
-						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
-						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
+						<p><!--<span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>-->
+							보이지 않는 부분에 대한 상식 융합 관계그래프를 시각적 상식으로 추론
+						</p>
+						<p>
 						<br/><br/>
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
 						<br/><br/>
 						<input id="submit_3" type="submit" onclick="submitData(event, '3', '10031')">
 						<br/><br/>
-						<h4>미리보기</h4>
+						<h4>파일 미리보기</h4>
 						<pre id=json_preview3>json file preview</pre>
 						</p>
 						
@@ -170,8 +177,10 @@
 					
 					<div class="box" id="box4">
 						<h3>Part 4</h3>
-						<p><span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>
-						Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.
+						<p><!--<span><img src="images/back.jpg" alt=""  style="max-width: 40%; height: auto; float: right"/></span>-->
+							상식 융합 장면그래프를 활용해 객체의 형태와 구조를 사실적으로 복원하고 생성
+						</p>
+						<p>	
 						<br/><br/>
 						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
@@ -181,23 +190,24 @@
 						<br/><br/>
 						<input id="submit_4" type="submit" onclick="submitData(event, '4', '10041')">
 						<br/><br/>
-						<h4>미리보기</h4>
+						<h4>파일 미리보기</h4>
 						<div id="image_container4"></div> 
 						<pre id=json_preview4>json file preview</pre>
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=json_results4>json results</pre>
+						<div id="image_result4">image result</div> 
+						<!--<pre id=json_results4>json results</pre>-->
 						
 					</div>
 					
-					
-					
+					<!--
 					<b>Buttons for test</b><br/>
 
 					<button type="submit" id="dockerget">Docker GET TEST</button><br/><br/>
 					<p id="show"></p>
-					
+					-->
+
 					<script>
 						function setImageThumbnail(event, image_area) {
 							var reader = new FileReader(); 
@@ -313,7 +323,7 @@
 								url: input_url,
 								data: jsonArray,
 								success:function(data){
-									if(num == "1" || num == "4") {
+									if(num == "1") {
 										var obj = JSON.parse(data);
 										var resultImage = document.createElement("img");
 										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
@@ -321,8 +331,15 @@
 										$('#image_container'+num).empty();
 										document.querySelector('#image_container'+num).appendChild(resultImage); 
 										var resultJson = obj.scene_graph;
-										$('#json_results'+num).html("");
 										$('#json_results'+num).html(resultJson);
+									}
+									else if(num == "4") {
+										var obj = JSON.parse(data);
+										var resultImage = document.createElement("img");
+										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+										$('#image_result4').empty();
+										document.querySelector('#image_result4').appendChild(resultImage); 
 									}
 									else {
 										$('#json_results'+num).html(data);
@@ -334,7 +351,8 @@
 								}
 							});
 						}
-
+						
+						/*
 						// docker GET
 						$(function(){
 						  $('#dockerget').click(function(){
@@ -352,6 +370,7 @@
 							})
 						  })
 						})
+						*/
 
 						/*
 						POST 주소들
