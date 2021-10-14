@@ -1968,7 +1968,7 @@
 	.container {
 		margin: 0 auto;
 		max-width: calc(100% - 5em);
-		width: 60em;
+		width: 70em;			/*width of the white part in <body>. used to be 60em*/
 	}
 
 		.container.xsmall {
