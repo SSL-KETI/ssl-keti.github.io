@@ -10,6 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body class="landing is-preload">
 		<div id="page-wrapper">
@@ -31,6 +32,7 @@
 								</ul>
 							</li>
 							<li><a href="demo2.html"><strong style="color:white">Downstream Task</strong></a></li>
+							<li><a href="dataset.html"><strong style="color:white">Dataset</strong></a></li>
 						</ul>
 					</nav>
 				</header>
@@ -41,7 +43,6 @@
 						차세대 인공지능 핵심원천기술개발<h5>
 					<h3>자기지도학습에 의한 시각적 상식으로<br/>
 						영상에서 보이지 않는 부분을 복원하는 기술</h3>
-					
 				</section>
 
 			<!-- Main -->
@@ -51,10 +52,10 @@
 						<li><a href="results.html" class="button">결과물</a></li>
 						<li><a href="demo1.html" class="button">통합 시연</a></li>
 						<li><a href="demo2.html" class="button primary">Downstream Task</a></li>
+						<li><a href="dataset.html" class="button">Dataset</a></li>
 					</ul>
 
 					<div class="box">
-						
 							<table>
 								<thead style="border : 0px;">
 									<tr>
@@ -90,8 +91,78 @@
 									</tr>
 								</thead>
 							</table>
-						
 					</div>
+
+					<div class="box">
+						<h3>Part 3</h3>
+						<p>문서 내 지식관계 추출 정확도 (KETI)</p>
+						<p>
+						<br/><br/>
+						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview')"/>
+						<br/><br/>
+						<input id="submit" type="submit" onclick="submitData(event, '12345')">
+						<br/><br/>
+						<h4>파일 미리보기</h4>
+						<pre id=json_preview>json file preview</pre>
+						</p>
+						
+						<h4>결과</h4>
+						<pre id=json_results>json results</pre>
+					</div>
+
+					<script>
+						function setJsonThumbnail(event, json_area) {
+							var reader = new FileReader(); 
+							reader.onload = function(event) { 
+								$(json_area).html("");
+								$(json_area).html(event.target.result);
+							};
+							reader.readAsText(event.target.files[0]);
+						}
+
+						function submitData(event, port_num) {
+							input_url = "http://10.1.94.1:" + port_num + "/api/task"
+
+							var hasJson = false;
+							var readerJson = new FileReader();
+
+							alertIfFileNotSelected(readerJson);
+
+							readerJson.onload = function() {
+								$('#json_results').html("loading...");
+								postData(input_url, readerJson.result);
+							}
+						}
+
+						function alertIfFileNotSelected(reader) {
+							var json = document.getElementById("file_json").files[0];
+							try {
+								reader.readAsText(json);
+							}
+							catch(err) {
+								alert("JSON 파일을 선택하세요.");
+							}
+						}
+
+						function postData(input_url, jsonArray) {
+							$.ajax({
+								type: "POST",
+								url: input_url,
+								data: jsonArray,
+								beforeSend: function(xhr) {
+									xhr.setRequestHeader("Content-Type", "application/json");
+									xhr.setRequestHeader("charset", "utf-8");
+								},
+								success:function(data){
+									$('#json_results').html(data);
+								},
+								error:function(data){
+									alert(JSON.stringify(data));
+								}
+							});
+						}
+					</script>
 				</section>
 
 			<!-- Footer -->

@@ -32,21 +32,17 @@
 								</ul>
 							</li>
 							<li><a href="demo2.html"><strong style="color:white">Downstream Task</strong></a></li>
+							<li><a href="dataset.html"><strong style="color:white">Dataset</strong></a></li>
 						</ul>
 					</nav>
 				</header>
 
-
 			<!-- Banner -->
 				<section id="banner">
-					<!--
-					<h2>Alpha</h2>
-					<p>Another fine responsive site template freebie by HTML5 UP.</p> -->
 					<h5>정보통신⦁방송 기술개발사업<br/>
 						차세대 인공지능 핵심원천기술개발<h5>
 					<h3>자기지도학습에 의한 시각적 상식으로<br/>
 						영상에서 보이지 않는 부분을 복원하는 기술</h3>
-					
 				</section>
 
 			<!-- Main -->
@@ -56,6 +52,7 @@
 						<li><a href="results.html" class="button">결과물</a></li>
 						<li><a href="demo1.html" class="button primary">통합 시연</a></li>
 						<li><a href="demo2.html" class="button">Downstream Task</a></li>
+						<li><a href="dataset.html" class="button">Dataset</a></li>
 					</ul>
 					<br/>
 					
@@ -230,7 +227,6 @@
 							reader.readAsText(event.target.files[0]);
 						}
 
-						// ex) submitData(event, '1', '10011', 'image_contents', '')
 						function submitData(event, num, port_num) {
 							input_url = "http://127.0.0.1:" + port_num + "/api/run"
 							// 127.0.0.1
