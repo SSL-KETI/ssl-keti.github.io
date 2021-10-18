@@ -122,7 +122,7 @@
 						}
 
 						function submitData(event, port_num) {
-							input_url = "http://10.1.94.1:" + port_num + "/api/task"
+							input_url = "http://127.0.0.1:" + port_num + "/api/task"
 
 							var hasJson = false;
 							var readerJson = new FileReader();
@@ -155,12 +155,22 @@
 									xhr.setRequestHeader("charset", "utf-8");
 								},
 								success:function(data){
-									$('#json_results').html(data);
+									$('#json_results').html(unescape(replaceAll(data, "\\", "%")));
 								},
 								error:function(data){
 									alert(JSON.stringify(data));
 								}
 							});
+						}
+
+						function replaceAll(strTemp, strValue1, strValue2){ 
+							while(1){
+								if( strTemp.indexOf(strValue1) != -1 )
+									strTemp = strTemp.replace(strValue1, strValue2);
+								else
+									break;
+							}
+							return strTemp;
 						}
 					</script>
 				</section>
