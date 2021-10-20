@@ -115,7 +115,7 @@
 						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_img1" accept="image/*" onchange="setImageThumbnail(event, '#image_container1');"/>
 						<br/><br/>
-						<input id="submit_1" type="submit" onclick="submitData(event, '1', '10011')">
+						<input id="submit_1" type="submit" onclick="submitData(event, '1', 'part1_POSTECH')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
 						<div id="image_container1">image preview</div> 
@@ -139,7 +139,7 @@
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_json2" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview2')"/>
 						<br/><br/>
-						<input id="submit_2" type="submit" onclick="submitData(event, '2', '10021')">
+						<input id="submit_2" type="submit" onclick="submitData(event, '2', 'part2_Birmingham')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
 						<div id="image_container2"></div> 
@@ -161,7 +161,7 @@
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
 						<br/><br/>
-						<input id="submit_3" type="submit" onclick="submitData(event, '3', '10031')">
+						<input id="submit_3" type="submit" onclick="submitData(event, '3', 'part3_KETI')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
 						<pre id=json_preview3>json file preview</pre>
@@ -185,7 +185,7 @@
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_json4" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview4')"/>
 						<br/><br/>
-						<input id="submit_4" type="submit" onclick="submitData(event, '4', '10041')">
+						<input id="submit_4" type="submit" onclick="submitData(event, '4', 'part4_POSTECH')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
 						<div id="image_container4"></div> 
@@ -227,9 +227,8 @@
 							reader.readAsText(event.target.files[0]);
 						}
 
-						function submitData(event, num, port_num) {
-							input_url = "http://127.0.0.1:" + port_num + "/api/run"
-							// 127.0.0.1
+						function submitData(event, num, name) {
+							input_url = "http://ketiair.com:10001/api/" + name;
 
 							var hasImage = false;
 							var hasJson = false;
@@ -368,38 +367,6 @@
 						})
 						*/
 
-						/*
-						POST 주소들
-						Part 1 - POSTECH (10011)
-						url: "http://127.0.0.1:10011/api/run",
-						data: JSON.stringify({'image_contents' : base64image})
-						
-						Part 2 - Birmingham (10021)
-						url: "http://127.0.0.1:10021/api/run",
-						data: JSON.stringify({'image_contents' : base64image, 'scene_graph': 'json_data'})
-						
-						Part 2 - UNIST (10022)
-						url: "http://127.0.0.1:10022/api/run",
-						data: JSON.stringify({'image_contents' : base64image, 'scene_graph': 'json_data'})
-						
-						Part 3 - KAIST (10032)
-						url: "http://127.0.0.1:10032/api/run",
-						data: JSON.stringify({'scene_graph': 'json_data'})
-						
-						Part 3 - KETI (10031)
-						url: "http://127.0.0.1:10031/api/run",
-						data: JSON.stringify({'scene_graph': 'json_data'})
-						
-						Part 4 - POSTECH (10041)
-						url: "http://127.0.0.1:10041/api/run",
-						data: JSON.stringify({'image_contents' : base64image, 'scene_graph': 'json_data'})
-						단, 이미지 파일이 선택되어있어야 에러 안남
-
-						Part 4 - SNU (10042)
-						url: "http://127.0.0.1:10042/api/run",
-						data: JSON.stringify({'image_contents' : base64image, 'scene_graph': 'json_data'})
-						단, 이미지 파일이 선택되어있어야 에러 안남
-						*/
 					</script>
 					
 				</section>

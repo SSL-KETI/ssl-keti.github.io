@@ -101,7 +101,7 @@
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview')"/>
 						<br/><br/>
-						<input id="submit" type="submit" onclick="submitData(event, '12345')">
+						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
 						<pre id=json_preview>json file preview</pre>
@@ -121,8 +121,8 @@
 							reader.readAsText(event.target.files[0]);
 						}
 
-						function submitData(event, port_num) {
-							input_url = "http://127.0.0.1:" + port_num + "/api/task"
+						function submitData(event, name) {
+							input_url = "http://ketiair.com:10001/api/" + name;
 
 							var hasJson = false;
 							var readerJson = new FileReader();
