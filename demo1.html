@@ -321,13 +321,19 @@
 								success:function(data){
 									if(num == "1") {
 										var obj = JSON.parse(data);
-										var resultImage = document.createElement("img");
-										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-										$('#image_container'+num).empty();
-										document.querySelector('#image_container'+num).appendChild(resultImage); 
 										var resultJson = obj.scene_graph;
-										$('#json_results'+num).html(resultJson);
+
+										if(resultJson == "") {
+											postData(input_url, jsonArray, num);
+											console.log("again");
+										} else {
+											var resultImage = document.createElement("img");
+											resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+											resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+											$('#image_container'+num).empty();
+											document.querySelector('#image_container'+num).appendChild(resultImage); 
+											$('#json_results'+num).html(resultJson);
+										}
 									}
 									else if(num == "4") {
 										var obj = JSON.parse(data);
