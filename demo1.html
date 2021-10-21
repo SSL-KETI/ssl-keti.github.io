@@ -228,7 +228,7 @@
 						}
 
 						function submitData(event, num, name) {
-							input_url = "http://ketiair.com:10001/api/" + name;
+							input_url = "https://ketiair.com:10001/api/" + name;
 
 							var hasImage = false;
 							var hasJson = false;
@@ -317,6 +317,7 @@
 								type: "POST",
 								url: input_url,
 								data: jsonArray,
+								//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 								success:function(data){
 									if(num == "1") {
 										var obj = JSON.parse(data);
