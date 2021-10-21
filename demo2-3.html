@@ -155,7 +155,9 @@
 									xhr.setRequestHeader("charset", "utf-8");
 								},
 								success:function(data){
-									$('#json_results').html(unescape(replaceAll(data, "\\", "%")));
+									data = unescape(replaceAll(data, "\\", "%"))
+									organized_data = organize_json_data(data);
+									$('#json_results').html(organized_data);
 								},
 								error:function(data){
 									alert(JSON.stringify(data));
@@ -163,7 +165,7 @@
 							});
 						}
 
-						function replaceAll(strTemp, strValue1, strValue2){ 
+						function replaceAll(strTemp, strValue1, strValue2) { 
 							while(1){
 								if( strTemp.indexOf(strValue1) != -1 )
 									strTemp = strTemp.replace(strValue1, strValue2);
@@ -171,6 +173,48 @@
 									break;
 							}
 							return strTemp;
+						}
+
+						function organize_json_data(data) {
+							var organized_data = "";
+							var space_count = 0;
+
+							for(var i = 0; i < data.length; i++) {
+								var letter = data.charAt(i);
+								if(letter == "{" || letter == "[") {
+									organized_data += letter + "\n";
+									space_count += 2;
+									organized_data += add_space(space_count);
+								}
+								else if(letter == ",") {
+									organized_data += letter + "\n";
+									organized_data += add_space(space_count);
+								}
+								else if(letter == "}" || letter == "]") {
+									space_count -= 2;
+									organized_data += "\n";
+									organized_data += add_space(space_count);
+									organized_data += letter;
+								}
+								else if (letter == ":") {
+									organized_data += letter + " ";
+								}
+								else if(letter == " ") {
+									continue;
+								}
+								else {
+									organized_data += letter;
+								}
+							}
+							return organized_data;
+						}
+
+						function add_space(space_count) {
+							var space = "";
+							for(var i = 0; i < space_count; i++) {
+								space += " ";
+							}
+							return space;
 						}
 					</script>
 				</section>
