@@ -182,20 +182,19 @@
 						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 						<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
 						<br/><br/>
-						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
-						<input type="file" id="file_json4" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview4')"/>
+						<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+						<input type="file" id="file_img4_2" accept="image/*" onchange="setImageThumbnail(event, '#image_container4_2');"/>
 						<br/><br/>
-						<input id="submit_4" type="submit" onclick="submitData(event, '4', 'part4_POSTECH')">
+						<input id="submit_4" type="submit" onclick="submitData(event, '4', 'part4_KETI')">
 						<br/><br/>
 						<h4>파일 미리보기</h4>
-						<div id="image_container4"></div> 
-						<pre id=json_preview4>json file preview</pre>
+						<div id="image_container4">image preview</div> 
+						<div id="image_container4_2">mask image preview</div> 
 						</p>
 						
 						<h4>결과</h4>
 						<div id="image_result4">image result</div> 
-						<!--<pre id=json_results4>json results</pre>-->
-						
+
 					</div>
 					
 					<!--
@@ -231,15 +230,23 @@
 							input_url = "https://ketiair.com:10001/api/" + name;
 
 							var hasImage = false;
+							var hasImage2 = false;
 							var hasJson = false;
 							var readerImg = new FileReader();
+							var readerImg2 = new FileReader();
 							var readerJson = new FileReader();
 
-							if (num == 1 || num == 2 || num == 4) {
+							if (num == 1 || num == 2) {
 								hasImage = true;
 								alertIfFileNotSelected(readerImg, "file_img", num);
 							}
-							if (num == 2 || num == 3 || num == 4) {
+							else if(num == 4) {
+								hasImage = true;
+								hasImage2 = true;
+								alertIfFileNotSelected(readerImg, "file_img", num);
+								alertIfFileNotSelected(readerImg2, "file_img", '4_2');
+							}
+							if (num == 2 || num == 3) {
 								hasJson = true;
 								alertIfFileNotSelected(readerJson, "file_json", num);
 							}
@@ -247,7 +254,22 @@
 							var jsonArray = new Object();
 							var base64image;
 
-							if(hasImage && hasJson) {
+							if(hasImage && hasImage2) {
+								readerImg.onload = function() {
+									readerImg2.onload = function() {
+										$('#image_result'+num).html("loading...");
+										base64image = getBase64Image(readerImg);
+										jsonArray['image_contents'] = base64image;
+
+										base64image_mask = getBase64Image(readerImg2);
+										jsonArray['mask'] = base64image_mask;
+
+										jsonArray = JSON.stringify(jsonArray);
+										postData(input_url, jsonArray, num);
+									}
+								}
+							}
+							else if(hasImage && hasJson) {
 								readerImg.onload = function() {
 									readerJson.onload = function() {
 										$('#json_results'+num).html("loading...");
@@ -291,7 +313,7 @@
 									reader.readAsDataURL(img);
 								}
 								catch(err) {
-									alert("이미지를 선택하세요.");
+									alert("이미지를 선택하세요." + num);
 								}
 							}
 							else {
@@ -317,31 +339,24 @@
 								type: "POST",
 								url: input_url,
 								data: jsonArray,
-								//contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 								success:function(data){
 									if(num == "1") {
 										var obj = JSON.parse(data);
 										var resultJson = obj.scene_graph;
-
-										if(resultJson == "") {
-											postData(input_url, jsonArray, num);
-											console.log("again");
-										} else {
-											var resultImage = document.createElement("img");
-											resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-											resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-											$('#image_container'+num).empty();
-											document.querySelector('#image_container'+num).appendChild(resultImage); 
-											$('#json_results'+num).html(resultJson);
-										}
+										var resultImage = document.createElement("img");
+										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+										$('#image_container'+num).empty();
+										document.querySelector('#image_container'+num).appendChild(resultImage); 
+										$('#json_results'+num).html(resultJson);
 									}
 									else if(num == "4") {
 										var obj = JSON.parse(data);
 										var resultImage = document.createElement("img");
 										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
 										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-										$('#image_result4').empty();
-										document.querySelector('#image_result4').appendChild(resultImage); 
+										$('#image_result'+num).empty();
+										document.querySelector('#image_result'+num).appendChild(resultImage); 
 									}
 									else {
 										$('#json_results'+num).html(data);
