@@ -107,40 +107,177 @@
 						<p>문서 내 지식관계 추출 정확도 (KETI)</p>
 						<p>
 						<br/><br/>
+						<p><h4>1. 파일 입력</h4></p>
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
-						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview')"/>
-						<br/><br/>
-						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction')">
-						<br/><br/>
+						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, 'json_preview')"/>
+						<br/><br/><br/>
 						<h4>파일 미리보기</h4>
-						<pre id=json_preview>json file preview</pre>
-						</p>
-						
+						<pre id="json_preview">json file preview</pre>
+						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction', true)">
+						<br/><br/>
 						<h4>결과</h4>
 						<pre id=json_results>json results</pre>
+						<br/><br/>
+
+						<table>
+							<thead> 
+								<th></th>
+							</thead>
+						</table>
+
+						<br/>
+						<p><h4>2. 사용자 텍스트 입력</h4></p>
+						1) 문장을 아래에 입력하세요. <br/>
+						2) 단어를 드래그하여 선택하세요. <br/>
+						3) 선택한 단어가 맞으면 "단어 추가" 버튼을 누르세요. <br/>
+						4) 단어 삭제를 원할 경우 해당 단어를 클릭하세요. <br/>
+						5) 단어 선택을 원료했을 때, "JSON 생성" 버튼을 누르세요. <br/>
+						6) JSON이 제대로 생성되었으면 "Submit" 버튼을 누르세요. <br/><br/>
+						*** 선택된 단어는 subject, object 순서대로 입력됩니다. 짝수 개의 단어를 입력하세요. ***<br/>
+						예) "사용자", "문장", "단어", "짝수" 를 선택할 경우, 각각 subject, object 순서로 ("사용자", "문장"), ("단어", "짝수") 로 묶입니다.
+						<br/><br/>
+						문장 입력 : &nbsp;&nbsp;&nbsp;<textarea id="sentence" style="border-color:rgb(221, 221, 221); resize:none" placeholder="문장을 입력하세요." onselect="getSelectedText()"></textarea>
+						<br/>
+						선택된 단어 :
+						<div class="row gtr-uniform gtr-50">
+							<div class="col-9 col-12-mobilep">
+								<pre id="word"/>
+							</div>
+							<div class="col-3 col-12-mobilep">
+								<input type="button" value="단어 추가" class="fit" style="height:100%;" onclick="addWord()"/>
+							</div>
+						</div>
+
+						<br/>
+						<div id="selected_words"></div>
+						<br/><input type="submit" id="generator" value="JSON 생성" onclick="generateJson()">
+						<br/><br/>
+						<h4>생성된 JSON</h4>
+						<pre id="json_preview_user">json preview</pre>
+						
+						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction', false)">
+						<br/><br/>
+						<h4>결과</h4>
+						<pre id=json_results2>json results</pre>
 					</div>
 
+
+
 					<script>
+						function getSelectedText() {
+							var txtarea = document.getElementById("sentence");
+							var start = txtarea.selectionStart;
+							var finish = txtarea.selectionEnd;
+							var sel = txtarea.value.substring(start, finish);
+							$('#word').html(sel + "   [" + start + "," + finish + "]");
+						}
+						
+						var wordCount = 0;
+						var wordArray = [];
+						function addWord() {
+							var word = document.getElementById("word").innerText;
+							if(word == "							") {
+								alert("문장에서 단어를 드래그하여 선택하세요.");
+								return 1;
+							}
+
+							var wordarea = document.getElementById("selected_words");
+							var button = document.createElement("input");
+							button.setAttribute("type", "button");
+							button.setAttribute("value", word);
+							button.setAttribute("style", "background-color: silver; color: black");
+							button.id = "word" + wordCount;
+							button.onclick = function(event) {
+								event.target.remove();
+
+								var word_num = button.id.substring(4, button.id.length);
+								var idx = wordArray.indexOf(word_num);
+								wordArray.splice(idx, 1);
+							};
+							
+							wordarea.append(button);
+							wordarea.append("\u00A0");
+
+							wordArray.push(wordCount + "");
+							wordCount += 1;
+						}
+
+						function generateJson() {
+							if(wordArray.length == 0) {
+								alert("단어를 선택하세요.");
+								return 1;
+							}
+							else if(wordArray.length % 2 != 0) {
+								alert("짝수 개의 단어를 선택하세요.");
+								return 1;
+							}
+
+							var sentence = document.getElementById("sentence");
+
+							var json_doc = new Object();
+							json_doc["text"] = sentence.value;
+							json_doc["language"] = "kr";
+							json_doc["domain"] = "common-sense";
+
+							var pairs = [];
+							var subject = "";
+							var object = "";
+							for(var i = 0; i < wordArray.length; i++) {
+								var wordId = "word" + wordArray[i];
+								var wordValue = document.getElementById(wordId).value;
+								var splitedWord = wordValue.split("   ");
+								var wordLocation = splitedWord[1];
+								var splitedWordLocation = wordLocation.split(",");
+
+								var start = splitedWordLocation[0].slice(1) * 1;
+								var end = splitedWordLocation[1].slice(0, -1) * 1;
+								if(i % 2 == 1) {
+									object = [start, end-1];
+									pairs.push([subject, object]);
+
+									subject = "";
+									object = "";
+								}
+								else {
+									subject = [start, end-1];
+								}
+							}
+
+							var jsonArray = new Object();
+							jsonArray["doc"] = json_doc;
+							jsonArray["arg_pairs"] = pairs;
+							jsonArray = JSON.stringify(jsonArray);
+
+							$("#json_preview_user").html(jsonArray);
+						}
+
 						function setJsonThumbnail(event, json_area) {
 							var reader = new FileReader(); 
 							reader.onload = function(event) { 
-								$(json_area).html("");
-								$(json_area).html(event.target.result);
+								$('#'+json_area).html("");
+								$('#'+json_area).html(event.target.result);
 							};
 							reader.readAsText(event.target.files[0]);
 						}
 
-						function submitData(event, name) {
+						function submitData(event, name, hasFile) {
 							input_url = "https://ketiair.com:10001/api/" + name;
 
-							var hasJson = false;
-							var readerJson = new FileReader();
+							if(hasFile) {
+								var hasJson = false;
+								var readerJson = new FileReader();
 
-							alertIfFileNotSelected(readerJson);
+								alertIfFileNotSelected(readerJson);
 
-							readerJson.onload = function() {
-								$('#json_results').html("loading...");
-								postData(input_url, readerJson.result);
+								readerJson.onload = function() {
+									$('#json_results').html("loading...");
+									postData(input_url, readerJson.result, hasFile);
+								}
+							}
+							else {
+								var generatedJson = document.getElementById("json_preview_user").innerText;
+								$('#json_results2').html("loading...");
+								postData(input_url, generatedJson, hasFile);
 							}
 						}
 
@@ -154,7 +291,7 @@
 							}
 						}
 
-						function postData(input_url, jsonArray) {
+						function postData(input_url, jsonArray, hasFile) {
 							$.ajax({
 								type: "POST",
 								url: input_url,
@@ -166,7 +303,13 @@
 								success:function(data){
 									data = unescape(replaceAll(data, "\\", "%"))
 									organized_data = organize_json_data(data);
-									$('#json_results').html(organized_data);
+									if(hasFile) {
+										$('#json_results').html(organized_data);
+									}
+									else {
+										$('#json_results2').html(organized_data);
+									}
+									
 								},
 								error:function(data){
 									alert(JSON.stringify(data));
