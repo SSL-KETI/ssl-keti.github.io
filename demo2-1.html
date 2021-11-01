@@ -10,6 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	</head>
 	<body class="landing is-preload">
 		<div id="page-wrapper">
@@ -118,12 +119,36 @@
 						</p>
 						
 						<h4>결과</h4>
-						<pre id=json_results>results</pre>
+						<div id=json_results></div>
+						<canvas id="bar-chart-horizontal" width="600" height="250"></canvas>
 					</div>
 
 
 
 					<script>
+						window.onload = function() {
+							new Chart(document.getElementById("bar-chart-horizontal"), {
+								type: 'horizontalBar',
+								data: {
+								labels: ["","","","",""],
+								datasets: [
+									{
+									label: "Percentage",
+									data: [0,0,0,0,0]
+									}
+								]
+								},
+								options: {
+								legend: { display: false },
+								title: {
+									display: true,
+									text: "Results",
+									fontSize: 20
+								}
+								}
+							});
+						}
+
 						function setImageThumbnail(event, image_area) {
 							var reader = new FileReader(); 
 							reader.onload = function(event) { 
@@ -154,7 +179,7 @@
 						}
 
 						function submitData() {
-							input_url = "http://";	// NEED TO BE FILLED
+							input_url = "https://ketiair.com:10001/api/resnet50";
 
 							var readerImg = new FileReader();
 							alertIfFileNotSelected(readerImg);
@@ -178,10 +203,83 @@
 								url: input_url,
 								data: jsonArray,
 								success:function(data){
-									$('#json_results').html(data);
+									console.log(data);
+									var obj = JSON.parse(data);
+									var resultJson = obj.json_results;
+									if(data == "") {
+										postData(input_url, jsonArray);
+									}
+									else {
+										var splitedData = resultJson.split("], [");
+
+										var scores = getScores(splitedData);
+										var classes = getClasses(splitedData);
+										
+										makeResultGraph(scores, classes);
+
+										$('#json_results').html("");
+									}
 								},
 								error:function(data){
 									alert(JSON.stringify(data));
+								}
+							});
+						}
+
+						function getScores(splitedData) {
+							var scoresString = (splitedData[0]+"").substring(2);
+							var scores = scoresString.split(", ");
+							for(var i = 0; i < scores.length; i++) {
+								scores[i] = scores[i] * 1;
+							}
+
+							var total = 0;
+							for(var i = 0; i < scores.length; i++) {
+								total += scores[i];
+							}
+							for(var i = 0; i < scores.length; i++) {
+								scores[i] = (scores[i] / total * 100).toFixed(2);	//소수점 두자리수
+							}
+
+							return scores;
+						}
+
+						function getClasses(splitedData) {
+							var classesString = (splitedData[1]+"").slice(0,-3);
+							var classes = classesString.split(", ")
+							for(var i = 0; i < classes.length; i++) {
+								classes[i] = classes[i].slice(1,-1);
+							}
+							return classes;
+						}
+
+						function makeResultGraph(scores, classes) {
+							new Chart(document.getElementById("bar-chart-horizontal"), {
+								type: 'horizontalBar',
+								data: {
+								labels: classes,
+									datasets: [
+										{
+										label: "Percentage",
+										backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+										data: scores
+										}
+									]
+								},
+								options: {
+									legend: { display: false },
+									title: {
+										display: true,
+										text: classes[0] + " (" + scores[0] + "%) Ranked 1 out of 1000 labels",
+										fontSize: 20
+									},
+									scales: {
+										yAxes: [{
+											ticks:{
+												fontSize : 20
+											}
+										}]
+									}
 								}
 							});
 						}
