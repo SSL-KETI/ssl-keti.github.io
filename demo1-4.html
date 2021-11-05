@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<!--
+	Verti by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>SSL</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+	</head>
+	<body class="is-preload homepage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper" style="background-color: white;">
+					<header id="header" class="container">
+
+						<!-- Logo -->
+							<div id="logo">
+								<h1><a href="index.html" style="background-color: white;"><strong style="color:#002178">SSL</strong></a></h1>
+							</div>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="index.html">과제 개요</a></li>
+									<li class="current">
+										<a href="demo1.html">통합시연</a>
+										<ul>
+											<li><a href="demo1-12.html">Part 1</a></li>
+											<li><a href="demo1-12.html#box2">Part 2</a></li>
+											<li><a href="demo1-3.html">Part 3</a></li>
+											<li><a href="demo1-4.html">Part 4</a></li>
+										</ul>
+									</li>
+									<li><a href="demo2.html">Downstream Task</a></li>
+									<li><a href="opensource.html">오픈소스</a></li>
+									<li><a href="contact.html">CONTACT</a></li>
+								</ul>
+							</nav>
+
+					</header>
+				</div>
+
+			<!-- Main -->
+			<div id="main-wrapper" style="background-color: white;">
+				<div class="container">
+					<br/><br/>
+					<h2 style="text-align: center; font-weight: 130; margin-bottom: 0.8em;">통합시연</h2>
+					<hr color="black" width="10%" size="4px">
+					<br/><br/>
+					<div>
+						<a href="demo1-12.html"><img src="images/home_1.png" onmouseover="this.src='images/home_1_fade.png'" onmouseout="this.src='images/home_1.png'" style="width: 25.33%; vertical-align: top;"></a><a href="demo1-3.html"><img src="images/home_2.png" onmouseover="this.src='images/home_2_fade.png'" onmouseout="this.src='images/home_2.png'" style="width: 46.74%; vertical-align: top;"></a><a href="demo1-4.html"><img src="images/home_3.png"  onmouseover="this.src='images/home_3_fade.png'" onmouseout="this.src='images/home_3.png'" style="width: 27.93%; vertical-align: top;"></a>
+					</div>
+					<br/>
+				</div>
+			</div>
+
+			<div id="main-wrapper" style="background-color: #fbfbfb;">
+				<div class="container" id="box4">
+					<h2 style="font-weight: 130; margin-bottom: 0.8em;">Part 4</h2>
+					<hr color="black" width="10%" size="4px" style="margin-left: 0px;">
+					<br/>
+					<div style="font-size: 1.2em">상식 융합 장면그래프를 활용해 객체의 형태와 구조를 사실적으로 복원하고 생성</div>
+					<br/><br/>
+					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
+					<br/><br/>
+					<!--<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_img4_2" accept="image/*" onchange="setImageThumbnail(event, '#image_container4_2');"/>
+					<br/><br/>-->
+					<input id="submit_4" type="submit" onclick="submitData(event, '4', 'part4_KETI')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<br/><br/>
+					<h4>파일 미리보기</h4>
+					<div id="image_container4">image preview</div> 
+					<div id="image_container4_2">mask image preview</div> 
+					</p>
+					
+					<h4>결과</h4>
+					<div id="image_result4">image result</div> 
+				</div>
+			</div>
+
+			<script>
+				function setImageThumbnail(event, image_area) {
+					var reader = new FileReader(); 
+					reader.onload = function(event) { 
+						var img = document.createElement("img"); 
+						img.setAttribute("src", event.target.result); 
+						img.setAttribute("style", "max-width: 100%; height: auto;");
+						$(image_area).empty();
+						document.querySelector(image_area).appendChild(img);
+					}; 
+					reader.readAsDataURL(event.target.files[0]); 
+				}
+
+				function setJsonThumbnail(event, json_area) {
+					var reader = new FileReader(); 
+					reader.onload = function(event) { 
+						$(json_area).html("");
+						$(json_area).html(event.target.result);
+					};
+					reader.readAsText(event.target.files[0]);
+				}
+
+				function getBase64ImageFromURL() {
+
+				}
+
+				function submitData(event, num, name) {
+					input_url = "https://ketiair.com:10001/api/" + name;
+
+					var hasImage = false;
+					var hasImage2 = false;
+					var hasJson = false;
+					var readerImg = new FileReader();
+					var readerImg2 = new FileReader();
+					var readerJson = new FileReader();
+					
+					alertIfFileNotSelected(readerImg, "file_img", num);					
+
+					const getBase64ImageFromURL = (url, img_original) => {
+						const img = new Image();
+						img.setAttribute('crossOrigin', 'anonymous');
+						
+						img.onload = imgData => {
+							const canvas = document.createElement("canvas");
+							canvas.width = img.width;
+							canvas.height = img.height;
+							const ctx = canvas.getContext("2d");
+							ctx.drawImage(img, 0, 0);
+							const dataURL = canvas.toDataURL("image/png");
+							var mask_img = dataURL;
+							var commaIndex = mask_img.indexOf(",");
+							mask_img = mask_img.slice(commaIndex+1);
+							
+							var jsonArray = new Object();
+							jsonArray['image_contents'] = img_original;
+							jsonArray['mask'] = mask_img;
+							jsonArray = JSON.stringify(jsonArray);
+							postData(input_url, jsonArray, num);
+						}
+						img.src = url
+						return img.onload;
+					}
+
+					readerImg.onload = function() {
+						$('#image_result'+num).html("loading...");
+						base64image = getBase64Image(readerImg);
+						
+						var file_name = document.getElementById('file_img4').files[0].name;
+						
+						if(file_name == "image1.jpg") {
+							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image)
+						}
+						else if(file_name == "image2.jpg") {
+							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask2.jpg', base64image)
+						}
+						else {
+							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image)
+						}
+					}
+
+
+					/*
+					hasImage = true;
+					hasImage2 = true;
+					alertIfFileNotSelected(readerImg, "file_img", num);
+					alertIfFileNotSelected(readerImg2, "file_img", '4_2');
+
+					var jsonArray = new Object();
+					var base64image;
+
+					if(hasImage && hasImage2) {
+						readerImg.onload = function() {
+							readerImg2.onload = function() {
+								$('#image_result'+num).html("loading...");
+								base64image = getBase64Image(readerImg);
+								jsonArray['image_contents'] = base64image;
+
+								base64image_mask = getBase64Image(readerImg2);
+								jsonArray['mask'] = base64image_mask;
+
+								jsonArray = JSON.stringify(jsonArray);
+								postData(input_url, jsonArray, num);
+							}
+						}
+					}
+					else if(hasImage && hasJson) {
+						readerImg.onload = function() {
+							readerJson.onload = function() {
+								$('#json_results'+num).html("loading...");
+								base64image = getBase64Image(readerImg);
+								jsonArray['image_contents'] = base64image;
+								
+								var jsonData = JSON.parse(readerJson.result);
+								jsonArray['scene_graph'] = jsonData;
+
+								jsonArray = JSON.stringify(jsonArray);
+								postData(input_url, jsonArray, num);
+							}
+						}
+					}
+					else if(hasImage) {
+						readerImg.onload = function() {
+							$('#json_results'+num).html("loading...");
+							base64image = getBase64Image(readerImg);
+							jsonArray['image_contents'] = base64image;
+
+							jsonArray = JSON.stringify(jsonArray);
+							postData(input_url, jsonArray, num);
+						}
+					}
+					else if(hasJson) {
+						readerJson.onload = function() {
+							$('#json_results'+num).html("loading...");
+							var jsonData = JSON.parse(readerJson.result);
+							jsonArray['scene_graph'] = jsonData;
+
+							jsonArray = JSON.stringify(jsonArray);
+							postData(input_url, jsonArray, num);
+						}
+					}*/
+				}
+
+				function alertIfFileNotSelected(reader, file, num) {
+					if (file == "file_img") {
+						var img = document.getElementById("file_img"+num).files[0];
+						try {
+							reader.readAsDataURL(img);
+						}
+						catch(err) {
+							alert("이미지를 선택하세요." + num);
+						}
+					}
+					else {
+						var json = document.getElementById("file_json"+num).files[0];
+						try {
+							reader.readAsText(json);
+						}
+						catch(err) {
+							alert("JSON 파일을 선택하세요.");
+						}
+					}
+				}
+
+				function getBase64Image(reader) {
+					var base64image = reader.result;
+					var commaIndex = base64image.indexOf(",");
+					base64image = base64image.slice(commaIndex+1);
+					return base64image;
+				}
+
+				function postData(input_url, jsonArray, num) {
+					$.ajax({
+						type: "POST",
+						url: input_url,
+						data: jsonArray,
+						success:function(data){
+							if(num == "1") {
+								var obj = JSON.parse(data);
+								var resultImage = document.createElement("img");
+								resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+								resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+								$('#image_container'+num).empty();
+								document.querySelector('#image_container'+num).appendChild(resultImage); 
+ 
+								//$('#json_results'+num).html("");
+								//var resultSceneGraph = obj.scene_graph;
+								var resultSceneGraph = document.createElement("img");
+								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
+								resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+								$('#json_results'+num).html("");
+								document.querySelector('#json_results'+num).appendChild(resultSceneGraph);
+							}
+							else if(num == "4") {
+								var obj = JSON.parse(data);
+								var resultImage = document.createElement("img");
+								resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+								resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+								$('#image_result'+num).empty();
+								document.querySelector('#image_result'+num).appendChild(resultImage); 
+							}
+							else {
+								$('#json_results'+num).html(data);
+							}
+						},
+						error:function(data){
+							//$('#json_results'+num).html(JSON.stringify(data));
+							alert(JSON.stringify(data));
+						}
+					});
+				}
+
+			</script>
+
+			<!-- Footer -->
+			<div id="footer-wrapper">
+				<footer id="footer" class="container">
+					<div class="row">
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3>SITEMAP &nbsp &nbsp &nbsp | </h3>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="index.html">과제 개요</a></h3>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="demo1.html">통합시연</a></h3>
+									<ul class="style2">
+										<li><a href="demo1-12.html">Part 1</a></li>
+										<li><a href="demo1-12.html#box2">Part 2</a></li>
+										<li><a href="demo1-3.html">Part 3</a></li>
+										<li><a href="demo1-4.html">Part 4</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="demo2.html">Downstream Task</a></h3>
+									<ul class="style2">
+										<li><a href="demo2-1.html">Part 1</a></li>
+										<li><a href="demo2-2.html">Part 2</a></li>
+										<li><a href="demo2-3.html">Part 3</a></li>
+										<li><a href="demo2-4.html">Part 4</a></li>
+										<li><a href="demo2-5.html">Part 5</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="opensource.html">오픈소스</a></h3>
+									<ul class="style2">
+										<li><a href="opensource.html#dataset">데이터셋</a></li>
+										<li><a href="opensource.html#code">코드</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="contact.html">CONTACT</a></h3>
+								</section>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div id="copyright">
+								<ul class="menu">
+									<li>&copy; KETI. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

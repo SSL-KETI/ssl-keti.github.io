@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <!--
-	Alpha by HTML5 UP
+	Verti by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
@@ -12,296 +12,349 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	</head>
-	<body class="landing is-preload">
+	<body class="is-preload homepage">
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<header id="header">
-					<h1><a href="index.html">SSL</a></h1>
-					<nav id="nav">
-						<ul>
-							<li><a href="index.html">과제 개요</a></li>
-							<li><a href="results.html">결과물</a></li>
-							<li>
-								<a href="demo1.html" class="icon solid fa-angle-down">통합 시연</a>
-								<ul>
-									<li><a href="demo1.html#box1">Part 1</a></li>
-									<li><a href="demo1.html#box2">Part 2</a></li>
-									<li><a href="demo1.html#box3">Part 3</a></li>
-									<li><a href="demo1.html#box4">Part 4</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="demo2.html" class="icon solid fa-angle-down"><strong style="color:white">Downstream Task</strong></a>
-								<ul style="width:320px">
-									<li><a href="demo2-1.html">1. 사전학습(ResNet50) 기반 이미지 분류 (KETI)</a></li>
-									<li><a href="demo2-2.html">2. 객체탐지성공률 (Postech)</a></li>
-									<li><a href="demo2-3.html">3. 문서 내 지식관계 추출 정확도 (KETI)</a></li>
-									<li><a href="demo2-4.html">4. 물체의 6D 자세파악 (Birmingham)</a></li>
-									<li><a href="demo2-5.html">5. 그래프 분류 정확도 (Postech)</a></li>
-								</ul>
-							</li>
-							<li><a href="dataset.html"><strong style="color:white">Dataset</strong></a></li>
-						</ul>
-					</nav>
-				</header>
+				<div id="header-wrapper" style="background-color: white;">
+					<header id="header" class="container">
 
-			<!-- Banner -->
-				<section id="banner">
-					<h5>정보통신⦁방송 기술개발사업<br/>
-						차세대 인공지능 핵심원천기술개발<h5>
-					<h3>자기지도학습에 의한 시각적 상식으로<br/>
-						영상에서 보이지 않는 부분을 복원하는 기술</h3>
-					
-				</section>
+						<!-- Logo -->
+							<div id="logo">
+								<h1><a href="index.html" style="background-color: white;"><strong style="color:#002178">SSL</strong></a></h1>
+							</div>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="index.html">과제 개요</a></li>
+									<li>
+										<a href="demo1.html">통합시연</a>
+										<ul>
+											<li><a href="demo1-12.html">Part 1</a></li>
+											<li><a href="demo1-12.html#box2">Part 2</a></li>
+											<li><a href="demo1-3.html">Part 3</a></li>
+											<li><a href="demo1-4.html">Part 4</a></li>
+										</ul>
+									</li>
+									<li class="current"><a href="demo2.html">Downstream Task</a></li>
+									<li><a href="opensource.html">오픈소스</a></li>
+									<li><a href="contact.html">CONTACT</a></li>
+								</ul>
+							</nav>
+
+					</header>
+				</div>
 
 			<!-- Main -->
-				<section id="main" class="container">
-					<ul class="actions special">
-						<li><a href="index.html" class="button">과제 개요</a></li>
-						<li><a href="results.html" class="button">결과물</a></li>
-						<li><a href="demo1.html" class="button">통합 시연</a></li>
-						<li><a href="demo2.html" class="button primary">Downstream Task</a></li>
-						<li><a href="dataset.html" class="button">Dataset</a></li>
-					</ul>
+			<div id="main-wrapper" style="background-color: white;">
+				<div class="container" style="text-align: center;">
+					<br/><br/>
+					<h2 style="text-align: center; font-weight: 130; margin-bottom: 0.8em;">Downstream Task</h2>
+					<hr color="black" width="10%" size="4px">
+					<br/><br/><br/>
 
-					<div class="box">
-						<table>
-							<thead style="border : 0px;">
-								<tr>
-									<td>
-										<ul class="actions fit">
-											<li><a href="demo2-1.html" class="button alt" style="padding:0px; color: black;">1. 사전학습(ResNet50) 기반 이미지 분류 (KETI)</a></li>
-										</ul>
-									</td>
-									<td>
-										<ul class="actions fit">
-											<li><a href="demo2-2.html" class="button">2. 객체탐지성공률 (Postech)</a></li>
-										</ul>
-									</td>
-									<td>
-										<ul class="actions fit">
-											<li><a href="demo2-3.html" class="button">3. 문서 내 지식관계 추출 정확도 (KETI)</a></li>
-										</ul>
-									</td>
-								</tr>
-							</thead>
-							<thead style="border : 0px;">
-								<tr>
-									<td>
-										<ul class="actions fit">
-											<li><a href="demo2-4.html" class="button">4. 물체의 6D 자세파악 (Birmingham)</a></li>
-										</ul>
-									</td>
-									<td>
-										<ul class="actions fit">
-											<li><a href="demo2-5.html" class="button">5. 그래프 분류 정확도 (Postech)</a></li>
-										</ul>
-									</td>
-								</tr>
-							</thead>
-						</table>
+					<div class="row">
+						<div class="col-4 col-12-medium">
+								<a href="demo2-1.html"><img src="images/demo2_1.png" style="width: 100%;"></a>
+						</div>
+						<div class="col-4 col-12-medium">
+								<a href="demo2-2.html"><img src="images/demo2_2.png" style="width: 100%;"></a>
+						</div>
+						<div class="col-4 col-12-medium">
+								<a href="demo2-3.html"><img src="images/demo2_3.png" style="width: 100%;"></a>
+						</div>
 					</div>
 
-					<div class="box">
-						<h3>Part 1</h3>
-						<p>사전학습 (ResNet50) 기반 이미지 분류 (KETI)</p>
-						<p>
-						<br/><br/>
-						<p><h4>1. 파일 입력</h4></p>
-						<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
-						<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
-						<br/><br/>
-						<input id="submit" type="submit" onclick="submitData()">
-						<br/><br/>
-						<h4>파일 미리보기</h4>
-						<div id="image_container">image preview</div> 
-						</p>
-						
-						<h4>결과</h4>
-						<div id=json_results></div>
-						<canvas id="bar-chart-horizontal" width="600" height="250"></canvas>
+					<div class="row">
+						<div class="col-4 col-12-medium">
+							<a href="demo2-4.html"><img src="images/demo2_4.png" style="width: 100%;"></a>
+						</div>
+						<div class="col-4 col-12-medium">
+							<a href="demo2-5.html"><img src="images/demo2_5.png" style="width: 100%;"></a>
+						</div>
 					</div>
 
+					<br/>
+				</div>
+			</div>
+
+			<div id="main-wrapper" style="background-color: #fbfbfb;">
+				<div class="container">
+					<h2 style="font-weight: 130; margin-bottom: 0.8em;">Part 1</h2>
+					<hr color="black" width="10%" size="4px" style="margin-left: 0px;">
+					<br/>
+					<div style="font-size: 1.2em">사전학습 (ResNet50) 기반 이미지 분류</div>
+					<br/><br/>
+					<p><h4>파일 입력</h4></p>
+					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
+					<br/><br/>
+					<input id="submit" type="submit" onclick="submitData()" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<br/><br/>
+					<h4>파일 미리보기</h4>
+					<div id="image_container">image preview</div> 
+					</p>
+					
+					<h4>결과</h4>
+					<div id=json_results></div>
+					<canvas id="bar-chart-horizontal" width="600" height="250"></canvas>
+				</div>
+			</div>
 
 
-					<script>
-						window.onload = function() {
-							new Chart(document.getElementById("bar-chart-horizontal"), {
-								type: 'horizontalBar',
-								data: {
-								labels: ["","","","",""],
-								datasets: [
-									{
-									label: "Percentage",
-									data: [0,0,0,0,0]
-									}
-								]
-								},
-								options: {
-								legend: { display: false },
-								title: {
-									display: true,
-									text: "Results",
-									fontSize: 20
-								}
-								}
-							});
-						}
-
-						function setImageThumbnail(event, image_area) {
-							var reader = new FileReader(); 
-							reader.onload = function(event) { 
-								var img = document.createElement("img"); 
-								img.setAttribute("src", event.target.result); 
-								img.setAttribute("style", "max-width: 100%; height: auto;");
-								$(image_area).empty();
-								document.querySelector(image_area).appendChild(img); 
-							}; 
-							reader.readAsDataURL(event.target.files[0]); 
-						}
-
-						function alertIfFileNotSelected(reader) {
-							var img = document.getElementById("file_img").files[0];
-							try {
-								reader.readAsDataURL(img);
+			<script>
+				window.onload = function() {
+					new Chart(document.getElementById("bar-chart-horizontal"), {
+						type: 'horizontalBar',
+						data: {
+						labels: ["","","","",""],
+						datasets: [
+							{
+							label: "Percentage",
+							data: [0,0,0,0,0]
 							}
-							catch(err) {
-								alert("이미지를 선택하세요.");
-							}
+						]
+						},
+						options: {
+						legend: { display: false },
+						title: {
+							display: true,
+							text: "Results",
+							fontSize: 20
 						}
-
-						function getBase64Image(reader) {
-							var base64image = reader.result;
-							var commaIndex = base64image.indexOf(",");
-							base64image = base64image.slice(commaIndex+1);
-							return base64image;
 						}
+					});
+				}
 
-						function submitData() {
-							input_url = "https://ketiair.com:10001/api/resnet50";
+				function setImageThumbnail(event, image_area) {
+					var reader = new FileReader(); 
+					reader.onload = function(event) { 
+						var img = document.createElement("img"); 
+						img.setAttribute("src", event.target.result); 
+						img.setAttribute("style", "max-width: 100%; height: auto;");
+						$(image_area).empty();
+						document.querySelector(image_area).appendChild(img); 
+					}; 
+					reader.readAsDataURL(event.target.files[0]); 
+				}
 
-							var readerImg = new FileReader();
-							alertIfFileNotSelected(readerImg);
+				function alertIfFileNotSelected(reader) {
+					var img = document.getElementById("file_img").files[0];
+					try {
+						reader.readAsDataURL(img);
+					}
+					catch(err) {
+						alert("이미지를 선택하세요.");
+					}
+				}
 
-							var jsonArray = new Object();
-							var base64image;
-							readerImg.onload = function() {
-								$('#json_results').html("loading...");
+				function getBase64Image(reader) {
+					var base64image = reader.result;
+					var commaIndex = base64image.indexOf(",");
+					base64image = base64image.slice(commaIndex+1);
+					return base64image;
+				}
 
-								base64image = getBase64Image(readerImg);
-								jsonArray['image_contents'] = base64image;
-								jsonArray = JSON.stringify(jsonArray);
+				function submitData() {
+					input_url = "https://ketiair.com:10001/api/resnet50";
 
+					var readerImg = new FileReader();
+					alertIfFileNotSelected(readerImg);
+
+					var jsonArray = new Object();
+					var base64image;
+					readerImg.onload = function() {
+						$('#json_results').html("loading...");
+
+						base64image = getBase64Image(readerImg);
+						jsonArray['image_contents'] = base64image;
+						jsonArray = JSON.stringify(jsonArray);
+
+						postData(input_url, jsonArray);
+					}
+				}
+
+				function postData(input_url, jsonArray) {
+					$.ajax({
+						type: "POST",
+						url: input_url,
+						data: jsonArray,
+						success:function(data){
+							console.log(data);
+							var obj = JSON.parse(data);
+							var resultJson = obj.json_results;
+							if(data == "") {
 								postData(input_url, jsonArray);
 							}
+							else {
+								var splitedData = resultJson.split("], [");
+
+								var scores = getScores(splitedData);
+								var classes = getClasses(splitedData);
+								
+								makeResultGraph(scores, classes);
+
+								$('#json_results').html("");
+							}
+						},
+						error:function(data){
+							alert(JSON.stringify(data));
 						}
+					});
+				}
 
-						function postData(input_url, jsonArray) {
-							$.ajax({
-								type: "POST",
-								url: input_url,
-								data: jsonArray,
-								success:function(data){
-									console.log(data);
-									var obj = JSON.parse(data);
-									var resultJson = obj.json_results;
-									if(data == "") {
-										postData(input_url, jsonArray);
-									}
-									else {
-										var splitedData = resultJson.split("], [");
+				function getScores(splitedData) {
+					var scoresString = (splitedData[0]+"").substring(2);
+					var scores = scoresString.split(", ");
+					for(var i = 0; i < scores.length; i++) {
+						scores[i] = scores[i] * 1;
+					}
 
-										var scores = getScores(splitedData);
-										var classes = getClasses(splitedData);
-										
-										makeResultGraph(scores, classes);
+					var total = 0;
+					for(var i = 0; i < scores.length; i++) {
+						total += scores[i];
+					}
+					for(var i = 0; i < scores.length; i++) {
+						scores[i] = (scores[i] / total * 100).toFixed(2);	//소수점 두자리수
+					}
 
-										$('#json_results').html("");
-									}
-								},
-								error:function(data){
-									alert(JSON.stringify(data));
+					return scores;
+				}
+
+				function getClasses(splitedData) {
+					var classesString = (splitedData[1]+"").slice(0,-3);
+					var classes = classesString.split(", ")
+					for(var i = 0; i < classes.length; i++) {
+						classes[i] = classes[i].slice(1,-1);
+					}
+					return classes;
+				}
+
+				function makeResultGraph(scores, classes) {
+					new Chart(document.getElementById("bar-chart-horizontal"), {
+						type: 'horizontalBar',
+						data: {
+						labels: classes,
+							datasets: [
+								{
+								label: "Percentage",
+								backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+								data: scores
 								}
-							});
-						}
-
-						function getScores(splitedData) {
-							var scoresString = (splitedData[0]+"").substring(2);
-							var scores = scoresString.split(", ");
-							for(var i = 0; i < scores.length; i++) {
-								scores[i] = scores[i] * 1;
-							}
-
-							var total = 0;
-							for(var i = 0; i < scores.length; i++) {
-								total += scores[i];
-							}
-							for(var i = 0; i < scores.length; i++) {
-								scores[i] = (scores[i] / total * 100).toFixed(2);	//소수점 두자리수
-							}
-
-							return scores;
-						}
-
-						function getClasses(splitedData) {
-							var classesString = (splitedData[1]+"").slice(0,-3);
-							var classes = classesString.split(", ")
-							for(var i = 0; i < classes.length; i++) {
-								classes[i] = classes[i].slice(1,-1);
-							}
-							return classes;
-						}
-
-						function makeResultGraph(scores, classes) {
-							new Chart(document.getElementById("bar-chart-horizontal"), {
-								type: 'horizontalBar',
-								data: {
-								labels: classes,
-									datasets: [
-										{
-										label: "Percentage",
-										backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-										data: scores
-										}
-									]
-								},
-								options: {
-									legend: { display: false },
-									title: {
-										display: true,
-										text: classes[0] + " (" + scores[0] + "%) Ranked 1 out of 1000 labels",
-										fontSize: 20
-									},
-									scales: {
-										yAxes: [{
-											ticks:{
-												fontSize : 20
-											}
-										}]
+							]
+						},
+						options: {
+							legend: { display: false },
+							title: {
+								display: true,
+								text: classes[0] + " (" + scores[0] + "%) Ranked 1 out of 1000 labels",
+								fontSize: 20
+							},
+							scales: {
+								yAxes: [{
+									ticks:{
+										fontSize : 20
 									}
-								}
-							});
+								}]
+							}
 						}
-					</script>
-				</section>
-
+					});
+				}
+			</script>
+			
 			<!-- Footer -->
-				<footer id="footer">
-					<ul class="copyright">
-						<li>&copy; KETI. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</footer>
+			<div id="footer-wrapper">
+				<footer id="footer" class="container">
+					<div class="row">
+						<div class="col-2 col-6-medium col-12-small">
 
-		</div>
+							<!-- Links -->
+								<section class="widget links">
+									<h3>SITEMAP &nbsp &nbsp &nbsp | </h3>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="index.html">과제 개요</a></h3>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="demo1.html">통합시연</a></h3>
+									<ul class="style2">
+										<li><a href="demo1-12.html">Part 1</a></li>
+										<li><a href="demo1-12.html#box2">Part 2</a></li>
+										<li><a href="demo1-3.html">Part 3</a></li>
+										<li><a href="demo1-4.html">Part 4</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="demo2.html">Downstream Task</a></h3>
+									<ul class="style2">
+										<li><a href="demo2-1.html">Part 1</a></li>
+										<li><a href="demo2-2.html">Part 2</a></li>
+										<li><a href="demo2-3.html">Part 3</a></li>
+										<li><a href="demo2-4.html">Part 4</a></li>
+										<li><a href="demo2-5.html">Part 5</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="opensource.html">오픈소스</a></h3>
+									<ul class="style2">
+										<li><a href="opensource.html#dataset">데이터셋</a></li>
+										<li><a href="opensource.html#code">코드</a></li>
+									</ul>
+								</section>
+
+						</div>
+						<div class="col-2 col-6-medium col-12-small">
+
+							<!-- Links -->
+								<section class="widget links">
+									<h3><a href="contact.html">CONTACT</a></h3>
+								</section>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div id="copyright">
+								<ul class="menu">
+									<li>&copy; KETI. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+
+			</div>
 
 		<!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.dropotron.min.js"></script>
-		<script src="assets/js/jquery.scrollex.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
 	</body>
 </html>
