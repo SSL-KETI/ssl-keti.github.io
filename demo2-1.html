@@ -37,8 +37,13 @@
 											<li><a href="demo1-4.html">Part 4</a></li>
 										</ul>
 									</li>
-									<li class="current"><a href="demo2.html">Downstream Task</a></li>
-									<li><a href="opensource.html">오픈소스</a></li>
+									<li class="current">
+										<a href="opensource.html">오픈소스</a>
+										<ul>
+											<li><a href="opensource.html">데이터셋</a></li>
+											<li><a href="opensource2.html">Downstream Task</a></li>
+										</ul>
+									</li>
 									<li><a href="contact.html">CONTACT</a></li>
 								</ul>
 							</nav>
@@ -48,9 +53,10 @@
 
 			<!-- Main -->
 			<div id="main-wrapper" style="background-color: white;">
-				<div class="container" style="text-align: center;">
-					<br/><br/>
-					<h2 style="text-align: center; font-weight: 130; margin-bottom: 0.8em;">Downstream Task</h2>
+				<div id="dataset" class="container" style="text-align: center;">
+					<button onclick="location.href='opensource.html'" style="width: 50%; min-height: 3em; background-color: #002178;">데이터셋</button><button onclick="location.href='opensource2.html'" style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">Downstream Task</button>
+					<br/><br/><br/><br/>
+					<h2 style="font-weight: 130; margin-bottom: 0.8em; text-align: center;">Downstream Task</h2>
 					<hr color="black" width="10%" size="4px">
 					<br/><br/><br/>
 
@@ -90,10 +96,10 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
 					<br/><br/>
-					<input id="submit" type="submit" onclick="submitData()" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit" type="submit" value="Run" onclick="submitData()" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<div id="image_container">image preview</div> 
+					<div id="image_container"><img src="examples/hamster.JPEG"></div> 
 					</p>
 					
 					<h4>결과</h4>
@@ -139,6 +145,7 @@
 					reader.readAsDataURL(event.target.files[0]); 
 				}
 
+				/*
 				function alertIfFileNotSelected(reader) {
 					var img = document.getElementById("file_img").files[0];
 					try {
@@ -148,6 +155,7 @@
 						alert("이미지를 선택하세요.");
 					}
 				}
+				*/
 
 				function getBase64Image(reader) {
 					var base64image = reader.result;
@@ -160,19 +168,48 @@
 					input_url = "https://ketiair.com:10001/api/resnet50";
 
 					var readerImg = new FileReader();
-					alertIfFileNotSelected(readerImg);
+					//alertIfFileNotSelected(readerImg);
+					
+					$('#json_results').html("loading...");
+					var file_check = $("#file_img").val();
+					if(!file_check) {
+						getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/hamster.JPEG');
+					}
+					else {
+						var img = document.getElementById("file_img").files[0];
+						readerImg.readAsDataURL(img);
+						readerImg.onload = function() {
+							var jsonArray = new Object();
+							var base64image = getBase64Image(readerImg);
+							jsonArray['image_contents'] = base64image;
+							jsonArray = JSON.stringify(jsonArray);
 
-					var jsonArray = new Object();
-					var base64image;
-					readerImg.onload = function() {
-						$('#json_results').html("loading...");
+							postData(input_url, jsonArray);
+						}
+					}
+				}
 
-						base64image = getBase64Image(readerImg);
-						jsonArray['image_contents'] = base64image;
+				function getBase64ImageFromURL(url) {
+					var img = new Image();
+					img.setAttribute('crossOrigin', 'anonymous');
+					
+					img.onload = imgData => {
+						var canvas = document.createElement("canvas");
+						canvas.width = img.width;
+						canvas.height = img.height;
+						var ctx = canvas.getContext("2d");
+						ctx.drawImage(img, 0, 0);
+						var dataURL = canvas.toDataURL("image/png");
+						var mask_img = dataURL;
+						var commaIndex = mask_img.indexOf(",");
+						mask_img = mask_img.slice(commaIndex+1);
+						
+						var jsonArray = new Object();
+						jsonArray['image_contents'] = mask_img;
 						jsonArray = JSON.stringify(jsonArray);
-
 						postData(input_url, jsonArray);
 					}
+					img.src = url
 				}
 
 				function postData(input_url, jsonArray) {
@@ -267,15 +304,7 @@
 			<div id="footer-wrapper">
 				<footer id="footer" class="container">
 					<div class="row">
-						<div class="col-2 col-6-medium col-12-small">
-
-							<!-- Links -->
-								<section class="widget links">
-									<h3>SITEMAP &nbsp &nbsp &nbsp | </h3>
-								</section>
-
-						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
@@ -283,7 +312,7 @@
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
@@ -297,34 +326,19 @@
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
-
-							<!-- Links -->
-								<section class="widget links">
-									<h3><a href="demo2.html">Downstream Task</a></h3>
-									<ul class="style2">
-										<li><a href="demo2-1.html">Part 1</a></li>
-										<li><a href="demo2-2.html">Part 2</a></li>
-										<li><a href="demo2-3.html">Part 3</a></li>
-										<li><a href="demo2-4.html">Part 4</a></li>
-										<li><a href="demo2-5.html">Part 5</a></li>
-									</ul>
-								</section>
-
-						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
 									<h3><a href="opensource.html">오픈소스</a></h3>
 									<ul class="style2">
-										<li><a href="opensource.html#dataset">데이터셋</a></li>
-										<li><a href="opensource.html#code">코드</a></li>
+										<li><a href="opensource.html">데이터셋</a></li>
+										<li><a href="opensource2.html">Downstream Task</a></li>
 									</ul>
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">

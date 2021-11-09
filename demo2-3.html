@@ -36,8 +36,13 @@
 											<li><a href="demo1-4.html">Part 4</a></li>
 										</ul>
 									</li>
-									<li class="current"><a href="demo2.html">Downstream Task</a></li>
-									<li><a href="opensource.html">오픈소스</a></li>
+									<li class="current">
+										<a href="opensource.html">오픈소스</a>
+										<ul>
+											<li><a href="opensource.html">데이터셋</a></li>
+											<li><a href="opensource2.html">Downstream Task</a></li>
+										</ul>
+									</li>
 									<li><a href="contact.html">CONTACT</a></li>
 								</ul>
 							</nav>
@@ -47,9 +52,10 @@
 
 			<!-- Main -->
 			<div id="main-wrapper" style="background-color: white;">
-				<div class="container" style="text-align: center;">
-					<br/><br/>
-					<h2 style="text-align: center; font-weight: 130; margin-bottom: 0.8em;">Downstream Task</h2>
+				<div id="dataset" class="container" style="text-align: center;">
+					<button onclick="location.href='opensource.html'" style="width: 50%; min-height: 3em; background-color: #002178;">데이터셋</button><button onclick="location.href='opensource2.html'" style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">Downstream Task</button>
+					<br/><br/><br/><br/>
+					<h2 style="font-weight: 130; margin-bottom: 0.8em; text-align: center;">Downstream Task</h2>
 					<hr color="black" width="10%" size="4px">
 					<br/><br/><br/>
 
@@ -90,13 +96,14 @@
 						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, 'json_preview')"/>
 						<br/><br/><br/>
 						<h4>파일 미리보기</h4>
-						<pre id="json_preview">json file preview</pre>
-						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction', true)" style="background-color: #002178; padding: 10px 17px 10px 17px">
+						<pre id="json_preview"></pre>
+						<input id="submit" type="submit" value="Run" onclick="submitData(event, 'relation_extraction', true)" style="background-color: #002178; padding: 10px 17px 10px 17px">
 						<br/><br/>
 						<h4>결과</h4>
-						<pre id=json_results>json results</pre>
+						<!--<pre id=json_results>json results</pre>-->
+						<div id="image_results"></div>
 						<br/><br/>
-
+						<!--
 						<hr color="black" width="100%" size="4px">
 
 						<br/>
@@ -136,21 +143,17 @@
 
 						<br/>
 						<div id="selected_words"></div>
-						<!--
-						<input type="submit" id="generator" value="JSON 생성" onclick="generateJson()" style="background-color: #002178; padding: 10px 17px 10px 17px">
-						<br/><br/>
-						<h4>생성된 JSON</h4>
-						<pre id="json_preview_user">json preview</pre>-->
 						<br/>
-						<input id="submit" type="submit" onclick="submitData(event, 'relation_extraction', false)" style="background-color: #002178; padding: 10px 17px 10px 17px">
+						<input id="submit" type="submit" value="Run" onclick="submitData(event, 'relation_extraction', false)" style="background-color: #002178; padding: 10px 17px 10px 17px">
 						<br/><br/>
 						<h4>결과</h4>
-						<pre id=json_results2>json results</pre>
+						<pre id=json_results2>json results</pre>-->
 				</div>
 			</div>
 
 
 			<script>
+				/*
 				function getSelectedText() {
 					var txtarea = document.getElementById("sentence");
 					var start = txtarea.selectionStart;
@@ -237,6 +240,54 @@
 
 					//$("#json_preview_user").html(jsonArray);
 					return jsonArray;
+				}*/
+
+				window.onload = function() {
+					var num = Math.floor(Math.random()*3);
+
+					var example = ['{\n  "doc":{\n    '+
+						'"text":"1938년 당시 경성기독교연합회 부위원장인 정춘수가 앞장서서 감리교 내선일체를 위해 7인 특별위원회를 조직했을 때 참가했고, 1939년 도쿄에서 조선과 일본의 감리교단 통합을 논의하는 회의가 개최되었을 때는 정춘수, 신흥우, 양주삼, 유형기 등과 함께 전권위원으로 참석했다.",\n    '+
+						'"language":"kr",\n    ' +
+						'"domain":"common-sense"\n  ' +
+						'},\n  ' +
+						'"arg_pairs":[\n      ' +
+						'[\n        ' +
+						'[121,123],\n        ' +
+						'[89,91]\n      ' +
+						']\n  ' +
+						']\n' +
+						'}',
+
+					'{\n  "doc":{\n    '+
+						'"text":"제2총군은 태평양 전쟁 말기에 일본 본토에 상륙하려는 연합군에게 대항하기 위해 설립된 일본 제국 육군의 총군이었다.",\n    '+
+						'"language":"kr",\n    ' +
+						'"domain":"common-sense"\n  ' +
+						'},\n  ' +
+						'"arg_pairs":[\n      ' +
+						'[\n        ' +
+						'[0,3],\n        ' +
+						'[48,55]\n      ' +
+						']\n  ' +
+						']\n' +
+						'}',
+
+					'{\n  "doc":{\n    '+
+						'"text":"문성민은 경기대학교에 입학하여 아내인 이선희와 함께 경기대학교의 전성기를 이끌면서 하계대회, 전국체전, 최강전 등 3관왕을 이룬다.",\n    '+
+						'"language":"kr",\n    ' +
+						'"domain":"common-sense"\n  ' +
+						'},\n  ' +
+						'"arg_pairs":[\n      ' +
+						'[\n        ' +
+						'[0,2],\n        ' +
+						'[5,8]\n      ' +
+						'],\n      ' +
+						'[\n        ' +
+						'[0,2],\n        ' +
+						'[21,23]\n      ' +
+						']\n  ' +
+						']\n' +
+						'}'];
+					$('#json_preview').html(example[num]);
 				}
 
 				function setJsonThumbnail(event, json_area) {
@@ -250,7 +301,14 @@
 
 				function submitData(event, name, hasFile) {
 					input_url = "https://ketiair.com:10001/api/" + name;
+					
+					var text = document.getElementById("json_preview").innerText
 
+					$('#image_results').html("loading...");
+					console.log(text);
+					postData(input_url, text, hasFile);
+					
+					/*
 					if(hasFile) {
 						var hasJson = false;
 						var readerJson = new FileReader();
@@ -258,16 +316,16 @@
 						alertIfFileNotSelected(readerJson);
 
 						readerJson.onload = function() {
-							$('#json_results').html("loading...");
+							$('#image_results').html("loading...");
+							console.log(readerJson.result)
 							postData(input_url, readerJson.result, hasFile);
 						}
 					}
 					else {
-						// var generatedJson = document.getElementById("json_preview_user").innerText;
 						var generatedJson = generateJson();
 						$('#json_results2').html("loading...");
 						postData(input_url, generatedJson, hasFile);
-					}
+					}*/
 				}
 
 				function alertIfFileNotSelected(reader) {
@@ -290,6 +348,14 @@
 							xhr.setRequestHeader("charset", "utf-8");
 						},
 						success:function(data){
+							var obj = JSON.parse(data);
+							var resultSceneGraph = document.createElement("img");
+							resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
+							resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+							$('#image_results').html("");
+							document.querySelector('#image_results').appendChild(resultSceneGraph);
+
+							/*
 							data = unescape(replaceAll(data, "\\", "%"))
 							organized_data = organize_json_data(data);
 							if(hasFile) {
@@ -297,7 +363,7 @@
 							}
 							else {
 								$('#json_results2').html(organized_data);
-							}
+							}*/
 							
 						},
 						error:function(data){
@@ -305,7 +371,7 @@
 						}
 					});
 				}
-
+				/*
 				function replaceAll(strTemp, strValue1, strValue2) { 
 					while(1){
 						if( strTemp.indexOf(strValue1) != -1 )
@@ -356,22 +422,14 @@
 						space += " ";
 					}
 					return space;
-				}
+				}*/
 			</script>
 
 			<!-- Footer -->
 			<div id="footer-wrapper">
 				<footer id="footer" class="container">
 					<div class="row">
-						<div class="col-2 col-6-medium col-12-small">
-
-							<!-- Links -->
-								<section class="widget links">
-									<h3>SITEMAP &nbsp &nbsp &nbsp | </h3>
-								</section>
-
-						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
@@ -379,7 +437,7 @@
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
@@ -393,34 +451,19 @@
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
-
-							<!-- Links -->
-								<section class="widget links">
-									<h3><a href="demo2.html">Downstream Task</a></h3>
-									<ul class="style2">
-										<li><a href="demo2-1.html">Part 1</a></li>
-										<li><a href="demo2-2.html">Part 2</a></li>
-										<li><a href="demo2-3.html">Part 3</a></li>
-										<li><a href="demo2-4.html">Part 4</a></li>
-										<li><a href="demo2-5.html">Part 5</a></li>
-									</ul>
-								</section>
-
-						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
 									<h3><a href="opensource.html">오픈소스</a></h3>
 									<ul class="style2">
-										<li><a href="opensource.html#dataset">데이터셋</a></li>
-										<li><a href="opensource.html#code">코드</a></li>
+										<li><a href="opensource.html">데이터셋</a></li>
+										<li><a href="opensource2.html">Downstream Task</a></li>
 									</ul>
 								</section>
 
 						</div>
-						<div class="col-2 col-6-medium col-12-small">
+						<div class="col-3 col-6-medium col-12-small">
 
 							<!-- Links -->
 								<section class="widget links">
