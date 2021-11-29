@@ -77,10 +77,12 @@
 					<!--<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img4_2" accept="image/*" onchange="setImageThumbnail(event, '#image_container4_2');"/>
 					<br/><br/>-->
-					<input id="submit_4" type="submit" value="Run" onclick="submitData(event, 'part4_KETI')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit_4" type="submit" value="Run" onclick="submitData(event, 'part4_SNU')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<!-- 원래 part4_KETI였음-->
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<div id="image_container4"><img src="examples/image1.jpg"></div> 
+					<!--<div id="image_container4"><img src="examples/image1.jpg"></div> -->
+					<div id="image_container4"><img src="examples/3_resized_black.jpg"></div> 
 					<!--<div id="image_container4_2">mask image preview</div> -->
 					</p>
 					
@@ -141,14 +143,18 @@
 							
 							// 마스크 이미지는 웹에서 가져옴
 							var file_name = img.name;
+							//////////////////////////////////////////////MORE EXAMPLES REQUIRED
 							if(file_name == "image1.jpg") {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image)
 							}
 							else if(file_name == "image2.jpg") {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask2.jpg', base64image)
 							}
-							else {
+							else if (file_name == "image1.jpg") {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image)
+							}
+							else {
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image)
 							}
 						}
 					}
@@ -238,8 +244,8 @@
 							postData(input_url, jsonArray);
 						}
 					}
-					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image1.jpg';
-					mask.src = "https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg";
+					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/3_resized_black.jpg';
+					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg';
 				}
 
 				function getBase64Image(reader) {
