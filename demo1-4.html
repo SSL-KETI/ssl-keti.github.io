@@ -143,7 +143,6 @@
 							
 							// 마스크 이미지는 웹에서 가져옴
 							var file_name = img.name;
-							//////////////////////////////////////////////MORE EXAMPLES REQUIRED
 							if(file_name == "image1.jpg") {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image)
 							}
@@ -152,6 +151,12 @@
 							}
 							else if (file_name == "image1.jpg") {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image)
+							}
+							else if (file_name == "9_resized_black.jpg") {
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask2_resized.jpg', base64image)
+							}
+							else if(file_name == "10_resized_black.jpg") {
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask3_resized.jpg', base64image)
 							}
 							else {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image)
