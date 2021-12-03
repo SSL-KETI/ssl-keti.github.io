@@ -81,7 +81,8 @@
 					</p>
 						
 					<h4>결과</h4>
-					<div id="json_results1">json results</div>
+					<div id="img_results1"></div>
+					<pre id="json_results1" style="max-height: 20em;">json results</pre>
 				</div>
 			</div>
 
@@ -363,17 +364,25 @@
 						success:function(data){
 							if(num == "1") {
 								var obj = JSON.parse(data);
+								/*
+								// Code for 1_POSTECH_graph_rcnn
+								// This code returned an image with the objects detected.
+								// Also, it returned a scene graph image.
 								var resultImage = document.createElement("img");
 								resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
 								resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
 								$('#image_container'+num).empty();
 								document.querySelector('#image_container'+num).appendChild(resultImage); 
+								*/
+								var jsonSceneGraph = obj.scene_graph_json;
+								$('#json_results'+num).html(JSON.stringify(jsonSceneGraph));
+								console.log(jsonSceneGraph);
  
 								var resultSceneGraph = document.createElement("img");
 								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
 								resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-								$('#json_results'+num).html("");
-								document.querySelector('#json_results'+num).appendChild(resultSceneGraph);
+								$('#img_results'+num).html("");
+								document.querySelector('#img_results'+num).appendChild(resultSceneGraph);
 							}
 							else {
 								var obj = JSON.parse(data);
