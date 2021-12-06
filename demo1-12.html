@@ -73,6 +73,15 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img1" accept="image/*" onchange="setImageThumbnail(event, '#image_container1');"/>
 					<br/><br/>
+					
+					<div>
+						<input type="checkbox" id="postech" name="postech" checked>
+						<label for="postech" style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="keti" name="keti">
+						<label for="keti" style="font-size: 1.5em">KETI</label>
+					</div>
+
+					<br/>
 					<input id="submit_1" type="submit" value="Run" onclick="submitData(event, '1', 'part1_POSTECH')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 
 					<br/><br/>
