@@ -75,9 +75,9 @@
 					<br/><br/>
 					
 					<div>
-						<input type="checkbox" id="postech" name="postech" checked>
+						<input type="checkbox" id="checkbox_postech" name="postech" checked>
 						<label for="postech" style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="checkbox" id="keti" name="keti">
+						<input type="checkbox" id="checkbox_keti" name="keti">
 						<label for="keti" style="font-size: 1.5em">KETI</label>
 					</div>
 
@@ -91,6 +91,8 @@
 						
 					<h4>결과</h4>
 					<div id="img_results1"></div>
+					<div id="img_results1_postech"></div>
+					<div id="img_results1_keti"></div>
 					<pre id="json_results1" style="max-height: 20em;">json results</pre>
 				</div>
 			</div>
@@ -228,9 +230,9 @@
 				}
 
 				function submitData(event, num, name) {
-					input_url = "https://ketiair.com:10001/api/" + name;
+					input_url = "https://ketiair.com:10001/api/"; // + name;
 
-					if(num == 1) {
+					if(num == 1) { // Part 1
 						var hasImage = false;
 						var readerImg = new FileReader();
 
@@ -238,10 +240,21 @@
 						var base64image;
 
 						$('#json_results'+num).html("loading...");
-
+						$('#img_results1_postech').html("");
+						$('#img_results1_keti').html("");
+						
+						var is_postech_checked = $('#checkbox_postech').prop("checked");
+						var is_keti_checked = $('#checkbox_keti').prop("checked");
+						var checked_boxes = [];
+						if(is_postech_checked) {
+							checked_boxes.push('part1_POSTECH')
+						}
+						if(is_keti_checked) {
+							checked_boxes.push('part1_KETI')
+						}
 						var file_check = $("#file_img1").val();
 						if(!file_check) {
-							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/2.jpg', input_url, num);
+							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/2.jpg', input_url, num, checked_boxes);
 						}
 						else {
 							var img = document.getElementById("file_img"+num).files[0];
@@ -252,15 +265,15 @@
 								jsonArray['image_contents'] = base64image;
 
 								jsonArray = JSON.stringify(jsonArray);
-								postData(input_url, jsonArray, num);
+								for(var i=0; i < checked_boxes.length; i++) {
+									postData(input_url+checked_boxes[i], jsonArray, num);
+								}
 							}
 						}
 					}
-					else {
+					else { // Part 2
 						var readerImg = new FileReader();
 						var readerJson = new FileReader();
-						//alertIfFileNotSelected(readerImg, "file_img", num);
-						//alertIfFileNotSelected(readerJson, "file_json", num);
 
 						var jsonArray = new Object();
 						var base64image;
@@ -295,7 +308,7 @@
 									jsonArray['scene_graph'] = jsonData;
 
 									jsonArray = JSON.stringify(jsonArray);
-									postData(input_url, jsonArray, num);
+									postData(input_url+"part2_UNIST", jsonArray, num);
 								}
 							}
 						}
@@ -323,7 +336,7 @@
 					}
 				}
 
-				function getBase64ImageFromURL(image_url, input_url, num){
+				function getBase64ImageFromURL(image_url, input_url, num, checked_boxes){
 					var img = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
 					
@@ -342,7 +355,10 @@
 							var jsonArray = new Object();
 							jsonArray['image_contents'] = img_base64;
 							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url, jsonArray, num);
+
+							for(var i=0; i < checked_boxes.length; i++) {
+								postData(input_url+checked_boxes[i], jsonArray, num);
+							}
 						}
 						else {
 							var jsonData = document.getElementById("json_preview2").innerText;
@@ -352,7 +368,7 @@
 							jsonArray['image_contents'] = img_base64;
 							jsonArray['scene_graph'] = jsonData;
 							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url, jsonArray, num);
+							postData(input_url+"part2_UNIST", jsonArray, num);
 						}
 					}
 					img.src = image_url
@@ -371,30 +387,37 @@
 						url: input_url,
 						data: jsonArray,
 						success:function(data){
-							if(num == "1") {
-								var obj = JSON.parse(data);
-								/*
-								// Code for 1_POSTECH_graph_rcnn
-								// This code returned an image with the objects detected.
-								// Also, it returned a scene graph image.
-								var resultImage = document.createElement("img");
-								resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-								resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-								$('#image_container'+num).empty();
-								document.querySelector('#image_container'+num).appendChild(resultImage); 
-								*/
-								var jsonSceneGraph = obj.scene_graph_json;
-								$('#json_results'+num).html(JSON.stringify(jsonSceneGraph));
-								console.log(jsonSceneGraph);
- 
-								var resultSceneGraph = document.createElement("img");
-								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
-								resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-								$('#img_results'+num).html("");
-								document.querySelector('#img_results'+num).appendChild(resultSceneGraph);
+							var obj = JSON.parse(data);
+							if(num == "1") {  // Part1
+								if(input_url.endsWith('POSTECH')) { // POSTECH
+									var jsonSceneGraph = obj.scene_graph_json;
+									$('#json_results'+num).html(JSON.stringify(jsonSceneGraph));
+	
+									var resultSceneGraph = document.createElement("img");
+									resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
+									resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+									document.querySelector('#img_results1_postech').appendChild(resultSceneGraph);
+								} else { // KETI
+									var jsonSceneGraph = obj.scene_graph_json;
+									$('#json_results'+num).html(jsonSceneGraph);
+									
+									var resultSceneGraph = document.createElement("img");
+									resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
+									resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+									document.querySelector('#img_results1_keti').appendChild(resultSceneGraph);
+
+									/*
+									원래 KETI의 결과에는 object detection도 포함되어 있음.
+									이 부분을 포함시키면 "파일 미리보기"의 이미지가 object detection되어 bounding box가 생긴 이미지로 바뀜.
+									var resultImage = document.createElement("img");
+									resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+									resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+									$('#image_container'+num).empty();
+									document.querySelector('#image_container'+num).appendChild(resultImage); 
+									*/
+								}								
 							}
-							else {
-								var obj = JSON.parse(data);
+							else {  // Part2
 								// get key "attributes" from the json data
 								var attributes = obj.attributes;
 								var output_string = "";
