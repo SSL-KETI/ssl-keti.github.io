@@ -74,20 +74,27 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
 					<br/><br/>
-					<!--<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
-					<input type="file" id="file_img4_2" accept="image/*" onchange="setImageThumbnail(event, '#image_container4_2');"/>
-					<br/><br/>-->
-					<input id="submit_4" type="submit" value="Run" onclick="submitData(event, 'part4_SNU')" style="background-color: #002178; padding: 10px 17px 10px 17px">
-					<!-- 원래 part4_KETI였음-->
+
+					<div>
+						<input type="checkbox" id="checkbox_snu" name="snu" checked>
+						<label for="snu" style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="checkbox_postech" name="postech">
+						<label for="postech" style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="checkbox_keti" name="keti">
+						<label for="keti" style="font-size: 1.5em">KETI</label>
+					</div>
+
+					<br/>
+					<input id="submit_4" type="submit" value="Run" onclick="submitData(event)" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<!--<div id="image_container4"><img src="examples/image1.jpg"></div> -->
 					<div id="image_container4"><img src="examples/3_resized_black.jpg"></div> 
-					<!--<div id="image_container4_2">mask image preview</div> -->
 					</p>
 					
 					<h4>결과</h4>
-					<div id="image_result4">image result</div> 
+					<div id="image_result4_snu">image result</div> 
+					<div id="image_result4_postech"></div> 
+					<div id="image_result4_keti"></div> 
 				</div>
 			</div>
 
@@ -113,12 +120,8 @@
 					reader.readAsText(event.target.files[0]);
 				}
 
-				function getBase64ImageFromURL() {
-
-				}
-
-				function submitData(event, name) {
-					input_url = "https://ketiair.com:10001/api/" + name;
+				function submitData(event) {
+					input_url = "https://ketiair.com:10001/api/"
 
 					var hasImage = false;
 					var hasImage2 = false;
@@ -127,12 +130,29 @@
 					var readerImg2 = new FileReader();
 					var readerJson = new FileReader();
 
-					$('#image_result4').html("loading...");
+					$('#image_result4_snu').html("loading...");
+					$('#image_result4_postech').html("");
+					$('#image_result4_keti').html("");
+
+					var is_snu_checked = $('#checkbox_snu').prop("checked");
+					var is_postech_checked = $('#checkbox_postech').prop("checked");
+					var is_keti_checked = $('#checkbox_keti').prop("checked");
+
+					var checked_boxes = [];
+					if(is_snu_checked) {
+						checked_boxes.push('part4_SNU')
+					}
+					if(is_postech_checked) {
+						checked_boxes.push('part4_POSTECH')
+					}
+					if(is_keti_checked) {
+						checked_boxes.push('part4_KETI')
+					}
 
 					var file_check = $("#file_img4").val();
 					// 파일을 넣지 않을 경우
 					if(!file_check) {
-						getBase64ImageFromURLBothImages();
+						getBase64ImageFromURLBothImages(checked_boxes);
 					}
 					// 파일을 넣을 경우
 					else {
@@ -144,22 +164,22 @@
 							// 마스크 이미지는 웹에서 가져옴
 							var file_name = img.name;
 							if(file_name == "image1.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image, checked_boxes)
 							}
 							else if(file_name == "image2.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask2.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask2.jpg', base64image, checked_boxes)
 							}
 							else if (file_name == "image1.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image, checked_boxes)
 							}
 							else if (file_name == "9_resized_black.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask2_resized.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask2_resized.jpg', base64image, checked_boxes)
 							}
 							else if(file_name == "10_resized_black.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask3_resized.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask3_resized.jpg', base64image, checked_boxes)
 							}
 							else {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image)
+								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image, checked_boxes)
 							}
 						}
 					}
@@ -188,7 +208,7 @@
 				*/
 
 				// 파일을 선택했을 때, 마스크 파일만 인터넷에서 불러오는 함수
-				function getBase64ImageFromURL(url, img_original) {
+				function getBase64ImageFromURL(url, img_original, checked_boxes) {
 					var img = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
 					
@@ -207,13 +227,15 @@
 						jsonArray['image_contents'] = img_original;
 						jsonArray['mask'] = mask_img;
 						jsonArray = JSON.stringify(jsonArray);
-						postData(input_url, jsonArray);
+						for(var i=0; i < checked_boxes.length; i++) {
+							postData(input_url+checked_boxes[i], jsonArray);
+						}
 					}
 					img.src = url
 				}
 
 				// 파일을 선택하지 않았을 때 원본 이미지 & 마스크 이미지를 인터넷에서 불러오는 함수
-				function getBase64ImageFromURLBothImages() {
+				function getBase64ImageFromURLBothImages(checked_boxes) {
 					var img = new Image();
 					var mask = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
@@ -246,7 +268,9 @@
 							jsonArray['image_contents'] = img_original;
 							jsonArray['mask'] = img_mask;
 							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url, jsonArray);
+							for(var i=0; i < checked_boxes.length; i++) {
+								postData(input_url+checked_boxes[i], jsonArray);
+							}
 						}
 					}
 					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/3_resized_black.jpg';
@@ -270,8 +294,17 @@
 							var resultImage = document.createElement("img");
 							resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
 							resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-							$('#image_result4').empty();
-							document.querySelector('#image_result4').appendChild(resultImage); 
+							
+							if(input_url.endsWith('SNU')) {  //SNU
+								$('#image_result4_snu').empty();
+								document.querySelector('#image_result4_snu').appendChild(resultImage); 
+							} else if(input_url.endsWith('POSTECH')) {  //POSTECH
+								$('#image_result4_postech').empty();
+								document.querySelector('#image_result4_postech').appendChild(resultImage); 
+							} else {  //KETI
+								$('#image_result4_keti').empty();
+								document.querySelector('#image_result4_keti').appendChild(resultImage); 
+							}
 						},
 						error:function(data){
 							alert(JSON.stringify(data));
