@@ -70,17 +70,22 @@
 					<br/>
 					<div style="font-size: 1.2em">보이지 않는 부분에 대한 상식 융합 관계그래프를 시각적 상식으로 추론</div>
 					<br/><br/>
-					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					* 실행시키면 결과가 나오기까지 약 35분이 소요됩니다. <br/>
+					<결과 예시> <br/>
+					<img src="images/demo1_3_1.png"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="images/demo1_3_2.png"> <br/>
+					<!--<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
+					<br/><br/>-->
+					<input id="submit_3" type="submit" value="Run" onclick="submitData(event, '3', 'part3_KAIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
-					<input id="submit_3" type="submit" value="Run" onclick="submitData(event, '3', 'part3_KETI')" style="background-color: #002178; padding: 10px 17px 10px 17px">
-					<br/><br/>
-					<h4>파일 미리보기</h4>
-					<pre id=json_preview3>json file preview</pre>
+					<!--<h4>파일 미리보기</h4>
+					<pre id=json_preview3>json file preview</pre>-->
 					</p>
 					
 					<h4>결과</h4>
 					<pre id="json_results3">json results</pre>
+					<div id="data_image"></div>
+					<div id="sample_image"></div>
 				</div>
 			</div>
 
@@ -108,7 +113,9 @@
 
 				function submitData(event, num, name) {
 					input_url = "https://ketiair.com:10001/api/" + name;
-
+					
+					postData(input_url, "", 3); 	// Does not require input data
+					/*
 					var hasImage = false;
 					var hasImage2 = false;
 					var hasJson = false;
@@ -123,12 +130,15 @@
 
 					readerJson.onload = function() {
 						$('#json_results'+num).html("loading...");
+						$('#data_image').html("");
+						$('sample_image').html("");
+						
 						var jsonData = JSON.parse(readerJson.result);
 						jsonArray['scene_graph'] = jsonData;
 
 						jsonArray = JSON.stringify(jsonArray);
 						postData(input_url, jsonArray, num);
-					}
+					}*/
 				}
 
 				function alertIfFileNotSelected(reader, file, num) {
@@ -165,7 +175,18 @@
 						url: input_url,
 						data: jsonArray,
 						success:function(data){
-							$('#json_results'+num).html(data);
+							var obj = JSON.parse(data);
+							$('#json_results'+num).html(JSON.stringify(obj.test_result));
+
+							var data_image = document.createElement("img");
+							data_image.setAttribute("src", 'data:image/png;base64,' + obj.data); 
+							data_image.setAttribute("style", "max-width: 70%; height: auto;"); 
+							document.querySelector('#data_image').appendChild(data_image);
+
+							var sample_image = document.createElement("img");
+							sample_image.setAttribute("src", 'data:image/png;base64,' + obj.samples); 
+							sample_image.setAttribute("style", "max-width: 70%; height: auto;"); 
+							document.querySelector('#sample_image').appendChild(sample_image);
 						},
 						error:function(data){
 							alert(JSON.stringify(data));

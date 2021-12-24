@@ -90,10 +90,12 @@
 					</p>
 						
 					<h4>결과</h4>
+					<div id="json_results1">Json & Image Results</div>
 					<div id="img_results1"></div>
 					<div id="img_results1_postech"></div>
+					<pre id="json_results1_postech" style="max-height: 20em; visibility: hidden;">json results</pre>
 					<div id="img_results1_keti"></div>
-					<pre id="json_results1" style="max-height: 20em;">json results</pre>
+					<pre id="json_results1_keti" style="max-height: 20em; visibility: hidden;">json results</pre>
 				</div>
 			</div>
 
@@ -242,6 +244,8 @@
 						$('#json_results'+num).html("loading...");
 						$('#img_results1_postech').html("");
 						$('#img_results1_keti').html("");
+						document.getElementById('json_results1_postech').style.visibility = 'hidden';
+						document.getElementById('json_results1_keti').style.visibility = 'hidden';
 						
 						var is_postech_checked = $('#checkbox_postech').prop("checked");
 						var is_keti_checked = $('#checkbox_keti').prop("checked");
@@ -389,9 +393,11 @@
 						success:function(data){
 							var obj = JSON.parse(data);
 							if(num == "1") {  // Part1
+								$('#json_results'+num).html("");
 								if(input_url.endsWith('POSTECH')) { // POSTECH
 									var jsonSceneGraph = obj.scene_graph_json;
-									$('#json_results'+num).html(JSON.stringify(jsonSceneGraph));
+									document.getElementById('json_results1_postech').style.visibility = 'visible';
+									$('#json_results1_postech').html(JSON.stringify(jsonSceneGraph));
 	
 									var resultSceneGraph = document.createElement("img");
 									resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
@@ -399,7 +405,8 @@
 									document.querySelector('#img_results1_postech').appendChild(resultSceneGraph);
 								} else { // KETI
 									var jsonSceneGraph = obj.scene_graph_json;
-									$('#json_results'+num).html(jsonSceneGraph);
+									document.getElementById('json_results1_keti').style.visibility = 'visible';
+									$('#json_results1_keti').html(jsonSceneGraph);
 									
 									var resultSceneGraph = document.createElement("img");
 									resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
