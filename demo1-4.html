@@ -74,6 +74,12 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
 					<br/><br/>
+					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_mask4" accept="image/*" onchange="setImageThumbnail(event, '#mask_container4');"/>
+					<br/><br/>
+					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_json4" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview4')"/>
+					<br/><br/>
 
 					<div>
 						<input type="checkbox" id="checkbox_snu" name="snu" checked>
@@ -88,7 +94,12 @@
 					<input id="submit_4" type="submit" value="Run" onclick="submitData(event)" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<div id="image_container4"><img src="examples/3_resized_black.jpg"></div> 
+					이미지
+					<div id="image_container4"><img src="examples/image3.jpg"></div> 
+					마스크
+					<div id="mask_container4"><img src="examples/mask3.jpg"></div> 
+					JSON
+					<pre id="json_preview4" style="max-height: 20em;">{"image_id":1,"predicates":[{"predicate_name":"wearing","predicate_id":0,"subject_id":61,"object_id":11},{"predicate_name":"wearing","predicate_id":1,"subject_id":61,"object_id":0},{"predicate_name":"wearing","predicate_id":2,"subject_id":61,"object_id":52},{"predicate_name":"wearing","predicate_id":3,"subject_id":61,"object_id":1},{"predicate_name":"has","predicate_id":4,"subject_id":5,"object_id":3},{"predicate_name":"wearing","predicate_id":5,"subject_id":65,"object_id":52},{"predicate_name":"on","predicate_id":6,"subject_id":8,"object_id":35},{"predicate_name":"wearing","predicate_id":7,"subject_id":65,"object_id":0},{"predicate_name":"of","predicate_id":8,"subject_id":3,"object_id":5},{"predicate_name":"riding","predicate_id":9,"subject_id":61,"object_id":44},{"predicate_name":"wearing","predicate_id":10,"subject_id":61,"object_id":14},{"predicate_name":"on","predicate_id":11,"subject_id":8,"object_id":26},{"predicate_name":"wearing","predicate_id":12,"subject_id":65,"object_id":11},{"predicate_name":"on","predicate_id":13,"subject_id":5,"object_id":53},{"predicate_name":"wearing","predicate_id":14,"subject_id":42,"object_id":11},{"predicate_name":"has","predicate_id":15,"subject_id":4,"object_id":3},{"predicate_name":"on","predicate_id":16,"subject_id":68,"object_id":20},{"predicate_name":"on","predicate_id":17,"subject_id":9,"object_id":53},{"predicate_name":"of","predicate_id":18,"subject_id":3,"object_id":4},{"predicate_name":"wearing","predicate_id":19,"subject_id":61,"object_id":15}],"objects":[{"object_id":0,"class_name":"jacket","object_bbox":{"x":370,"y":290,"width":81,"height":100}},{"object_id":1,"class_name":"jacket","object_bbox":{"x":238,"y":277,"width":59,"height":108}},{"object_id":3,"class_name":"trunk","object_bbox":{"x":632,"y":215,"width":72,"height":333}},{"object_id":4,"class_name":"tree","object_bbox":{"x":414,"y":11,"width":158,"height":443}},{"object_id":5,"class_name":"tree","object_bbox":{"x":495,"y":0,"width":302,"height":543}},{"object_id":8,"class_name":"sign","object_bbox":{"x":126,"y":18,"width":84,"height":155}},{"object_id":9,"class_name":"people","object_bbox":{"x":200,"y":241,"width":265,"height":286}},{"object_id":11,"class_name":"pant","object_bbox":{"x":241,"y":371,"width":48,"height":115}},{"object_id":14,"class_name":"shirt","object_bbox":{"x":234,"y":280,"width":64,"height":111}},{"object_id":15,"class_name":"shoe","object_bbox":{"x":241,"y":484,"width":51,"height":24}},{"object_id":20,"class_name":"car","object_bbox":{"x":713,"y":335,"width":82,"height":164}},{"object_id":26,"class_name":"pole","object_bbox":{"x":452,"y":177,"width":20,"height":246}},{"object_id":35,"class_name":"pole","object_bbox":{"x":554,"y":150,"width":21,"height":330}},{"object_id":42,"class_name":"woman","object_bbox":{"x":228,"y":241,"width":63,"height":246}},{"object_id":44,"class_name":"bike","object_bbox":{"x":319,"y":294,"width":43,"height":59}},{"object_id":52,"class_name":"pant","object_bbox":{"x":388,"y":375,"width":50,"height":108}},{"object_id":53,"class_name":"sidewalk","object_bbox":{"x":38,"y":358,"width":718,"height":238}},{"object_id":61,"class_name":"man","object_bbox":{"x":369,"y":258,"width":82,"height":245}},{"object_id":65,"class_name":"man","object_bbox":{"x":223,"y":261,"width":80,"height":240}},{"object_id":68,"class_name":"tire","object_bbox":{"x":724,"y":426,"width":32,"height":72}}]}</pre>
 					</p>
 					
 					<h4>결과</h4>
@@ -127,7 +138,7 @@
 					var hasImage2 = false;
 					var hasJson = false;
 					var readerImg = new FileReader();
-					var readerImg2 = new FileReader();
+					var readerMask = new FileReader();
 					var readerJson = new FileReader();
 
 					$('#image_result4_snu').html("loading...");
@@ -158,6 +169,33 @@
 					else {
 						var img = document.getElementById("file_img4").files[0];
 						readerImg.readAsDataURL(img);
+
+						var mask = document.getElementById("file_mask4").files[0];
+						readerMask.readAsDataURL(mask);
+						
+						var json = document.getElementById("file_json4").files[0];
+						readerJson.readAsText(json);
+
+						readerImg.onload = function() {
+							readerMask.onload = function() {
+								readerJson.onload = function() {
+									var base64image = getBase64Image(readerImg);
+									var base64mask = getBase64Image(readerMask);
+									var jsonData = JSON.parse(readerJson.result);
+
+									var jsonArray = new Object();
+									jsonArray['image_contents'] = base64image
+									jsonArray['mask_contents'] = base64mask
+									jsonArray['scene_graph'] = jsonData
+									jsonArray = JSON.stringify(jsonArray);
+									for(var i=0; i < checked_boxes.length; i++) {
+										postData(input_url+checked_boxes[i], jsonArray);
+									}
+								}
+							}
+						}
+						
+						/* First year codes (when the input does not contain 'mask')
 						readerImg.onload = function() {
 							base64image = getBase64Image(readerImg);
 							
@@ -181,31 +219,9 @@
 							else {
 								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image, checked_boxes)
 							}
-						}
+						}*/
 					}
 				}
-				/*
-				function alertIfFileNotSelected(reader, file, num) {
-					if (file == "file_img") {
-						var img = document.getElementById("file_img"+num).files[0];
-						try {
-							reader.readAsDataURL(img);
-						}
-						catch(err) {
-							alert("이미지를 선택하세요." + num);
-						}
-					}
-					else {
-						var json = document.getElementById("file_json"+num).files[0];
-						try {
-							reader.readAsText(json);
-						}
-						catch(err) {
-							alert("JSON 파일을 선택하세요.");
-						}
-					}
-				}
-				*/
 
 				// 파일을 선택했을 때, 마스크 파일만 인터넷에서 불러오는 함수
 				function getBase64ImageFromURL(url, img_original, checked_boxes) {
@@ -225,7 +241,7 @@
 						
 						var jsonArray = new Object();
 						jsonArray['image_contents'] = img_original;
-						jsonArray['mask'] = mask_img;
+						jsonArray['mask_contents'] = mask_img;
 						jsonArray = JSON.stringify(jsonArray);
 						for(var i=0; i < checked_boxes.length; i++) {
 							postData(input_url+checked_boxes[i], jsonArray);
@@ -253,7 +269,6 @@
 							var commaIndex = img_original.indexOf(",");
 							img_original = img_original.slice(commaIndex+1);
 							
-
 							var canvas2 = document.createElement("canvas");
 							canvas2.width = mask.width;
 							canvas2.height = mask.height;
@@ -264,17 +279,20 @@
 							var commaIndex = img_mask.indexOf(",");
 							img_mask = img_mask.slice(commaIndex+1);
 
+							var scene_graph = document.getElementById("json_preview4").innerText;
+
 							var jsonArray = new Object();
 							jsonArray['image_contents'] = img_original;
-							jsonArray['mask'] = img_mask;
+							jsonArray['mask_contents'] = img_mask;
+							jsonArray['scene_graph'] = scene_graph;
 							jsonArray = JSON.stringify(jsonArray);
 							for(var i=0; i < checked_boxes.length; i++) {
 								postData(input_url+checked_boxes[i], jsonArray);
 							}
 						}
 					}
-					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/3_resized_black.jpg';
-					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg';
+					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image3.jpg';
+					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg';
 				}
 
 				function getBase64Image(reader) {
@@ -291,6 +309,7 @@
 						data: jsonArray,
 						success:function(data){
 							var obj = JSON.parse(data);
+							console.log(obj);
 							var resultImage = document.createElement("img");
 							resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
 							resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
