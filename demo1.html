@@ -60,10 +60,201 @@
 					<div>
 						<a href="demo1-12.html"><img src="images/home_1.png" onmouseover="this.src='images/home_1_fade.png'" onmouseout="this.src='images/home_1.png'" style="width: 25.33%; vertical-align: top;"></a><a href="demo1-3.html"><img src="images/home_2.png" onmouseover="this.src='images/home_2_fade.png'" onmouseout="this.src='images/home_2.png'" style="width: 46.74%; vertical-align: top;"></a><a href="demo1-4.html"><img src="images/home_3.png"  onmouseover="this.src='images/home_3_fade.png'" onmouseout="this.src='images/home_3.png'" style="width: 27.93%; vertical-align: top;"></a>
 					</div>
-					<button onclick="location.href='#'" style="width: 95%; background-color: #002178;">통합 시연</button>
+					<br/><br/>
+					<div class="row">
+						<div class="col-3 col-12-medium">
+							<h3>Part1</h3>
+							<label>
+								<input type="radio" name="part1" value="part1_POSTECH" checked="checked" />
+								<span>POSTECH</span>
+							</label><br/>
+							<label>
+								<input type="radio" name="part1" value="part1_KETI" />
+								<span>KETI</span>
+							</label>
+						</div>
+						<div class="col-3 col-12-medium">
+							<h3>Part2</h3>
+							<label>
+								<input type="radio" name="part2" value="part2_UNIST" checked="checked" />
+								<span>UNIST</span>
+							</label><br/>
+							<label>
+								<input type="radio" name="part2" value="part2_Birmingham" disabled />
+								<span>Birmingham</span>
+							</label>
+						</div>
+						<div class="col-3 col-12-medium">
+							<h3>Part3</h3>
+							<label>
+								<input type="radio" name="part3" value="part3_KAIST" checked="checked" />
+								<span>KAIST</span>
+							</label><br/>
+						</div>
+						<div class="col-3 col-12-medium">
+							<h3>Part4</h3>
+							<label>
+								<input type="radio" name="part4" value="part4_SNU" />
+								<span>SNU</span>
+							</label><br/>
+							<label>
+								<input type="radio" name="part4" value="part4_POSTECH" disabled />
+								<span>POSTECH</span>
+							</label><br/>
+							<label>
+								<input type="radio" name="part4" value="part4_KETI" checked="checked" />
+								<span>KETI</span>
+							</label>
+						</div>
+					</div>
 					<br/>
+					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
+					<br/><br/>
+					<div id="image_container"><img src="examples/unist_1.jpg" style="max-width: 50%;"></div>
+					<br/><br/>
+					<button onclick="submitData(event)" style="width: 95%; background-color: #002178;">통합 시연</button>		
+					<br/><br/>
+					<div id="caption1" style="visibility: hidden;"><h3>Part1 결과</h3></div>
+					<div id="image_result1"></div> 
+					<pre id="json_result1" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
+					<div id="caption2" style="visibility: hidden;"><h3>Part2 결과</h3></div>
+					<pre id="json_result2" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
+					<div id="caption3" style="visibility: hidden;"><h3>Part3 결과</h3></div>
+					<div id="image_result3"></div> 
+					<div id="caption4" style="visibility: hidden;"><h3>Part4 결과</h3></div>
+					<div id="image_result4"></div> 
 				</div>
 			</div>
+
+			<script>
+				function setImageThumbnail(event, image_area) {
+					var reader = new FileReader(); 
+					reader.onload = function(event) { 
+						var img = document.createElement("img"); 
+						img.setAttribute("src", event.target.result); 
+						img.setAttribute("style", "max-width: 100%; height: auto;");
+						$(image_area).empty();
+						document.querySelector(image_area).appendChild(img);
+					}; 
+					reader.readAsDataURL(event.target.files[0]); 
+				}
+
+				function submitData(event) {
+					input_url = "https://ketiair.com:10001/api/"
+
+					var readerImg = new FileReader();
+					$('#image_result1').html("loading...");
+					$('#image_result2').html("");
+					$('#image_result3').html("");
+					$('#image_result4').html("");
+					document.getElementById('json_result1').style.visibility = 'hidden';
+					document.getElementById('json_result2').style.visibility = 'hidden';
+					document.getElementById('caption1').style.visibility = 'hidden';
+					document.getElementById('caption2').style.visibility = 'hidden';
+					
+					var checked_radios = [];
+					for(var i = 1; i <= 4; i++) {
+						var radio = document.getElementsByName('part'+i);
+						var selected = Array.from(radio).find(radio => radio.checked).value;
+						checked_radios.push(selected)
+					}
+
+					var file_check = $("#file_img").val();
+					// 파일을 넣지 않을 경우
+					if(!file_check) {
+						getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/unist_1.jpg', input_url, checked_radios);
+					}
+					else {
+						var img = document.getElementById("file_img").files[0];
+						readerImg.readAsDataURL(img);
+
+						readerImg.onload = function() {
+							var jsonArray = new Object();
+							base64image = getBase64Image(readerImg);
+							jsonArray['image_contents'] = base64image;
+
+							jsonArray = JSON.stringify(jsonArray);
+							postData(input_url, jsonArray, checked_radios, 1);
+						}
+					}
+				}
+
+				function getBase64ImageFromURL(image_url, input_url, checked_radios){
+					var img = new Image();
+					img.setAttribute('crossOrigin', 'anonymous');
+					
+					img.onload = imgData => {
+						var canvas = document.createElement("canvas");
+						canvas.width = img.width;
+						canvas.height = img.height;
+						var ctx = canvas.getContext("2d");
+						ctx.drawImage(img, 0, 0);
+						var dataURL = canvas.toDataURL("image/png");
+						var img_base64 = dataURL;
+						var commaIndex = img_base64.indexOf(",");
+						img_base64 = img_base64.slice(commaIndex+1);
+						
+						var jsonArray = new Object();
+						jsonArray['image_contents'] = img_base64;
+						jsonArray = JSON.stringify(jsonArray);
+						
+						//Starting Part1
+						postData(input_url, jsonArray, checked_radios, 1);
+					}
+					img.src = image_url
+				}
+
+				function getBase64Image(reader) {
+					var base64image = reader.result;
+					var commaIndex = base64image.indexOf(",");
+					base64image = base64image.slice(commaIndex+1);
+					return base64image;
+				}
+
+				function postData(input_url, jsonArray, checked_radios, num) {
+					$.ajax({
+						type: "POST",
+						url: input_url+checked_radios[num-1],
+						data: jsonArray,
+						success:function(data){
+							var obj = JSON.parse(data);
+							if(num == 1) { //Part1
+								var jsonSceneGraph = obj.scene_graph_json;
+								document.getElementById('json_result1').style.visibility = 'visible';
+								document.getElementById('caption1').style.visibility = 'visible';
+								$('#json_result1').html(JSON.stringify(jsonSceneGraph));
+								
+								var resultSceneGraph = document.createElement("img");
+								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
+								resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+								$('#image_result1').html("");
+								document.querySelector('#image_result1').appendChild(resultSceneGraph);
+								
+								jsonArray = JSON.parse(jsonArray)
+								jsonArray['scene_graph'] = jsonSceneGraph
+								jsonArray = JSON.stringify(jsonArray);
+								postData(input_url, jsonArray, checked_radios, 2);
+							}
+							else if(num == 2) { //Part2
+								var attributes = JSON.stringify(obj.attributes);
+								document.getElementById('json_result2').style.visibility = 'visible';
+								document.getElementById('caption2').style.visibility = 'visible';
+								$('#json_result2').html(attributes);
+							}
+							else if(num == 3) { //Part3
+								
+							}
+							else if(num == 4) { //Part4
+								
+							}
+						},
+						error:function(data){
+							alert(JSON.stringify(data));
+						}
+					});
+				}
+			</script>
 
 			<!-- Footer -->
 			<div id="footer-wrapper">
