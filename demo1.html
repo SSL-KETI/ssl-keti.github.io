@@ -110,6 +110,9 @@
 					<br/>
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
+					<br/>
+					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_mask" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
 					<br/><br/>
 					<div id="image_container"><img src="examples/unist_1.jpg" style="max-width: 50%;"></div>
 					<br/><br/>
@@ -121,7 +124,7 @@
 					<div id="caption2" style="visibility: hidden;"><h3>Part2 결과</h3></div>
 					<pre id="json_result2" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
 					<div id="caption3" style="visibility: hidden;"><h3>Part3 결과</h3></div>
-					<div id="image_result3"></div> 
+					<pre id="json_result3" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
 					<div id="caption4" style="visibility: hidden;"><h3>Part4 결과</h3></div>
 					<div id="image_result4"></div> 
 				</div>
@@ -144,12 +147,13 @@
 					input_url = "https://ketiair.com:10001/api/"
 
 					var readerImg = new FileReader();
-					$('#image_result1').html("loading...");
+					var readerMask = new FileReader();
 					$('#image_result2').html("");
-					$('#image_result3').html("");
+					$('#json_result3').html("");
 					$('#image_result4').html("");
 					document.getElementById('json_result1').style.visibility = 'hidden';
 					document.getElementById('json_result2').style.visibility = 'hidden';
+					document.getElementById('json_result3').style.visibility = 'hidden';
 					document.getElementById('caption1').style.visibility = 'hidden';
 					document.getElementById('caption2').style.visibility = 'hidden';
 					
@@ -160,22 +164,61 @@
 						checked_radios.push(selected)
 					}
 
-					var file_check = $("#file_img").val();
+					var file_check_img = $("#file_img").val();
+					var file_check_mask = $("#file_mask").val();
 					// 파일을 넣지 않을 경우
-					if(!file_check) {
+					if(!file_check_img && !file_check_mask) {
+						$('#image_result1').html("loading...");
 						getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/unist_1.jpg', input_url, checked_radios);
 					}
+					else if(!file_check_img && file_check_mask) {
+						alertIfFileNotSelected(readerImg, "file_img");
+					}
+					else if(file_check_img && !file_check_mask) {
+						alertIfFileNotSelected(readerMask, "file_mask");
+					}
 					else {
+						$('#image_result1').html("loading...");
 						var img = document.getElementById("file_img").files[0];
 						readerImg.readAsDataURL(img);
 
-						readerImg.onload = function() {
-							var jsonArray = new Object();
-							base64image = getBase64Image(readerImg);
-							jsonArray['image_contents'] = base64image;
+						var mask = document.getElementById("file_mask").files[0];
+						readerMask.readAsDataURL(mask);
 
-							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url, jsonArray, checked_radios, 1);
+						readerImg.onload = function() {
+							readerMask.onload = function() {
+								var jsonArray = new Object();
+
+								base64image = getBase64Image(readerImg);
+								jsonArray['image_contents'] = base64image;
+
+								base64mask = getBase64Image(readerMask);
+								jsonArray['mask_contents'] = base64mask
+
+								jsonArray = JSON.stringify(jsonArray);
+								postData(input_url, jsonArray, checked_radios, 1);
+							}
+						}
+					}
+				}
+
+				function alertIfFileNotSelected(reader, file) {
+					if (file == "file_img") {
+						var img = document.getElementById("file_img").files[0];
+						try {
+							reader.readAsDataURL(img);
+						}
+						catch(err) {
+							alert("이미지를 선택하세요.");
+						}
+					}
+					else {
+						var json = document.getElementById("file_mask").files[0];
+						try {
+							reader.readAsDataURL(img);
+						}
+						catch(err) {
+							alert("마스크를 선택하세요.");
 						}
 					}
 				}
@@ -220,10 +263,10 @@
 						success:function(data){
 							var obj = JSON.parse(data);
 							if(num == 1) { //Part1
-								var jsonSceneGraph = obj.scene_graph_json;
+								var outputSceneGraph = obj.scene_graph_json;
 								document.getElementById('json_result1').style.visibility = 'visible';
 								document.getElementById('caption1').style.visibility = 'visible';
-								$('#json_result1').html(JSON.stringify(jsonSceneGraph));
+								$('#json_result1').html(JSON.stringify(outputSceneGraph));
 								
 								var resultSceneGraph = document.createElement("img");
 								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
@@ -232,18 +275,36 @@
 								document.querySelector('#image_result1').appendChild(resultSceneGraph);
 								
 								jsonArray = JSON.parse(jsonArray)
-								jsonArray['scene_graph'] = jsonSceneGraph
-								jsonArray = JSON.stringify(jsonArray);
+								jsonArray['scene_graph'] = outputSceneGraph
+								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
 								postData(input_url, jsonArray, checked_radios, 2);
 							}
 							else if(num == 2) { //Part2
-								var attributes = JSON.stringify(obj.attributes);
+								var attributes = obj.attributes;
 								document.getElementById('json_result2').style.visibility = 'visible';
 								document.getElementById('caption2').style.visibility = 'visible';
-								$('#json_result2').html(attributes);
+								$('#json_result2').html(JSON.stringify(attributes));
+
+								document.getElementById('json_result3').style.visibility = 'visible';
+								$('#json_result3').html("Only Part1 & Part2 is available for now");
+								/* This part will be used in 3rd year.
+								jsonArray = JSON.parse(jsonArray)
+								jsonArray['scene_graph'] = attributes
+								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
+								postData(input_url, jsonArray, checked_radios, 3);
+								*/
 							}
 							else if(num == 3) { //Part3
-								
+								/*
+								var sceneGraphJson = obj.scene_graph_json;
+								document.getElementById('json_result3').style.visibility = 'visible';
+								document.getElementById('caption3').style.visibility = 'visible';
+
+								jsonArray = JSON.parse(jsonArray)
+								jsonArray['scene_graph'] = sceneGraphJson
+								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
+								postData(input_url, jsonArray, checked_radios, 4);
+								*/
 							}
 							else if(num == 4) { //Part4
 								
