@@ -343,10 +343,10 @@
 						type: "POST",
 						url: input_url,
 						data: jsonArray,
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader("Content-Type", "application/json");
-							xhr.setRequestHeader("charset", "utf-8");
-						},
+						//beforeSend: function(xhr) {
+						//	xhr.setRequestHeader("Content-Type", "application/json");
+						//	xhr.setRequestHeader("charset", "utf-8");
+						//},
 						success:function(data){
 							var obj = JSON.parse(data);
 							var resultSceneGraph = document.createElement("img");
