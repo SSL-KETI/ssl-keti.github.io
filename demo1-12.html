@@ -327,7 +327,7 @@
 									else { // KETI
 										var jsonSceneGraph = obj.scene_graph_json;
 										document.getElementById('json_results1_keti').style.visibility = 'visible';
-										$('#json_results1_keti').html(jsonSceneGraph);
+										$('#json_results1_keti').html(JSON.stringify(jsonSceneGraph));
 										
 										var resultSceneGraph = document.createElement("img");
 										resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
