@@ -90,6 +90,10 @@
 								<input type="radio" name="part3" value="part3_KAIST" checked="checked" />
 								<span>KAIST</span>
 							</label><br/>
+							<label>
+								<input type="radio" name="part3" value="part3_KETI" disabled />
+								<span>KETI</span>
+							</label><br/>
 						</div>
 						<div class="col-3 col-12-medium">
 							<h3>Part4</h3>
@@ -98,11 +102,11 @@
 								<span>SNU</span>
 							</label><br/>
 							<label>
-								<input type="radio" name="part4" value="part4_POSTECH" disabled />
+								<input type="radio" name="part4" value="part4_POSTECH" checked="checked"/>
 								<span>POSTECH</span>
 							</label><br/>
 							<label>
-								<input type="radio" name="part4" value="part4_KETI" checked="checked" />
+								<input type="radio" name="part4" value="part4_KETI" />
 								<span>KETI</span>
 							</label>
 						</div>
@@ -112,9 +116,10 @@
 					<input type="file" id="file_img" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
 					<br/>
 					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
-					<input type="file" id="file_mask" accept="image/*" onchange="setImageThumbnail(event, '#image_container');"/>
+					<input type="file" id="file_mask" accept="image/*" onchange="setImageThumbnail(event, '#mask_container');"/>
 					<br/><br/>
-					<div id="image_container"><img src="examples/unist_1.jpg" style="max-width: 50%;"></div>
+					<div id="image_container"><img src="examples/image4.png" style="max-width: 50%;"></div>
+					<div id="mask_container"><img src="examples/mask4.png" style="max-width: 50%;"></div>
 					<br/><br/>
 					<button onclick="submitData(event)" style="width: 95%; background-color: #002178;">통합 시연</button>		
 					<br/><br/>
@@ -156,6 +161,8 @@
 					document.getElementById('json_result3').style.visibility = 'hidden';
 					document.getElementById('caption1').style.visibility = 'hidden';
 					document.getElementById('caption2').style.visibility = 'hidden';
+					document.getElementById('caption3').style.visibility = 'hidden';
+					document.getElementById('caption4').style.visibility = 'hidden';
 					
 					var checked_radios = [];
 					for(var i = 1; i <= 4; i++) {
@@ -169,7 +176,7 @@
 					// 파일을 넣지 않을 경우
 					if(!file_check_img && !file_check_mask) {
 						$('#image_result1').html("loading...");
-						getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/unist_1.jpg', input_url, checked_radios);
+						getBase64ImageFromURL(input_url, checked_radios);
 					}
 					else if(!file_check_img && file_check_mask) {
 						alertIfFileNotSelected(readerImg, "file_img");
@@ -223,29 +230,45 @@
 					}
 				}
 
-				function getBase64ImageFromURL(image_url, input_url, checked_radios){
+				function getBase64ImageFromURL(input_url, checked_radios){
 					var img = new Image();
+					var mask = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
+					mask.setAttribute('crossOrigin', 'anonymous');
 					
 					img.onload = imgData => {
-						var canvas = document.createElement("canvas");
-						canvas.width = img.width;
-						canvas.height = img.height;
-						var ctx = canvas.getContext("2d");
-						ctx.drawImage(img, 0, 0);
-						var dataURL = canvas.toDataURL("image/png");
-						var img_base64 = dataURL;
-						var commaIndex = img_base64.indexOf(",");
-						img_base64 = img_base64.slice(commaIndex+1);
-						
-						var jsonArray = new Object();
-						jsonArray['image_contents'] = img_base64;
-						jsonArray = JSON.stringify(jsonArray);
-						
-						//Starting Part1
-						postData(input_url, jsonArray, checked_radios, 1);
+						mask.onload = imgData => {
+							var canvas = document.createElement("canvas");
+							canvas.width = img.width;
+							canvas.height = img.height;
+							var ctx = canvas.getContext("2d");
+							ctx.drawImage(img, 0, 0);
+							var dataURL = canvas.toDataURL("image/png");
+							var img_base64 = dataURL;
+							var commaIndex = img_base64.indexOf(",");
+							img_base64 = img_base64.slice(commaIndex+1);
+
+							var canvas2 = document.createElement("canvas");
+							canvas2.width = mask.width;
+							canvas2.height = mask.height;
+							var ctx2 = canvas2.getContext("2d");
+							ctx2.drawImage(mask, 0, 0);
+							var dataURL_mask = canvas2.toDataURL("image/png");
+							var img_mask = dataURL_mask;
+							var commaIndex = img_mask.indexOf(",");
+							img_mask = img_mask.slice(commaIndex+1);
+							
+							var jsonArray = new Object();
+							jsonArray['image_contents'] = img_base64;
+							jsonArray['mask_contents'] = img_mask;
+							jsonArray = JSON.stringify(jsonArray);
+							
+							//Starting Part1
+							postData(input_url, jsonArray, checked_radios, 1);
+						}
 					}
-					img.src = image_url
+					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image4.png';
+					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask4.png';
 				}
 
 				function getBase64Image(reader) {
@@ -285,8 +308,10 @@
 								document.getElementById('caption2').style.visibility = 'visible';
 								$('#json_result2').html(JSON.stringify(attributes));
 
+								document.getElementById('caption3').style.visibility = 'visible';
 								document.getElementById('json_result3').style.visibility = 'visible';
-								$('#json_result3').html("Only Part1 & Part2 is available for now");
+								$('#json_result3').html(JSON.stringify(attributes));
+								postData(input_url, jsonArray, checked_radios, 4);
 								/* This part will be used in 3rd year.
 								jsonArray = JSON.parse(jsonArray)
 								jsonArray['scene_graph'] = attributes
@@ -307,7 +332,12 @@
 								*/
 							}
 							else if(num == 4) { //Part4
-								
+								document.getElementById('caption4').style.visibility = 'visible';
+								var inpaintResult = document.createElement("img");
+								inpaintResult.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+								inpaintResult.setAttribute("style", "max-width: 70%; height: auto;"); 
+								$('#image_result4').html("");
+								document.querySelector('#image_result4').appendChild(inpaintResult);
 							}
 						},
 						error:function(data){
