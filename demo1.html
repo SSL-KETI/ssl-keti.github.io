@@ -68,8 +68,8 @@
 								<input type="radio" name="part1" value="part1_POSTECH" checked="checked" />
 								<span>POSTECH</span>
 							</label><br/>
-							<label>
-								<input type="radio" name="part1" value="part1_KETI" />
+							 <label>
+								<input type="radio" name="part1" value="part1_KETI"/>
 								<span>KETI</span>
 							</label>
 						</div>
@@ -98,16 +98,16 @@
 						<div class="col-3 col-12-medium">
 							<h3>Part4</h3>
 							<label>
+								<input type="radio" name="part4" value="part4_KETI" checked="checked"/>
+								<span>KETI</span>
+							</label><br/>
+							<label>
 								<input type="radio" name="part4" value="part4_SNU" />
 								<span>SNU</span>
 							</label><br/>
 							<label>
-								<input type="radio" name="part4" value="part4_POSTECH" checked="checked"/>
+								<input type="radio" name="part4" value="part4_POSTECH"/>
 								<span>POSTECH</span>
-							</label><br/>
-							<label>
-								<input type="radio" name="part4" value="part4_KETI" />
-								<span>KETI</span>
 							</label>
 						</div>
 					</div>
@@ -118,8 +118,8 @@
 					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_mask" accept="image/*" onchange="setImageThumbnail(event, '#mask_container');"/>
 					<br/><br/>
-					<div id="image_container"><img src="examples/image4.png" style="max-width: 50%;"></div>
-					<div id="mask_container"><img src="examples/mask4.png" style="max-width: 50%;"></div>
+					<div id="image_container"><img src="examples/image3.jpg" style="max-width: 50%;"></div>
+					<div id="mask_container"><img src="examples/mask3.jpg" style="max-width: 50%;"></div>
 					<br/><br/>
 					<button onclick="submitData(event)" style="width: 95%; background-color: #002178;">통합 시연</button>		
 					<br/><br/>
@@ -267,8 +267,8 @@
 							postData(input_url, jsonArray, checked_radios, 1);
 						}
 					}
-					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image4.png';
-					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask4.png';
+					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image3.jpg';
+					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg';
 				}
 
 				function getBase64Image(reader) {
