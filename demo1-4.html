@@ -246,7 +246,6 @@
 				function alertIfFileNotSelected(reader, file, num) {
 					var content = document.getElementById(file+num).files[0];
 					if (file == "file_img" || file == "file_mask") {
-						//var img = document.getElementById(file+num).files[0];
 						try {
 							reader.readAsDataURL(content);
 						}
@@ -255,7 +254,6 @@
 						}
 					}
 					else {
-						//var json = document.getElementById("file_json"+num).files[0];
 						try {
 							reader.readAsText(content);
 						}
