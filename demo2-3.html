@@ -290,15 +290,6 @@
 					$('#json_preview').html(example[num]);
 				}
 
-				function setJsonThumbnail(event, json_area) {
-					var reader = new FileReader(); 
-					reader.onload = function(event) { 
-						$('#'+json_area).html("");
-						$('#'+json_area).html(event.target.result);
-					};
-					reader.readAsText(event.target.files[0]);
-				}
-
 				function submitData(event, name, hasFile) {
 					input_url = "https://ketiair.com:8950/api/" + name;
 					
@@ -494,6 +485,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/main_connection.js"></script>
 
 	</body>
 </html>

@@ -143,14 +143,18 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img2" accept="image/*" onchange="setImageThumbnail(event, '#image_container2');"/>
 					<br/><br/>
+					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<input type="file" id="file_mask2" accept="image/*" onchange="setImageThumbnail(event, '#mask_container2');"/>
+					<br/><br/>
 					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_json2" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview2')"/>
 					<br/><br/>
 					<input id="submit_2" type="submit" value="Run" onclick="submitData(event, '2', 'part2_UNIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<div id="image_container2"><img src="examples/unist_1.jpg" style="max-width: 50%;"></div> 
-					<pre id="json_preview2" style="max-height: 20em;">{"image_id":1,"predicates":[{"predicate_name":"wearing","predicate_id":0,"subject_id":61,"object_id":11},{"predicate_name":"wearing","predicate_id":1,"subject_id":61,"object_id":0},{"predicate_name":"wearing","predicate_id":2,"subject_id":61,"object_id":52},{"predicate_name":"wearing","predicate_id":3,"subject_id":61,"object_id":1},{"predicate_name":"has","predicate_id":4,"subject_id":5,"object_id":3},{"predicate_name":"wearing","predicate_id":5,"subject_id":65,"object_id":52},{"predicate_name":"on","predicate_id":6,"subject_id":8,"object_id":35},{"predicate_name":"wearing","predicate_id":7,"subject_id":65,"object_id":0},{"predicate_name":"of","predicate_id":8,"subject_id":3,"object_id":5},{"predicate_name":"riding","predicate_id":9,"subject_id":61,"object_id":44},{"predicate_name":"wearing","predicate_id":10,"subject_id":61,"object_id":14},{"predicate_name":"on","predicate_id":11,"subject_id":8,"object_id":26},{"predicate_name":"wearing","predicate_id":12,"subject_id":65,"object_id":11},{"predicate_name":"on","predicate_id":13,"subject_id":5,"object_id":53},{"predicate_name":"wearing","predicate_id":14,"subject_id":42,"object_id":11},{"predicate_name":"has","predicate_id":15,"subject_id":4,"object_id":3},{"predicate_name":"on","predicate_id":16,"subject_id":68,"object_id":20},{"predicate_name":"on","predicate_id":17,"subject_id":9,"object_id":53},{"predicate_name":"of","predicate_id":18,"subject_id":3,"object_id":4},{"predicate_name":"wearing","predicate_id":19,"subject_id":61,"object_id":15}],"objects":[{"object_id":0,"class_name":"jacket","object_bbox":{"x":370,"y":290,"width":81,"height":100}},{"object_id":1,"class_name":"jacket","object_bbox":{"x":238,"y":277,"width":59,"height":108}},{"object_id":3,"class_name":"trunk","object_bbox":{"x":632,"y":215,"width":72,"height":333}},{"object_id":4,"class_name":"tree","object_bbox":{"x":414,"y":11,"width":158,"height":443}},{"object_id":5,"class_name":"tree","object_bbox":{"x":495,"y":0,"width":302,"height":543}},{"object_id":8,"class_name":"sign","object_bbox":{"x":126,"y":18,"width":84,"height":155}},{"object_id":9,"class_name":"people","object_bbox":{"x":200,"y":241,"width":265,"height":286}},{"object_id":11,"class_name":"pant","object_bbox":{"x":241,"y":371,"width":48,"height":115}},{"object_id":14,"class_name":"shirt","object_bbox":{"x":234,"y":280,"width":64,"height":111}},{"object_id":15,"class_name":"shoe","object_bbox":{"x":241,"y":484,"width":51,"height":24}},{"object_id":20,"class_name":"car","object_bbox":{"x":713,"y":335,"width":82,"height":164}},{"object_id":26,"class_name":"pole","object_bbox":{"x":452,"y":177,"width":20,"height":246}},{"object_id":35,"class_name":"pole","object_bbox":{"x":554,"y":150,"width":21,"height":330}},{"object_id":42,"class_name":"woman","object_bbox":{"x":228,"y":241,"width":63,"height":246}},{"object_id":44,"class_name":"bike","object_bbox":{"x":319,"y":294,"width":43,"height":59}},{"object_id":52,"class_name":"pant","object_bbox":{"x":388,"y":375,"width":50,"height":108}},{"object_id":53,"class_name":"sidewalk","object_bbox":{"x":38,"y":358,"width":718,"height":238}},{"object_id":61,"class_name":"man","object_bbox":{"x":369,"y":258,"width":82,"height":245}},{"object_id":65,"class_name":"man","object_bbox":{"x":223,"y":261,"width":80,"height":240}},{"object_id":68,"class_name":"tire","object_bbox":{"x":724,"y":426,"width":32,"height":72}}]}</pre>
+					<div id="image_container2"><img src="examples/2023/masked_img.jpg" style="max-width: 50%;"></div> 
+					<div id="mask_container2"><img src="examples/2023/mask.png" style="max-width: 50%;"></div> 
+					<pre id="json_preview2" style="max-height: 20em;">{"image_id":9830,"image_name":"n15075141_47718.JPEG","objects":[{"object_id":1,"class_id":1,"class_name":"person","object_bbox":{"x":189,"y":76,"width":93,"height":292}},{"object_id":3,"class_id":55,"class_name":"ceiling","object_bbox":{"x":0,"y":0,"width":313,"height":66}},{"object_id":4,"class_id":63,"class_name":"wall","object_bbox":{"x":0,"y":0,"width":332,"height":412}},{"object_id":5,"class_id":1,"class_name":"person","object_bbox":{"x":42,"y":169,"width":238,"height":318}},{"object_id":6,"class_id":59,"class_name":"floor","object_bbox":{"x":0,"y":377,"width":332,"height":122}}],"predicates":[{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":1,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":1,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":1,"object_id":-1},{"predicate_name":"Front-view","predicate_id":120001,"subject_id":1,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":1,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":3,"object_id":-1},{"predicate_name":"solid","predicate_id":114015,"subject_id":3,"object_id":-1},{"predicate_name":"metallic","predicate_id":114001,"subject_id":3,"object_id":-1},{"predicate_name":"with_bricks","predicate_id":113053,"subject_id":4,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":4,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":4,"object_id":-1},{"predicate_name":"stone","predicate_id":114010,"subject_id":4,"object_id":-1},{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_jeans","predicate_id":113011,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_a_cap","predicate_id":113003,"subject_id":5,"object_id":-1},{"predicate_name":"sitting","predicate_id":112010,"subject_id":5,"object_id":-1},{"predicate_name":"hand_up","predicate_id":112004,"subject_id":5,"object_id":-1},{"predicate_name":"Side-view","predicate_id":120003,"subject_id":5,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":5,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":6,"object_id":-1},{"predicate_name":"wooden","predicate_id":114003,"subject_id":6,"object_id":-1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":1},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":3},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":4},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":4},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":5},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":5}]}</pre>
 					</p>
 					
 					<h4>결과</h4>
@@ -159,27 +163,6 @@
 			</div>
 
 			<script>
-				function setImageThumbnail(event, image_area) {
-					var reader = new FileReader(); 
-					reader.onload = function(event) { 
-						var img = document.createElement("img"); 
-						img.setAttribute("src", event.target.result); 
-						img.setAttribute("style", "max-width: 100%; height: auto;");
-						$(image_area).empty();
-						document.querySelector(image_area).appendChild(img); 
-					}; 
-					reader.readAsDataURL(event.target.files[0]); 
-				}
-
-				function setJsonThumbnail(event, json_area) {
-					var reader = new FileReader(); 
-					reader.onload = function(event) { 
-						$(json_area).html("");
-						$(json_area).html(event.target.result);
-					};
-					reader.readAsText(event.target.files[0]);
-				}
-
 				function submitData(event, num, name) {
 					input_url = "https://ketiair.com:8950/api/"; // + name;
 
@@ -232,8 +215,10 @@
 						var base64image;
 
 						var file_check_img = $("#file_img2").val();
+						var file_check_mask = $("#file_mask2").val();
 						var file_check_json = $("#file_json2").val();
 						
+						console.log(file_check_img + file_check_mask + file_check_json);
 						if(!file_check_img && !file_check_json) {
 							$('#json_results'+num).html("loading...");
 							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/unist_1.jpg', input_url, num);
@@ -325,13 +310,6 @@
 						}
 					}
 					img.src = image_url
-				}
-
-				function getBase64Image(reader) {
-					var base64image = reader.result;
-					var commaIndex = base64image.indexOf(",");
-					base64image = base64image.slice(commaIndex+1);
-					return base64image;
 				}
 
 				function postData(input_url, jsonArray, num) {
@@ -464,6 +442,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/main_connection.js"></script>
 
 	</body>
 </html>
