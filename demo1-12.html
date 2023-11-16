@@ -11,7 +11,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
-	<body class="is-preload homepage">
+	<body class="is-preload homepage"> <!-- onload="getResultFromServer();"-->
+		<!-- Getting former results
+		<script>
+			function getResultFromServer() {
+				var jsonArray = new Object();
+				jsonArray['getDataFromServer'] = ''
+				jsonArray = JSON.stringify(jsonArray);
+				$.ajax({
+					type: "GET",
+					url: "https://ketiair.com:10001/api/part1_KETI_cache",
+					data: jsonArray,
+					success:function(data){
+						var obj = JSON.parse(data);
+						obj = JSON.parse(obj[0])
+						console.log(obj)
+						if (Object.keys(obj).includes('scene_graph_json')) {
+							$('#json_results1').html("");
+							// KETI
+							var jsonSceneGraph = obj.scene_graph_json;
+							document.getElementById('json_results1_keti').style.visibility = 'visible';
+							$('#json_results1_keti').html(jsonSceneGraph);
+							
+							var resultSceneGraph = document.createElement("img");
+							resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
+							resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
+							document.querySelector('#img_results1_keti').appendChild(resultSceneGraph);
+						}
+					},
+					error:function(data){
+						alert(JSON.stringify(data));
+					}
+				});
+			}
+		</script>
+		-->
 		<div id="page-wrapper">
 
 			<!-- Header -->
