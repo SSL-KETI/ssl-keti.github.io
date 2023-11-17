@@ -116,7 +116,7 @@
 					</div>
 
 					<br/>
-					<input id="submit_1" type="submit" value="Run" onclick="submitData(event, '1', 'part1_POSTECH')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit_1" type="submit" value="Run" onclick="submitData(event, 1, 'part1_POSTECH')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 
 					<br/><br/>
 					<h4>파일 미리보기</h4>
@@ -149,20 +149,36 @@
 					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_json2" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview2')"/>
 					<br/><br/>
-					<input id="submit_2" type="submit" value="Run" onclick="submitData(event, '2', 'part2_UNIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit_2" type="submit" value="Run" onclick="submitData(event, 2, 'part2_UNIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					<div id="image_container2"><img src="examples/2023/masked_img.jpg" style="max-width: 50%;"></div> 
-					<div id="mask_container2"><img src="examples/2023/mask.png" style="max-width: 50%;"></div> 
+					<div class="row">
+						<div class="column">
+							이미지
+							<div id="image_container2"><img src="examples/2023/masked_img.jpg"></div>
+						</div>
+						<div class="column">
+							마스크
+							<div id="mask_container2"><img src="examples/2023/mask.png"></div>
+						</div>
+					</div>
 					<pre id="json_preview2" style="max-height: 20em;">{"image_id":9830,"image_name":"n15075141_47718.JPEG","objects":[{"object_id":1,"class_id":1,"class_name":"person","object_bbox":{"x":189,"y":76,"width":93,"height":292}},{"object_id":3,"class_id":55,"class_name":"ceiling","object_bbox":{"x":0,"y":0,"width":313,"height":66}},{"object_id":4,"class_id":63,"class_name":"wall","object_bbox":{"x":0,"y":0,"width":332,"height":412}},{"object_id":5,"class_id":1,"class_name":"person","object_bbox":{"x":42,"y":169,"width":238,"height":318}},{"object_id":6,"class_id":59,"class_name":"floor","object_bbox":{"x":0,"y":377,"width":332,"height":122}}],"predicates":[{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":1,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":1,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":1,"object_id":-1},{"predicate_name":"Front-view","predicate_id":120001,"subject_id":1,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":1,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":3,"object_id":-1},{"predicate_name":"solid","predicate_id":114015,"subject_id":3,"object_id":-1},{"predicate_name":"metallic","predicate_id":114001,"subject_id":3,"object_id":-1},{"predicate_name":"with_bricks","predicate_id":113053,"subject_id":4,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":4,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":4,"object_id":-1},{"predicate_name":"stone","predicate_id":114010,"subject_id":4,"object_id":-1},{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_jeans","predicate_id":113011,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_a_cap","predicate_id":113003,"subject_id":5,"object_id":-1},{"predicate_name":"sitting","predicate_id":112010,"subject_id":5,"object_id":-1},{"predicate_name":"hand_up","predicate_id":112004,"subject_id":5,"object_id":-1},{"predicate_name":"Side-view","predicate_id":120003,"subject_id":5,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":5,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":6,"object_id":-1},{"predicate_name":"wooden","predicate_id":114003,"subject_id":6,"object_id":-1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":1},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":3},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":4},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":4},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":5},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":5}]}</pre>
-					</p>
-					
+					<canvas id="json_canvas_preview2" width="800" height="600"></canvas>
+					<br/>
+					<hr style="height:10px; background-color:gray;">
+					<br/>
 					<h4>결과</h4>
-					<pre id="json_results2">json results</pre>
+					<pre id="json_results2">json result</pre>
+					<canvas id="json_canvas_result2" width="800" height="600"></canvas>
 				</div>
 			</div>
 
 			<script>
+				window.onload = function() {
+					var scene_graph = document.getElementById("json_preview2").innerText;
+					visualize_json(scene_graph, "#json_canvas_preview2")
+				}
+
 				function submitData(event, num, name) {
 					input_url = "https://ketiair.com:8950/api/"; // + name;
 
@@ -221,7 +237,9 @@
 						console.log(file_check_img + file_check_mask + file_check_json);
 						if(!file_check_img && !file_check_json) {
 							$('#json_results'+num).html("loading...");
-							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/unist_1.jpg', input_url, num);
+							img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
+							mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
+							getBase64ImageFromURLBothImages(input_url+"part2_UNIST", num, img_url, mask_url, '');
 						}
 						else if(!file_check_img && file_check_json) {
 							alertIfFileNotSelected(readerImg, "file_img", num);
@@ -311,66 +329,6 @@
 					}
 					img.src = image_url
 				}
-
-				function postData(input_url, jsonArray, num) {
-					$.ajax({
-						type: "POST",
-						url: input_url,
-						data: jsonArray,
-						success:function(data){
-							var obj = JSON.parse(data);
-							if (Object.keys(obj).includes('error')) {
-								alert(obj.error)
-							}
-							else {
-								if(num == "1") {  // Part1
-									$('#json_results'+num).html("");
-									if(input_url.endsWith('POSTECH')) { // POSTECH
-										var jsonSceneGraph = obj.scene_graph_json;
-										document.getElementById('json_results1_postech').style.visibility = 'visible';
-										$('#json_results1_postech').html(JSON.stringify(jsonSceneGraph));
-		
-										var resultSceneGraph = document.createElement("img");
-										resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
-										resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-										$('#img_results1_postech').html("");
-										document.querySelector('#img_results1_postech').appendChild(resultSceneGraph);
-									} 
-									else { // KETI
-										var jsonSceneGraph = obj.scene_graph_json;
-										document.getElementById('json_results1_keti').style.visibility = 'visible';
-										$('#json_results1_keti').html(JSON.stringify(jsonSceneGraph));
-										
-										var resultSceneGraph = document.createElement("img");
-										resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
-										resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-										$('#img_results1_keti').html("");
-										document.querySelector('#img_results1_keti').appendChild(resultSceneGraph);
-
-										/*
-										원래 KETI의 결과에는 object detection도 포함되어 있음.
-										이 부분을 포함시키면 "파일 미리보기"의 이미지가 object detection되어 bounding box가 생긴 이미지로 바뀜.
-										var resultImage = document.createElement("img");
-										resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-										resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-										$('#image_container'+num).empty();
-										document.querySelector('#image_container'+num).appendChild(resultImage); 
-										*/
-									}								
-								}
-								else {  // Part2
-									// get key "attributes" from the json data
-									var attributes = JSON.stringify(obj.attributes);
-									$('#json_results'+num).html(attributes);
-								}
-							}
-						},
-						error:function(data){
-							alert(JSON.stringify(data));
-						}
-					});
-				}
-
 			</script>
 
 			<!-- Footer -->
@@ -442,6 +400,9 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/graphics.js"></script>
+			<script src="assets/js/renderer.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>

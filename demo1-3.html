@@ -80,7 +80,7 @@
 					<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
 					<br/><br/>
 
-					<input id="submit_3" type="submit" value="Run" onclick="submitData(event, '3', 'part3_KAIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit_3" type="submit" value="Run" onclick="submitData(event, 3, 'part3_KAIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
 					<div class="row">
@@ -101,8 +101,7 @@
 					<hr style="height:10px; background-color:gray;">
 					<br/>
 					<h4>결과</h4>
-					<div id="result">json result</div> 
-					<pre id="json_results3" style="max-height: 20em; visibility: hidden;">json results</pre>
+					<pre id="json_results3" style="max-height: 20em;">json results</pre>
 					<canvas id="json_canvas_result3" width="800" height="600"></canvas>
 				</div>
 			</div>
@@ -120,8 +119,7 @@
 					var readerMask = new FileReader();
 					var readerJson = new FileReader();
 
-					$('#result').html("loading...");
-					document.getElementById('json_results3').style.visibility = 'hidden';
+					$('#json_results'+num).html("loading...");
 					
 					var file_check_img = $("#file_img3").val();
 					var file_check_json = $("#file_json3").val();
@@ -130,7 +128,7 @@
 					if(!file_check_img && !file_check_json) {
 						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
 						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
-						getBase64ImageFromURLBothImages(input_url, img_url, mask_url);
+						getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, '');
 					}
 					else if(!file_check_img && file_check_json) {
 						alertIfFileNotSelected(readerImg, "file_img", num);
@@ -189,49 +187,6 @@
 							alert("JSON 파일을 선택하세요.");
 						}
 					}
-				}
-
-				function getBase64ImageFromURLBothImages(input_url, img_url, mask_url) {
-					var img = new Image();
-					var mask = new Image();
-					img.setAttribute('crossOrigin', 'anonymous');
-					mask.setAttribute('crossOrigin', 'anonymous');
-					
-					img.onload = imgData => {
-						mask.onload = imgData => {
-							var canvas = document.createElement("canvas");
-							canvas.width = img.width;
-							canvas.height = img.height;
-							var ctx = canvas.getContext("2d");
-							ctx.drawImage(img, 0, 0);
-							var dataURL_original = canvas.toDataURL("image/png");
-							var img_original = dataURL_original;
-							var commaIndex = img_original.indexOf(",");
-							img_original = img_original.slice(commaIndex+1);
-							
-							var canvas2 = document.createElement("canvas");
-							canvas2.width = mask.width;
-							canvas2.height = mask.height;
-							var ctx2 = canvas2.getContext("2d");
-							ctx2.drawImage(mask, 0, 0);
-							var dataURL_mask = canvas2.toDataURL("image/png");
-							var img_mask = dataURL_mask;
-							var commaIndex = img_mask.indexOf(",");
-							img_mask = img_mask.slice(commaIndex+1);
-
-							var scene_graph = document.getElementById("json_preview3").innerText;
-							scene_graph = JSON.parse(scene_graph);
-
-							var jsonArray = new Object();
-							jsonArray['image_contents'] = img_original;
-							jsonArray['mask_contents'] = img_mask;
-							jsonArray['scene_graph'] = scene_graph;
-							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url, jsonArray, 3)
-						}
-					}
-					img.src = img_url;
-					mask.src = mask_url;
 				}
 
 			</script>
