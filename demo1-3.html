@@ -73,9 +73,9 @@
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img3" accept="image/*" onchange="setImageThumbnail(event, '#image_container3');"/>
 					<br/><br/>
-					<!--<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_mask3" accept="image/*" onchange="setImageThumbnail(event, '#mask_container3');"/>
-					<br/><br/>-->
+					<br/><br/>
 					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_json3" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview3')"/>
 					<br/><br/>
@@ -83,22 +83,36 @@
 					<input id="submit_3" type="submit" value="Run" onclick="submitData(event, '3', 'part3_KAIST')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
-					이미지
-					<div id="image_container3"><img src="examples/kaist_3.jpg"></div> 
-					<!--마스크
-					<div id="mask_container3"><img src="examples/mask3.jpg"></div> -->
+					<div class="row">
+						<div class="column">
+							이미지
+							<div id="image_container3"><img src="examples/2023/masked_img.jpg"></div>
+						</div>
+						<div class="column">
+							마스크
+							<div id="mask_container3"><img src="examples/2023/mask.png"></div>
+						</div>
+					</div>
+
 					JSON
-					<pre id="json_preview3" style="max-height: 20em;">{"image_id": 16929, "image_name": "n02093991_4595.JPEG", "objects": [{"object_id": 1, "class_id": 13, "class_name": "dog", "object_bbox": {"x": 112, "y": 130, "width": 203, "height": 244}}, {"object_id": 2, "class_id": 35, "class_name": "chair", "object_bbox": {"x": 0, "y": 0, "width": 199, "height": 374}}, {"object_id": 3, "class_id": 57, "class_name": "cabinet", "object_bbox": {"x": 296, "y": 0, "width": 169, "height": 207}}, {"object_id": 4, "class_id": 63, "class_name": "wall", "object_bbox": {"x": 457, "y": 0, "width": 42, "height": 189}}, {"object_id": 5, "class_id": 1, "class_name": "person", "object_bbox": {"x": 86, "y": 0, "width": 341, "height": 374}}, {"object_id": 6, "class_id": 59, "class_name": "floor", "object_bbox": {"x": 0, "y": 182, "width": 499, "height": 192}}], "predicates": [{"predicate_name": "standing", "predicate_id": "21214", "subject_id": 1, "object_id": -1}, {"predicate_name": "Front-view", "predicate_id": "22002", "subject_id": 1, "object_id": -1}, {"predicate_name": "fluffy", "predicate_id": "21508", "subject_id": 1, "object_id": -1}, {"predicate_name": "solid", "predicate_id": "21504", "subject_id": 1, "object_id": -1}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 1, "object_id": 2}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 1, "object_id": 3}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 1, "object_id": 4}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 1, "object_id": 5}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 1, "object_id": 5}, {"predicate_name": "upper", "predicate_id": "12007", "subject_id": 1, "object_id": 6}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 1, "object_id": 6}, {"predicate_name": "with_backrest", "predicate_id": "21338", "subject_id": 2, "object_id": -1}, {"predicate_name": "standing", "predicate_id": "21214", "subject_id": 2, "object_id": -1}, {"predicate_name": "Unknown", "predicate_id": "22006", "subject_id": 2, "object_id": -1}, {"predicate_name": "solid", "predicate_id": "21504", "subject_id": 2, "object_id": -1}, {"predicate_name": "wooden", "predicate_id": "21403", "subject_id": 2, "object_id": -1}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 2, "object_id": 1}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 2, "object_id": 3}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 2, "object_id": 4}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 2, "object_id": 5}, {"predicate_name": "upper", "predicate_id": "12007", "subject_id": 2, "object_id": 6}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 2, "object_id": 6}, {"predicate_name": "with_handle", "predicate_id": "21327", "subject_id": 3, "object_id": -1}, {"predicate_name": "standing", "predicate_id": "21214", "subject_id": 3, "object_id": -1}, {"predicate_name": "closed", "predicate_id": "21225", "subject_id": 3, "object_id": -1}, {"predicate_name": "Unknown", "predicate_id": "22006", "subject_id": 3, "object_id": -1}, {"predicate_name": "solid", "predicate_id": "21504", "subject_id": 3, "object_id": -1}, {"predicate_name": "metalic", "predicate_id": "21401", "subject_id": 3, "object_id": -1}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 3, "object_id": 1}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 3, "object_id": 2}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 3, "object_id": 4}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 3, "object_id": 4}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 3, "object_id": 5}, {"predicate_name": "upper", "predicate_id": "12007", "subject_id": 3, "object_id": 6}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 3, "object_id": 6}, {"predicate_name": "standing", "predicate_id": "21214", "subject_id": 4, "object_id": -1}, {"predicate_name": "Unknown", "predicate_id": "22006", "subject_id": 4, "object_id": -1}, {"predicate_name": "solid", "predicate_id": "21504", "subject_id": 4, "object_id": -1}, {"predicate_name": "concrete", "predicate_id": "21411", "subject_id": 4, "object_id": -1}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 4, "object_id": 1}, {"predicate_name": "right", "predicate_id": "12006", "subject_id": 4, "object_id": 2}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 4, "object_id": 3}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 4, "object_id": 3}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 4, "object_id": 5}, {"predicate_name": "upper", "predicate_id": "12007", "subject_id": 4, "object_id": 6}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 4, "object_id": 6}, {"predicate_name": "female", "predicate_id": "21102", "subject_id": 5, "object_id": -1}, {"predicate_name": "sitting", "predicate_id": "21213", "subject_id": 5, "object_id": -1}, {"predicate_name": "wearing_a_T-shirt", "predicate_id": "21317", "subject_id": 5, "object_id": -1}, {"predicate_name": "smiling", "predicate_id": "21210", "subject_id": 5, "object_id": -1}, {"predicate_name": "Front-view", "predicate_id": "22002", "subject_id": 5, "object_id": -1}, {"predicate_name": "left", "predicate_id": "12005", "subject_id": 5, "object_id": 1}, {"predicate_name": "catch", "predicate_id": "11008", "subject_id": 5, "object_id": 1}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 5, "object_id": 1}, {"predicate_name": "rear", "predicate_id": "12004", "subject_id": 5, "object_id": 2}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 5, "object_id": 3}, {"predicate_name": "front", "predicate_id": "12003", "subject_id": 5, "object_id": 4}, {"predicate_name": "upper", "predicate_id": "12007", "subject_id": 5, "object_id": 6}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 5, "object_id": 6}, {"predicate_name": "Unknown", "predicate_id": "22006", "subject_id": 6, "object_id": -1}, {"predicate_name": "colorful", "predicate_id": "21502", "subject_id": 6, "object_id": -1}, {"predicate_name": "wooden", "predicate_id": "21403", "subject_id": 6, "object_id": -1}, {"predicate_name": "lower", "predicate_id": "12008", "subject_id": 6, "object_id": 1}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 6, "object_id": 1}, {"predicate_name": "lower", "predicate_id": "12008", "subject_id": 6, "object_id": 2}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 6, "object_id": 2}, {"predicate_name": "lower", "predicate_id": "12008", "subject_id": 6, "object_id": 3}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 6, "object_id": 3}, {"predicate_name": "lower", "predicate_id": "12008", "subject_id": 6, "object_id": 4}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 6, "object_id": 4}, {"predicate_name": "lower", "predicate_id": "12008", "subject_id": 6, "object_id": 5}, {"predicate_name": "reach", "predicate_id": "11006", "subject_id": 6, "object_id": 5}]}</pre>
-					</p>
+					<pre id="json_preview3" style="max-height: 20em;">{"image_id":9830,"image_name":"n15075141_47718.JPEG","objects":[{"object_id":1,"class_id":1,"class_name":"person","object_bbox":{"x":189,"y":76,"width":93,"height":292}},{"object_id":3,"class_id":55,"class_name":"ceiling","object_bbox":{"x":0,"y":0,"width":313,"height":66}},{"object_id":4,"class_id":63,"class_name":"wall","object_bbox":{"x":0,"y":0,"width":332,"height":412}},{"object_id":5,"class_id":1,"class_name":"person","object_bbox":{"x":42,"y":169,"width":238,"height":318}},{"object_id":6,"class_id":59,"class_name":"floor","object_bbox":{"x":0,"y":377,"width":332,"height":122}}],"predicates":[{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":1,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":1,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":1,"object_id":-1},{"predicate_name":"Front-view","predicate_id":120001,"subject_id":1,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":1,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":3,"object_id":-1},{"predicate_name":"solid","predicate_id":114015,"subject_id":3,"object_id":-1},{"predicate_name":"metallic","predicate_id":114001,"subject_id":3,"object_id":-1},{"predicate_name":"with_bricks","predicate_id":113053,"subject_id":4,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":4,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":4,"object_id":-1},{"predicate_name":"stone","predicate_id":114010,"subject_id":4,"object_id":-1},{"predicate_name":"wearing_a_T-shirt","predicate_id":113005,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_shoes","predicate_id":113009,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_jeans","predicate_id":113011,"subject_id":5,"object_id":-1},{"predicate_name":"wearing_a_cap","predicate_id":113003,"subject_id":5,"object_id":-1},{"predicate_name":"sitting","predicate_id":112010,"subject_id":5,"object_id":-1},{"predicate_name":"hand_up","predicate_id":112004,"subject_id":5,"object_id":-1},{"predicate_name":"Side-view","predicate_id":120003,"subject_id":5,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":5,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":6,"object_id":-1},{"predicate_name":"wooden","predicate_id":114003,"subject_id":6,"object_id":-1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":1},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":1},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":3},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":4},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":4},{"predicate_name":"lower","predicate_id":220006,"subject_id":6,"object_id":5},{"predicate_name":"touch__contact","predicate_id":210096,"subject_id":6,"object_id":5}]}</pre>
+					<canvas id="json_canvas_preview3" width="800" height="600"></canvas>
 					<br/>
-					
+					<hr style="height:10px; background-color:gray;">
+					<br/>
 					<h4>결과</h4>
-					<div id="result">jsong result</div> 
+					<div id="result">json result</div> 
 					<pre id="json_results3" style="max-height: 20em; visibility: hidden;">json results</pre>
+					<canvas id="json_canvas_result3" width="800" height="600"></canvas>
 				</div>
 			</div>
 
 			<script>
+				window.onload = function() {
+					var scene_graph = document.getElementById("json_preview3").innerText;
+					visualize_json(scene_graph, "#json_canvas_preview3")
+				}
+
 				function submitData(event, num, name) {
 					input_url = "https://ketiair.com:8950/api/" + name;
 					
@@ -114,7 +128,9 @@
 
 					// 파일을 넣지 않을 경우
 					if(!file_check_img && !file_check_json) {
-						getBase64ImageFromURLBothImages(input_url);
+						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
+						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
+						getBase64ImageFromURLBothImages(input_url, img_url, mask_url);
 					}
 					else if(!file_check_img && file_check_json) {
 						alertIfFileNotSelected(readerImg, "file_img", num);
@@ -127,28 +143,28 @@
 						var img = document.getElementById("file_img3").files[0];
 						readerImg.readAsDataURL(img);
 
-						//var mask = document.getElementById("file_mask3").files[0];
-						//readerMask.readAsDataURL(mask);
+						var mask = document.getElementById("file_mask3").files[0];
+						readerMask.readAsDataURL(mask);
 						
 						var json = document.getElementById("file_json3").files[0];
 						readerJson.readAsText(json);
 
 						readerImg.onload = function() {
-							//readerMask.onload = function() {
+							readerMask.onload = function() {
 								readerJson.onload = function() {
 									var base64image = getBase64Image(readerImg);
-									//var base64mask = getBase64Image(readerMask);
+									var base64mask = getBase64Image(readerMask);
 									var jsonData = JSON.parse(readerJson.result);
 
 									var jsonArray = new Object();
 									jsonArray['image_contents'] = base64image
-									//jsonArray['mask_contents'] = base64mask
+									jsonArray['mask_contents'] = base64mask
 									jsonArray['scene_graph'] = jsonData
 									jsonArray = JSON.stringify(jsonArray);
 
 									postData(input_url, jsonArray, 3)
 								}
-							//}
+							}
 						}
 						
 					}
@@ -175,14 +191,14 @@
 					}
 				}
 
-				function getBase64ImageFromURLBothImages(input_url) {
+				function getBase64ImageFromURLBothImages(input_url, img_url, mask_url) {
 					var img = new Image();
-					//var mask = new Image();
+					var mask = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
-					//mask.setAttribute('crossOrigin', 'anonymous');
+					mask.setAttribute('crossOrigin', 'anonymous');
 					
 					img.onload = imgData => {
-						//mask.onload = imgData => {
+						mask.onload = imgData => {
 							var canvas = document.createElement("canvas");
 							canvas.width = img.width;
 							canvas.height = img.height;
@@ -193,7 +209,6 @@
 							var commaIndex = img_original.indexOf(",");
 							img_original = img_original.slice(commaIndex+1);
 							
-							/*
 							var canvas2 = document.createElement("canvas");
 							canvas2.width = mask.width;
 							canvas2.height = mask.height;
@@ -203,38 +218,20 @@
 							var img_mask = dataURL_mask;
 							var commaIndex = img_mask.indexOf(",");
 							img_mask = img_mask.slice(commaIndex+1);
-							*/
 
 							var scene_graph = document.getElementById("json_preview3").innerText;
 							scene_graph = JSON.parse(scene_graph);
 
 							var jsonArray = new Object();
 							jsonArray['image_contents'] = img_original;
-							//jsonArray['mask_contents'] = img_mask;
+							jsonArray['mask_contents'] = img_mask;
 							jsonArray['scene_graph'] = scene_graph;
 							jsonArray = JSON.stringify(jsonArray);
 							postData(input_url, jsonArray, 3)
-						//}
-					}
-					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/kaist_3.jpg';
-					//mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg';
-				}
-
-				function postData(input_url, jsonArray, num) {
-					$.ajax({
-						type: "POST",
-						url: input_url,
-						data: jsonArray,
-						success:function(data){
-							var obj = JSON.parse(data);
-							$('#result').html("");
-							document.getElementById('json_results'+num).style.visibility = 'visible';
-							$('#json_results'+num).html(JSON.stringify(obj.scene_graph_json));
-						},
-						error:function(data){
-							alert(JSON.stringify(data));
 						}
-					});
+					}
+					img.src = img_url;
+					mask.src = mask_url;
 				}
 
 			</script>
@@ -308,6 +305,9 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/graphics.js"></script>
+			<script src="assets/js/renderer.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>

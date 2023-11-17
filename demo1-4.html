@@ -82,25 +82,44 @@
 					<br/><br/>
 
 					<div>
-						<input type="checkbox" id="checkbox_snu" name="snu" checked>
-						<label for="snu" style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="checkbox" id="checkbox_postech" name="postech">
-						<label for="postech" style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="checkbox_snu" name="snu">
+						<label style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="checkbox_postech" name="postech" checked>
+						<label style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<!--
 						<input type="checkbox" id="checkbox_keti" name="keti">
 						<label for="keti" style="font-size: 1.5em">KETI</label>
+						-->
 					</div>
 
 					<br/>
-					<input id="submit_4" type="submit" value="Run" onclick="submitData(event)" style="background-color: #002178; padding: 10px 17px 10px 17px">
+					<input id="submit_4" type="submit" value="Run" onclick="submitData(event, '4')" style="background-color: #002178; padding: 10px 17px 10px 17px">
 					<br/><br/>
 					<h4>파일 미리보기</h4>
+					<div class="row">
+						<div class="column">
+							이미지
+							<div id="image_container4"><img src="examples/2023/part4_input.jpg"></div>
+						</div>
+						<div class="column">
+							마스크
+							<div id="mask_container4"><img src="examples/2023/part4_mask.jpg"></div>
+						</div>
+					</div>
+
+					JSON
+					<pre id="json_preview4" style="max-height: 20em;">{"image_id":25449,"image_name":"n07768694_9567.JPEG","objects":[{"object_id":1,"class_id":61,"class_name":"food","object_bbox":{"x":225,"y":0,"width":274,"height":374}},{"object_id":2,"class_id":61,"class_name":"food","object_bbox":{"x":70,"y":24,"width":219,"height":221}},{"object_id":3,"class_id":1,"class_name":"person","object_bbox":{"x":0,"y":13,"width":310,"height":361}},{"object_id":4,"class_id":58,"class_name":"table","object_bbox":{"x":0,"y":0,"width":117,"height":206}}],"predicates":[{"predicate_name":"Unknown","predicate_id":120006,"subject_id":1,"object_id":-1},{"predicate_name":"colorful","predicate_id":114013,"subject_id":1,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":2,"object_id":-1},{"predicate_name":"colorful","predicate_id":114013,"subject_id":2,"object_id":-1},{"predicate_name":"hand_up","predicate_id":112004,"subject_id":3,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":3,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":3,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":4,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":4,"object_id":-1},{"predicate_name":"smooth","predicate_id":114022,"subject_id":4,"object_id":-1},{"predicate_name":"wooden","predicate_id":114003,"subject_id":4,"object_id":-1},{"predicate_name":"lower","predicate_id":220006,"subject_id":4,"object_id":1},{"predicate_name":"inside","predicate_id":220007,"subject_id":4,"object_id":2},{"predicate_name":"front","predicate_id":220001,"subject_id":4,"object_id":3}]}</pre>
+					<canvas id="json_canvas_preview4" width="800" height="600"></canvas>
+					</p>
+
+					<!--
 					이미지
 					<div id="image_container4"><img src="examples/image3.jpg"></div> 
 					마스크
 					<div id="mask_container4"><img src="examples/mask3.jpg"></div> 
 					JSON
 					<pre id="json_preview4" style="max-height: 20em;">{"image_id":1,"predicates":[{"predicate_name":"wearing","predicate_id":0,"subject_id":61,"object_id":11},{"predicate_name":"wearing","predicate_id":1,"subject_id":61,"object_id":0},{"predicate_name":"wearing","predicate_id":2,"subject_id":61,"object_id":52},{"predicate_name":"wearing","predicate_id":3,"subject_id":61,"object_id":1},{"predicate_name":"has","predicate_id":4,"subject_id":5,"object_id":3},{"predicate_name":"wearing","predicate_id":5,"subject_id":65,"object_id":52},{"predicate_name":"on","predicate_id":6,"subject_id":8,"object_id":35},{"predicate_name":"wearing","predicate_id":7,"subject_id":65,"object_id":0},{"predicate_name":"of","predicate_id":8,"subject_id":3,"object_id":5},{"predicate_name":"riding","predicate_id":9,"subject_id":61,"object_id":44},{"predicate_name":"wearing","predicate_id":10,"subject_id":61,"object_id":14},{"predicate_name":"on","predicate_id":11,"subject_id":8,"object_id":26},{"predicate_name":"wearing","predicate_id":12,"subject_id":65,"object_id":11},{"predicate_name":"on","predicate_id":13,"subject_id":5,"object_id":53},{"predicate_name":"wearing","predicate_id":14,"subject_id":42,"object_id":11},{"predicate_name":"has","predicate_id":15,"subject_id":4,"object_id":3},{"predicate_name":"on","predicate_id":16,"subject_id":68,"object_id":20},{"predicate_name":"on","predicate_id":17,"subject_id":9,"object_id":53},{"predicate_name":"of","predicate_id":18,"subject_id":3,"object_id":4},{"predicate_name":"wearing","predicate_id":19,"subject_id":61,"object_id":15}],"objects":[{"object_id":0,"class_name":"jacket","object_bbox":{"x":370,"y":290,"width":81,"height":100}},{"object_id":1,"class_name":"jacket","object_bbox":{"x":238,"y":277,"width":59,"height":108}},{"object_id":3,"class_name":"trunk","object_bbox":{"x":632,"y":215,"width":72,"height":333}},{"object_id":4,"class_name":"tree","object_bbox":{"x":414,"y":11,"width":158,"height":443}},{"object_id":5,"class_name":"tree","object_bbox":{"x":495,"y":0,"width":302,"height":543}},{"object_id":8,"class_name":"sign","object_bbox":{"x":126,"y":18,"width":84,"height":155}},{"object_id":9,"class_name":"people","object_bbox":{"x":200,"y":241,"width":265,"height":286}},{"object_id":11,"class_name":"pant","object_bbox":{"x":241,"y":371,"width":48,"height":115}},{"object_id":14,"class_name":"shirt","object_bbox":{"x":234,"y":280,"width":64,"height":111}},{"object_id":15,"class_name":"shoe","object_bbox":{"x":241,"y":484,"width":51,"height":24}},{"object_id":20,"class_name":"car","object_bbox":{"x":713,"y":335,"width":82,"height":164}},{"object_id":26,"class_name":"pole","object_bbox":{"x":452,"y":177,"width":20,"height":246}},{"object_id":35,"class_name":"pole","object_bbox":{"x":554,"y":150,"width":21,"height":330}},{"object_id":42,"class_name":"woman","object_bbox":{"x":228,"y":241,"width":63,"height":246}},{"object_id":44,"class_name":"bike","object_bbox":{"x":319,"y":294,"width":43,"height":59}},{"object_id":52,"class_name":"pant","object_bbox":{"x":388,"y":375,"width":50,"height":108}},{"object_id":53,"class_name":"sidewalk","object_bbox":{"x":38,"y":358,"width":718,"height":238}},{"object_id":61,"class_name":"man","object_bbox":{"x":369,"y":258,"width":82,"height":245}},{"object_id":65,"class_name":"man","object_bbox":{"x":223,"y":261,"width":80,"height":240}},{"object_id":68,"class_name":"tire","object_bbox":{"x":724,"y":426,"width":32,"height":72}}]}</pre>
-					</p>
+					</p>-->
 					
 					<h4>결과</h4>
 					<div id="image_result4_snu">image result</div> 
@@ -110,7 +129,12 @@
 			</div>
 
 			<script>
-				function submitData(event) {
+				window.onload = function() {
+					var scene_graph = document.getElementById("json_preview4").innerText;
+					visualize_json(scene_graph, "#json_canvas_preview4")
+				}
+
+				function submitData(event, num) {
 					input_url = "https://ketiair.com:8950/api/"
 
 					var hasImage = false;
@@ -144,7 +168,9 @@
 					var file_check_json = $("#file_json4").val();
 					// 파일을 넣지 않을 경우
 					if(!file_check_img && !file_check_mask && !file_check_json) {
-						getBase64ImageFromURLBothImages(checked_boxes);
+						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_input.jpg';
+						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_mask.jpg';
+						getBase64ImageFromURLBothImages(checked_boxes, img_url, mask_url);
 					}
 					// 파일을 넣을 경우
 					else {
@@ -187,38 +213,12 @@
 										jsonArray['scene_graph'] = jsonData
 										jsonArray = JSON.stringify(jsonArray);
 										for(var i=0; i < checked_boxes.length; i++) {
-											postData(input_url+checked_boxes[i], jsonArray);
+											postData(input_url+checked_boxes[i], jsonArray, num);
 										}
 									}
 								}
 							}
 						}
-						
-						/* First year codes (when the input does not contain 'mask')
-						readerImg.onload = function() {
-							base64image = getBase64Image(readerImg);
-							
-							// 마스크 이미지는 웹에서 가져옴
-							var file_name = img.name;
-							if(file_name == "image1.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask1.jpg', base64image, checked_boxes)
-							}
-							else if(file_name == "image2.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask2.jpg', base64image, checked_boxes)
-							}
-							else if (file_name == "image1.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg', base64image, checked_boxes)
-							}
-							else if (file_name == "9_resized_black.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask2_resized.jpg', base64image, checked_boxes)
-							}
-							else if(file_name == "10_resized_black.jpg") {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask3_resized.jpg', base64image, checked_boxes)
-							}
-							else {
-								getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/inpainting/mask1_resized.jpg', base64image, checked_boxes)
-							}
-						}*/
 					}
 				}
 
@@ -242,35 +242,8 @@
 					}
 				}
 
-				// 파일을 선택했을 때, 마스크 파일만 인터넷에서 불러오는 함수
-				function getBase64ImageFromURL(url, img_original, checked_boxes) {
-					var img = new Image();
-					img.setAttribute('crossOrigin', 'anonymous');
-					
-					img.onload = imgData => {
-						var canvas = document.createElement("canvas");
-						canvas.width = img.width;
-						canvas.height = img.height;
-						var ctx = canvas.getContext("2d");
-						ctx.drawImage(img, 0, 0);
-						var dataURL = canvas.toDataURL("image/png");
-						var mask_img = dataURL;
-						var commaIndex = mask_img.indexOf(",");
-						mask_img = mask_img.slice(commaIndex+1);
-						
-						var jsonArray = new Object();
-						jsonArray['image_contents'] = img_original;
-						jsonArray['mask_contents'] = mask_img;
-						jsonArray = JSON.stringify(jsonArray);
-						for(var i=0; i < checked_boxes.length; i++) {
-							postData(input_url+checked_boxes[i], jsonArray);
-						}
-					}
-					img.src = url
-				}
-
 				// 파일을 선택하지 않았을 때 원본 이미지 & 마스크 이미지를 인터넷에서 불러오는 함수
-				function getBase64ImageFromURLBothImages(checked_boxes) {
+				function getBase64ImageFromURLBothImages(checked_boxes, img_url, mask_url) {
 					var img = new Image();
 					var mask = new Image();
 					img.setAttribute('crossOrigin', 'anonymous');
@@ -306,41 +279,12 @@
 							jsonArray['scene_graph'] = scene_graph;
 							jsonArray = JSON.stringify(jsonArray);
 							for(var i=0; i < checked_boxes.length; i++) {
-								postData(input_url+checked_boxes[i], jsonArray);
+								postData(input_url+checked_boxes[i], jsonArray, 4);
 							}
 						}
 					}
-					img.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/image3.jpg';
-					mask.src = 'https://raw.githubusercontent.com/SSL-KETI/image_backup/main/mask3.jpg';
-				}
-
-				function postData(input_url, jsonArray) {
-					$.ajax({
-						type: "POST",
-						url: input_url,
-						data: jsonArray,
-						success:function(data){
-							var obj = JSON.parse(data);
-							console.log(obj);
-							var resultImage = document.createElement("img");
-							resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-							resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-							
-							if(input_url.endsWith('SNU')) {  //SNU
-								$('#image_result4_snu').empty();
-								document.querySelector('#image_result4_snu').appendChild(resultImage); 
-							} else if(input_url.endsWith('POSTECH')) {  //POSTECH
-								$('#image_result4_postech').empty();
-								document.querySelector('#image_result4_postech').appendChild(resultImage); 
-							} else {  //KETI
-								$('#image_result4_keti').empty();
-								document.querySelector('#image_result4_keti').appendChild(resultImage); 
-							}
-						},
-						error:function(data){
-							alert(JSON.stringify(data));
-						}
-					});
+					img.src = img_url;
+					mask.src = mask_url;
 				}
 
 			</script>
@@ -414,6 +358,9 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/graphics.js"></script>
+			<script src="assets/js/renderer.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>
