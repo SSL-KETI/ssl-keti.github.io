@@ -79,7 +79,7 @@
 					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_mask4" accept="image/*" onchange="setImageThumbnail(event, '#mask_container4');"/>
 					<br/><br/>
-					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
+					<strong>Semantic 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_semantic4" accept="image/*" onchange="setImageThumbnail(event, '#semantic_container4')"/>
 					<br/><br/>
 
@@ -112,7 +112,8 @@
 							<div id="semantic_container4"><img src="examples/2023/part4_face_label.png" style="max-width:100%;"></div>
 						</div>
 					</div>
-					
+					<br/>
+					<hr style="height:10px; background-color:gray;">
 					<h4>결과</h4>
 					<div id="image_result4_snu">image result</div>
 				</div>
@@ -120,38 +121,35 @@
 
 			<script>
 				function submitData(event, num) {
-					input_url = "https://ketiair.com:8950/api/";
+					//input_url = "https://ketiair.com:8950/api/";
+					input_url = "https://ketiair.com:10001/api/";
 
 					var hasImage = false;
 					var hasImage2 = false;
-					var hasJson = false;
+					var hasSemantic = false;
 					var readerImg = new FileReader();
 					var readerMask = new FileReader();
-					var readerJson = new FileReader();
+					var readerSemantic = new FileReader();
 
 					$('#image_result4_snu').html("loading...");
 
-					var is_snu_checked = $('#checkbox_snu').prop("checked");
-
-					var checked_boxes = [];
-					if(is_snu_checked) {
-						checked_boxes.push('part4_SNU')
-					}
+					var checked_boxes = ['part4_SNU'];
 
 					var file_check_img = $("#file_img4").val();
 					var file_check_mask = $("#file_mask4").val();
-					var file_check_json = $("#file_json4").val();
+					var file_check_semantic = $("#file_semantic4").val();
 					// 파일을 넣지 않을 경우
-					if(!file_check_img && !file_check_mask && !file_check_json) {
-						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_input.jpg';
-						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_mask.jpg';
-						getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, checked_boxes);
+					if(!file_check_img && !file_check_mask && !file_check_semantic) {
+						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_input.jpg';
+						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_mask.png';
+						semantic_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_label.png';
+						getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, semantic_url, checked_boxes);
 					}
 					// 파일을 넣을 경우
 					else {
 						var img = document.getElementById("file_img4").files[0];
 						var mask = document.getElementById("file_mask4").files[0];
-						var json = document.getElementById("file_json4").files[0];
+						var semantic = document.getElementById("file_semantic4").files[0];
 						var allFilesExist = true;
 						
 						if(!file_check_img) {
@@ -162,8 +160,8 @@
 							alertIfFileNotSelected(readerMask, "file_mask", 4)
 							allFilesExist = false;
 						}
-						if(!file_check_json) {
-							alertIfFileNotSelected(readerJson, "file_json", 4)
+						if(!file_check_semantic) {
+							alertIfFileNotSelected(readerSemantic, "file_semantic", 4)
 							allFilesExist = false;
 						}
 
@@ -173,19 +171,20 @@
 						else {
 							readerImg.readAsDataURL(img);
 							readerMask.readAsDataURL(mask);
-							readerJson.readAsText(json);
+							readerSemantic.readAsDataURL(semantic);
 
 							readerImg.onload = function() {
 								readerMask.onload = function() {
-									readerJson.onload = function() {
+									readerSemantic.onload = function() {
 										var base64image = getBase64Image(readerImg);
 										var base64mask = getBase64Image(readerMask);
-										var jsonData = JSON.parse(readerJson.result);
+										var base64semantic = getBase64Image(readerSemantic);
 
 										var jsonArray = new Object();
-										jsonArray['image_contents'] = base64image
-										jsonArray['mask_contents'] = base64mask
-										jsonArray['scene_graph'] = jsonData
+										jsonArray['image_contents'] = base64image;
+										jsonArray['mask_contents'] = base64mask;
+										jsonArray['gt_contents'] = base64image;
+										jsonArray['semantic_image_contents'] = base64semantic;
 										jsonArray = JSON.stringify(jsonArray);
 										for(var i=0; i < checked_boxes.length; i++) {
 											postData(input_url+checked_boxes[i], jsonArray, num);
@@ -289,8 +288,6 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/arbor.js"></script>
-			<script src="assets/js/graphics.js"></script>
-			<script src="assets/js/renderer.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>
