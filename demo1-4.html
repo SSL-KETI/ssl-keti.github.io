@@ -82,10 +82,10 @@
 					<br/><br/>
 
 					<div>
-						<input type="checkbox" id="checkbox_snu" name="snu">
-						<label style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="checkbox" id="checkbox_postech" name="postech" checked>
 						<label style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="checkbox_snu" name="snu">
+						<label style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
 						<!--
 						<input type="checkbox" id="checkbox_keti" name="keti">
 						<label for="keti" style="font-size: 1.5em">KETI</label>
@@ -121,12 +121,15 @@
 
 			<script>
 				window.onload = function() {
+					container = document.getElementById("box4");
+					canvas = document.getElementById("json_canvas_preview4");
+					canvas.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview4").innerText;
 					visualize_json(scene_graph, "#json_canvas_preview4")
 				}
 
 				function submitData(event, num) {
-					input_url = "https://ketiair.com:8950/api/"
+					input_url = "https://ketiair.com:8950/api/";
 
 					var hasImage = false;
 					var hasImage2 = false;

@@ -108,6 +108,11 @@
 
 			<script>
 				window.onload = function() {
+					container = document.getElementById("box3");
+					canvas_preview = document.getElementById("json_canvas_preview3");
+					canvas_result = document.getElementById("json_canvas_result3");
+					canvas_preview.width = container.clientWidth - 50;
+					canvas_result.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview3").innerText;
 					visualize_json(scene_graph, "#json_canvas_preview3")
 				}

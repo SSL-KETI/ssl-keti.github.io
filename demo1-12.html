@@ -175,6 +175,9 @@
 
 			<script>
 				window.onload = function() {
+					container = document.getElementById("box2");
+					canvas = document.getElementById("json_canvas_preview2");
+					canvas.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview2").innerText;
 					visualize_json(scene_graph, "#json_canvas_preview2")
 				}
