@@ -127,29 +127,22 @@
 					$('#json_results'+num).html("loading...");
 					
 					var file_check_img = $("#file_img3").val();
+					var file_check_mask = $("#file_mask3").val();
 					var file_check_json = $("#file_json3").val();
 
 					// 파일을 넣지 않을 경우
-					if(!file_check_img && !file_check_json) {
+					if(!file_check_img && !file_check_mask && !file_check_json) {
 						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
 						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
 						getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, '');
 					}
-					else if(!file_check_img && file_check_json) {
-						alertIfFileNotSelected(readerImg, "file_img", num);
-					}
-					else if(file_check_img && !file_check_json) {
-						alertIfFileNotSelected(readerJson, "file_json", num);
-					}
 					// 파일을 넣을 경우
-					else {
+					else if (file_check_img && file_check_mask && file_check_json) {
 						var img = document.getElementById("file_img3").files[0];
-						readerImg.readAsDataURL(img);
-
 						var mask = document.getElementById("file_mask3").files[0];
-						readerMask.readAsDataURL(mask);
-						
 						var json = document.getElementById("file_json3").files[0];
+						readerImg.readAsDataURL(img);
+						readerMask.readAsDataURL(mask);
 						readerJson.readAsText(json);
 
 						readerImg.onload = function() {
@@ -169,31 +162,19 @@
 								}
 							}
 						}
-						
-					}
-				}
-
-				function alertIfFileNotSelected(reader, file, num) {
-					if (file == "file_img") {
-						var img = document.getElementById("file_img"+num).files[0];
-						try {
-							reader.readAsDataURL(img);
-						}
-						catch(err) {
-							alert("이미지를 선택하세요.");
-						}
 					}
 					else {
-						var json = document.getElementById("file_json"+num).files[0];
-						try {
-							reader.readAsText(json);
+						if(!file_check_img) {
+							alert("이미지를 선택하세요.");
 						}
-						catch(err) {
-							alert("JSON 파일을 선택하세요.");
+						if(!file_check_mask) {
+							alert("마스크를 선택하세요.");
+						}
+						if(!file_check_json) {
+							alert("JSON을 선택하세요.");
 						}
 					}
 				}
-
 			</script>
 
 			<!-- Footer -->

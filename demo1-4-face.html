@@ -121,8 +121,7 @@
 
 			<script>
 				function submitData(event, num) {
-					//input_url = "https://ketiair.com:8950/api/";
-					input_url = "https://ketiair.com:10001/api/";
+					input_url = "https://ketiair.com:8950/api/";
 
 					var hasImage = false;
 					var hasImage2 = false;
@@ -146,76 +145,47 @@
 						getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, semantic_url, checked_boxes);
 					}
 					// 파일을 넣을 경우
-					else {
+					else if(file_check_img && file_check_mask && file_check_semantic) {
 						var img = document.getElementById("file_img4").files[0];
 						var mask = document.getElementById("file_mask4").files[0];
 						var semantic = document.getElementById("file_semantic4").files[0];
-						var allFilesExist = true;
 						
-						if(!file_check_img) {
-							alertIfFileNotSelected(readerImg, "file_img", 4)
-							allFilesExist = false;
-						}
-						if(!file_check_mask) {
-							alertIfFileNotSelected(readerMask, "file_mask", 4)
-							allFilesExist = false;
-						}
-						if(!file_check_semantic) {
-							alertIfFileNotSelected(readerSemantic, "file_semantic", 4)
-							allFilesExist = false;
-						}
+						readerImg.readAsDataURL(img);
+						readerMask.readAsDataURL(mask);
+						readerSemantic.readAsDataURL(semantic);
 
-						if(allFilesExist == false) {
-							allFilesExist = true;
-						}
-						else {
-							readerImg.readAsDataURL(img);
-							readerMask.readAsDataURL(mask);
-							readerSemantic.readAsDataURL(semantic);
+						readerImg.onload = function() {
+							readerMask.onload = function() {
+								readerSemantic.onload = function() {
+									var base64image = getBase64Image(readerImg);
+									var base64mask = getBase64Image(readerMask);
+									var base64semantic = getBase64Image(readerSemantic);
 
-							readerImg.onload = function() {
-								readerMask.onload = function() {
-									readerSemantic.onload = function() {
-										var base64image = getBase64Image(readerImg);
-										var base64mask = getBase64Image(readerMask);
-										var base64semantic = getBase64Image(readerSemantic);
-
-										var jsonArray = new Object();
-										jsonArray['image_contents'] = base64image;
-										jsonArray['mask_contents'] = base64mask;
-										jsonArray['gt_contents'] = base64image;
-										jsonArray['semantic_image_contents'] = base64semantic;
-										jsonArray = JSON.stringify(jsonArray);
-										for(var i=0; i < checked_boxes.length; i++) {
-											postData(input_url+checked_boxes[i], jsonArray, num);
-										}
+									var jsonArray = new Object();
+									jsonArray['image_contents'] = base64image;
+									jsonArray['mask_contents'] = base64mask;
+									jsonArray['gt_contents'] = base64image;
+									jsonArray['semantic_image_contents'] = base64semantic;
+									jsonArray = JSON.stringify(jsonArray);
+									for(var i=0; i < checked_boxes.length; i++) {
+										postData(input_url+checked_boxes[i], jsonArray, num);
 									}
 								}
 							}
 						}
 					}
-				}
-
-				function alertIfFileNotSelected(reader, file, num) {
-					var content = document.getElementById(file+num).files[0];
-					if (file == "file_img" || file == "file_mask") {
-						try {
-							reader.readAsDataURL(content);
-						}
-						catch(err) {
+					else {
+						if(!file_check_img) {
 							alert("이미지를 선택하세요.");
 						}
-					}
-					else {
-						try {
-							reader.readAsText(content);
+						if(!file_check_mask) {
+							alert("마스크를 선택하세요.");
 						}
-						catch(err) {
-							alert("JSON 파일을 선택하세요.");
+						if(!file_check_semantic) {
+							alert("Semantic 정보를 선택하세요.");
 						}
 					}
 				}
-
 			</script>
 
 			<!-- Footer -->

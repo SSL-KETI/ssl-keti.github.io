@@ -237,60 +237,49 @@
 						var file_check_mask = $("#file_mask2").val();
 						var file_check_json = $("#file_json2").val();
 						
-						console.log(file_check_img + file_check_mask + file_check_json);
-						if(!file_check_img && !file_check_json) {
+						// 파일을 넣지 않을 경우
+						if(!file_check_img && !file_check_mask && !file_check_json) {
 							$('#json_results'+num).html("loading...");
 							img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
 							mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
 							getBase64ImageFromURLBothImages(input_url+"part2_UNIST", num, img_url, mask_url, '');
 						}
-						else if(!file_check_img && file_check_json) {
-							alertIfFileNotSelected(readerImg, "file_img", num);
-						}
-						else if(file_check_img && !file_check_json) {
-							alertIfFileNotSelected(readerJson, "file_json", num);
-						}
-						else {
+						// 파일을 넣을 경우
+						else if(file_check_img && file_check_mask && file_check_json) {
 							var img = document.getElementById("file_img"+num).files[0];
-							readerImg.readAsDataURL(img);
-
+							var mask = document.getElementById("file_mask"+num).files[0];
 							var json = document.getElementById("file_json"+num).files[0];
+							readerImg.readAsDataURL(img);
+							readerMask.readAsDataURL(mask);
 							readerJson.readAsText(json);
 
 							readerImg.onload = function() {
-								readerJson.onload = function() {
-									$('#json_results'+num).html("loading...");
-									base64image = getBase64Image(readerImg);
-									jsonArray['image_contents'] = base64image;
-									
-									var jsonData = JSON.parse(readerJson.result);
-									jsonArray['scene_graph'] = jsonData;
+								readerMask.onload = function() {
+									readerJson.onload = function() {
+										$('#json_results'+num).html("loading...");
+										var base64image = getBase64Image(readerImg);
+										var base64mask = getBase64Image(readerMask);
+										var jsonData = JSON.parse(readerJson.result);
 
-									jsonArray = JSON.stringify(jsonArray);
-									postData(input_url+"part2_UNIST", jsonArray, num);
+										jsonArray['image_contents'] = base64image;
+										jsonArray['mask_contents'] = base64mask
+										jsonArray['scene_graph'] = jsonData;
+										jsonArray = JSON.stringify(jsonArray);
+										postData(input_url+"part2_UNIST", jsonArray, num);
+									}
 								}
 							}
 						}
-					}
-				}
-
-				function alertIfFileNotSelected(reader, file, num) {
-					if (file == "file_img") {
-						var img = document.getElementById("file_img"+num).files[0];
-						try {
-							reader.readAsDataURL(img);
-						}
-						catch(err) {
-							alert("이미지를 선택하세요." + num);
-						}
-					}
-					else {
-						var json = document.getElementById("file_json"+num).files[0];
-						try {
-							reader.readAsText(json);
-						}
-						catch(err) {
-							alert("JSON 파일을 선택하세요.");
+						else {
+							if(!file_check_img) {
+								alert("이미지를 선택하세요.");
+							}
+							if(!file_check_mask) {
+								alert("마스크를 선택하세요.");
+							}
+							if(!file_check_json) {
+								alert("JSON을 선택하세요.");
+							}
 						}
 					}
 				}

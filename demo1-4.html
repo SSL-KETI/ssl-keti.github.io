@@ -169,75 +169,46 @@
 						getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, checked_boxes);
 					}
 					// 파일을 넣을 경우
-					else {
+					else if(file_check_img && file_check_mask && file_check_json) {
 						var img = document.getElementById("file_img4").files[0];
 						var mask = document.getElementById("file_mask4").files[0];
 						var json = document.getElementById("file_json4").files[0];
-						var allFilesExist = true;
-						
-						if(!file_check_img) {
-							alertIfFileNotSelected(readerImg, "file_img", 4)
-							allFilesExist = false;
-						}
-						if(!file_check_mask) {
-							alertIfFileNotSelected(readerMask, "file_mask", 4)
-							allFilesExist = false;
-						}
-						if(!file_check_json) {
-							alertIfFileNotSelected(readerJson, "file_json", 4)
-							allFilesExist = false;
-						}
 
-						if(allFilesExist == false) {
-							allFilesExist = true;
-						}
-						else {
-							readerImg.readAsDataURL(img);
-							readerMask.readAsDataURL(mask);
-							readerJson.readAsText(json);
+						readerImg.readAsDataURL(img);
+						readerMask.readAsDataURL(mask);
+						readerJson.readAsText(json);
 
-							readerImg.onload = function() {
-								readerMask.onload = function() {
-									readerJson.onload = function() {
-										var base64image = getBase64Image(readerImg);
-										var base64mask = getBase64Image(readerMask);
-										var jsonData = JSON.parse(readerJson.result);
+						readerImg.onload = function() {
+							readerMask.onload = function() {
+								readerJson.onload = function() {
+									var base64image = getBase64Image(readerImg);
+									var base64mask = getBase64Image(readerMask);
+									var jsonData = JSON.parse(readerJson.result);
 
-										var jsonArray = new Object();
-										jsonArray['image_contents'] = base64image
-										jsonArray['mask_contents'] = base64mask
-										jsonArray['scene_graph'] = jsonData
-										jsonArray = JSON.stringify(jsonArray);
-										for(var i=0; i < checked_boxes.length; i++) {
-											postData(input_url+checked_boxes[i], jsonArray, num);
-										}
+									var jsonArray = new Object();
+									jsonArray['image_contents'] = base64image
+									jsonArray['mask_contents'] = base64mask
+									jsonArray['scene_graph'] = jsonData
+									jsonArray = JSON.stringify(jsonArray);
+									for(var i=0; i < checked_boxes.length; i++) {
+										postData(input_url+checked_boxes[i], jsonArray, num);
 									}
 								}
 							}
 						}
 					}
-				}
-
-				function alertIfFileNotSelected(reader, file, num) {
-					var content = document.getElementById(file+num).files[0];
-					if (file == "file_img" || file == "file_mask") {
-						try {
-							reader.readAsDataURL(content);
-						}
-						catch(err) {
+					else {
+						if(!file_check_img) {
 							alert("이미지를 선택하세요.");
 						}
-					}
-					else {
-						try {
-							reader.readAsText(content);
+						if(!file_check_mask) {
+							alert("마스크를 선택하세요.");
 						}
-						catch(err) {
-							alert("JSON 파일을 선택하세요.");
+						if(!file_check_json) {
+							alert("JSON을 선택하세요.");
 						}
 					}
 				}
-
 			</script>
 
 			<!-- Footer -->

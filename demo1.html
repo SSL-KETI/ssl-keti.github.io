@@ -178,13 +178,7 @@
 						$('#image_result1').html("loading...");
 						getBase64ImageFromURL(input_url, checked_radios);
 					}
-					else if(!file_check_img && file_check_mask) {
-						alertIfFileNotSelected(readerImg, "file_img");
-					}
-					else if(file_check_img && !file_check_mask) {
-						alertIfFileNotSelected(readerMask, "file_mask");
-					}
-					else {
+					else if (file_check_img && file_check_mask) {
 						$('#image_result1').html("loading...");
 						var img = document.getElementById("file_img").files[0];
 						readerImg.readAsDataURL(img);
@@ -207,24 +201,11 @@
 							}
 						}
 					}
-				}
-
-				function alertIfFileNotSelected(reader, file) {
-					if (file == "file_img") {
-						var img = document.getElementById("file_img").files[0];
-						try {
-							reader.readAsDataURL(img);
-						}
-						catch(err) {
+					else {
+						if(!file_check_img) {
 							alert("이미지를 선택하세요.");
 						}
-					}
-					else {
-						var json = document.getElementById("file_mask").files[0];
-						try {
-							reader.readAsDataURL(img);
-						}
-						catch(err) {
+						if(!file_check_mask) {
 							alert("마스크를 선택하세요.");
 						}
 					}
