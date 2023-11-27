@@ -71,7 +71,7 @@
 					<br/>
 					<div style="font-size: 1.2em">상식 융합 장면그래프를 활용해 객체의 형태와 구조를 사실적으로 복원하고 생성</div>
 					<br/><br/>
-					<button style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">이미지 복원</button><button onclick="location.href='demo1-4-face.html'" style="width: 50%; min-height: 3em; background-color: #002178;">얼굴 복원</button>
+					<button onclick="location.href='demo1-4.html'" style="width: 50%; min-height: 3em; background-color: #002178;">이미지 복원</button><button style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">얼굴 복원</button>
 					<br/><br/><br/><br/>
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
@@ -80,13 +80,13 @@
 					<input type="file" id="file_mask4" accept="image/*" onchange="setImageThumbnail(event, '#mask_container4');"/>
 					<br/><br/>
 					<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
-					<input type="file" id="file_json4" accept="application/JSON" onchange="setJsonThumbnail(event, '#json_preview4')"/>
+					<input type="file" id="file_semantic4" accept="image/*" onchange="setImageThumbnail(event, '#semantic_container4')"/>
 					<br/><br/>
 
 					<div style="visibility: hidden">
-						<input type="checkbox" id="checkbox_postech" name="postech" checked>
+						<input type="checkbox" id="checkbox_postech" name="postech">
 						<label style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="checkbox" id="checkbox_snu" name="snu">
+						<input type="checkbox" id="checkbox_snu" name="snu" checked>
 						<label style="font-size: 1.5em">SNU</label> &nbsp;&nbsp;&nbsp;&nbsp;
 						<!--
 						<input type="checkbox" id="checkbox_keti" name="keti">
@@ -101,35 +101,24 @@
 					<div class="row">
 						<div class="column">
 							이미지
-							<div id="image_container4"><img src="examples/2023/part4_input.jpg" style="max-width:100%;"></div>
+							<div id="image_container4"><img src="examples/2023/part4_face_input.jpg" style="max-width:100%;"></div>
 						</div>
 						<div class="column">
 							마스크
-							<div id="mask_container4"><img src="examples/2023/part4_mask.jpg" style="max-width:100%;"></div>
+							<div id="mask_container4"><img src="examples/2023/part4_face_mask.png" style="max-width:100%;"></div>
+						</div>
+						<div class="column">
+							Semantic 정보
+							<div id="semantic_container4"><img src="examples/2023/part4_face_label.png" style="max-width:100%;"></div>
 						</div>
 					</div>
-
-					JSON
-					<pre id="json_preview4" style="max-height: 20em;">{"image_id":25449,"image_name":"n07768694_9567.JPEG","objects":[{"object_id":1,"class_id":61,"class_name":"food","object_bbox":{"x":225,"y":0,"width":274,"height":374}},{"object_id":2,"class_id":61,"class_name":"food","object_bbox":{"x":70,"y":24,"width":219,"height":221}},{"object_id":3,"class_id":1,"class_name":"person","object_bbox":{"x":0,"y":13,"width":310,"height":361}},{"object_id":4,"class_id":58,"class_name":"table","object_bbox":{"x":0,"y":0,"width":117,"height":206}}],"predicates":[{"predicate_name":"Unknown","predicate_id":120006,"subject_id":1,"object_id":-1},{"predicate_name":"colorful","predicate_id":114013,"subject_id":1,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":2,"object_id":-1},{"predicate_name":"colorful","predicate_id":114013,"subject_id":2,"object_id":-1},{"predicate_name":"hand_up","predicate_id":112004,"subject_id":3,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":3,"object_id":-1},{"predicate_name":"male","predicate_id":111013,"subject_id":3,"object_id":-1},{"predicate_name":"standing","predicate_id":112016,"subject_id":4,"object_id":-1},{"predicate_name":"Unknown","predicate_id":120006,"subject_id":4,"object_id":-1},{"predicate_name":"smooth","predicate_id":114022,"subject_id":4,"object_id":-1},{"predicate_name":"wooden","predicate_id":114003,"subject_id":4,"object_id":-1},{"predicate_name":"lower","predicate_id":220006,"subject_id":4,"object_id":1},{"predicate_name":"inside","predicate_id":220007,"subject_id":4,"object_id":2},{"predicate_name":"front","predicate_id":220001,"subject_id":4,"object_id":3}]}</pre>
-					<canvas id="json_canvas_preview4" width="800" height="600"></canvas>
-					</p>
 					
 					<h4>결과</h4>
-					<div id="image_result4_snu">image result</div> 
-					<div id="image_result4_postech"></div> 
-					<div id="image_result4_keti"></div> 
+					<div id="image_result4_snu">image result</div>
 				</div>
 			</div>
 
 			<script>
-				window.onload = function() {
-					container = document.getElementById("box4");
-					canvas = document.getElementById("json_canvas_preview4");
-					canvas.width = container.clientWidth - 50;
-					var scene_graph = document.getElementById("json_preview4").innerText;
-					visualize_json(scene_graph, "#json_canvas_preview4")
-				}
-
 				function submitData(event, num) {
 					input_url = "https://ketiair.com:8950/api/";
 
@@ -141,22 +130,12 @@
 					var readerJson = new FileReader();
 
 					$('#image_result4_snu').html("loading...");
-					$('#image_result4_postech').html("");
-					$('#image_result4_keti').html("");
 
 					var is_snu_checked = $('#checkbox_snu').prop("checked");
-					var is_postech_checked = $('#checkbox_postech').prop("checked");
-					var is_keti_checked = $('#checkbox_keti').prop("checked");
 
 					var checked_boxes = [];
 					if(is_snu_checked) {
 						checked_boxes.push('part4_SNU')
-					}
-					if(is_postech_checked) {
-						checked_boxes.push('part4_POSTECH')
-					}
-					if(is_keti_checked) {
-						checked_boxes.push('part4_KETI')
 					}
 
 					var file_check_img = $("#file_img4").val();
