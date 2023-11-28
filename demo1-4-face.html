@@ -71,7 +71,7 @@
 					<br/>
 					<div style="font-size: 1.2em">상식 융합 장면그래프를 활용해 객체의 형태와 구조를 사실적으로 복원하고 생성</div>
 					<br/><br/>
-					<button onclick="location.href='demo1-4.html'" style="width: 50%; min-height: 3em; background-color: #002178;">이미지 복원</button><button style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">얼굴 복원</button>
+					<button onclick="location.href='demo1-4.html#box4'" style="width: 50%; min-height: 3em; background-color: #002178;">이미지 복원</button><button style="width: 50%; min-height: 3em; border: 0.2em solid black; border-bottom: none; color: black; background-color: white;">얼굴 복원</button>
 					<br/><br/><br/><br/>
 					<strong>이미지 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_img4" accept="image/*" onchange="setImageThumbnail(event, '#image_container4');"/>
@@ -121,8 +121,6 @@
 
 			<script>
 				function submitData(event, num) {
-					input_url = "https://ketiair.com:8950/api/";
-
 					var hasImage = false;
 					var hasImage2 = false;
 					var hasSemantic = false;
@@ -258,6 +256,8 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/thumbnail.js"></script>
+			<script src="assets/js/main_connection_info.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>

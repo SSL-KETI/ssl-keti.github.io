@@ -93,7 +93,7 @@
 					<br/><br/>
 					<p><h4>1. 파일 입력</h4></p>
 						<strong>JSON 파일 : &nbsp;&nbsp;&nbsp;</strong>
-						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnail(event, 'json_preview')"/>
+						<input type="file" id="file_json" accept="application/JSON" onchange="setJsonThumbnailDownstream(event, 'json_preview')"/>
 						<br/><br/><br/>
 						<h4>파일 미리보기</h4>
 						<pre id="json_preview"></pre>
@@ -291,42 +291,11 @@
 				}
 
 				function submitData(event, name, hasFile) {
-					input_url = "https://ketiair.com:8950/api/" + name;
-					
 					var text = document.getElementById("json_preview").innerText
 
 					$('#image_results').html("loading...");
 					console.log(text);
-					postData(input_url, text, hasFile);
-					
-					/*
-					if(hasFile) {
-						var hasJson = false;
-						var readerJson = new FileReader();
-
-						alertIfFileNotSelected(readerJson);
-
-						readerJson.onload = function() {
-							$('#image_results').html("loading...");
-							console.log(readerJson.result)
-							postData(input_url, readerJson.result, hasFile);
-						}
-					}
-					else {
-						var generatedJson = generateJson();
-						$('#json_results2').html("loading...");
-						postData(input_url, generatedJson, hasFile);
-					}*/
-				}
-
-				function alertIfFileNotSelected(reader) {
-					var json = document.getElementById("file_json").files[0];
-					try {
-						reader.readAsText(json);
-					}
-					catch(err) {
-						alert("JSON 파일을 선택하세요.");
-					}
+					postData(input_url+name, text, hasFile);
 				}
 
 				function postData(input_url, jsonArray, hasFile) {
@@ -485,7 +454,8 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-			<script src="assets/js/main_connection.js"></script>
+			<script src="assets/js/thumbnail.js"></script>
+			<script src="assets/js/main_connection_info.js"></script>
 
 	</body>
 </html>

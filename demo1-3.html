@@ -118,8 +118,6 @@
 				}
 
 				function submitData(event, num, name) {
-					input_url = "https://ketiair.com:8950/api/" + name;
-					
 					var readerImg = new FileReader();
 					var readerMask = new FileReader();
 					var readerJson = new FileReader();
@@ -134,7 +132,7 @@
 					if(!file_check_img && !file_check_mask && !file_check_json) {
 						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
 						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
-						getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, '');
+						getBase64ImageFromURLBothImages(input_url+name, num, img_url, mask_url, '');
 					}
 					// 파일을 넣을 경우
 					else if (file_check_img && file_check_mask && file_check_json) {
@@ -158,7 +156,7 @@
 									jsonArray['scene_graph'] = jsonData
 									jsonArray = JSON.stringify(jsonArray);
 
-									postData(input_url, jsonArray, 3)
+									postData(input_url+name, jsonArray, 3)
 								}
 							}
 						}
@@ -249,6 +247,8 @@
 			<script src="assets/js/arbor.js"></script>
 			<script src="assets/js/graphics.js"></script>
 			<script src="assets/js/renderer.js"></script>
+			<script src="assets/js/thumbnail.js"></script>
+			<script src="assets/js/main_connection_info.js"></script>
 			<script src="assets/js/main_connection.js"></script>
 
 	</body>

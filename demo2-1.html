@@ -133,23 +133,8 @@
 					});
 				}
 
-				/*
-				function alertIfFileNotSelected(reader) {
-					var img = document.getElementById("file_img").files[0];
-					try {
-						reader.readAsDataURL(img);
-					}
-					catch(err) {
-						alert("이미지를 선택하세요.");
-					}
-				}
-				*/
-
 				function submitData() {
-					input_url = "https://ketiair.com:8950/api/resnet50";
-
 					var readerImg = new FileReader();
-					//alertIfFileNotSelected(readerImg);
 					
 					$('#json_results').html("loading...");
 					var file_check = $("#file_img").val();
@@ -165,7 +150,7 @@
 							jsonArray['image_contents'] = base64image;
 							jsonArray = JSON.stringify(jsonArray);
 
-							postData(input_url, jsonArray);
+							postData(input_url+"resnet50", jsonArray);
 						}
 					}
 				}
@@ -188,7 +173,7 @@
 						var jsonArray = new Object();
 						jsonArray['image_contents'] = mask_img;
 						jsonArray = JSON.stringify(jsonArray);
-						postData(input_url, jsonArray);
+						postData(input_url+"resnet50", jsonArray);
 					}
 					img.src = url
 				}
@@ -350,7 +335,10 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-			<script src="assets/js/main_connection.js"></script>
+			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/thumbnail.js"></script>
+			<script src="assets/js/main_connection_info.js"></script>
+			<script src="assets/js/thumbnail.js"></script>
 
 	</body>
 </html>

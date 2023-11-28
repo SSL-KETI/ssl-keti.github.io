@@ -1,0 +1,1 @@
+var input_url = "https://ketiair.com:8950/api/";
