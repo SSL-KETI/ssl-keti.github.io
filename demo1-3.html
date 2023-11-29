@@ -149,6 +149,7 @@
 									var base64image = getBase64Image(readerImg);
 									var base64mask = getBase64Image(readerMask);
 									var jsonData = JSON.parse(readerJson.result);
+									jsonData['image_name'] = '1.jpg';
 
 									var jsonArray = new Object();
 									jsonArray['image_contents'] = base64image

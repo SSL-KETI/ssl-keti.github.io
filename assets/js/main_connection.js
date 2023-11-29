@@ -171,9 +171,9 @@ function postData(input_url, jsonArray, num) {
                 resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
                 resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
                 
-                if(input_url.endsWith('SNU')) {  //SNU
-                    var input_img = document.getElementById('image_container4');
-                    resultImage.setAttribute("style", "width: "+input_img.clientWidth+"px; height: auto;"); 
+                var input_img = document.getElementById('image_container4');
+                resultImage.setAttribute("style", "width: "+input_img.clientWidth+"px; height: auto;");
+                if(input_url.endsWith('SNU')) {  //SNU 
                     $('#image_result4_snu').empty();
                     document.querySelector('#image_result4_snu').appendChild(resultImage); 
                 } else if(input_url.endsWith('POSTECH')) {  //POSTECH
