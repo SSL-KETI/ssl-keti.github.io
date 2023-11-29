@@ -60,6 +60,8 @@
 					<div>
 						<a href="demo1-12.html"><img src="images/home_1.png" onmouseover="this.src='images/home_1_fade.png'" onmouseout="this.src='images/home_1.png'" style="width: 25.33%; vertical-align: top;"></a><a href="demo1-3.html"><img src="images/home_2.png" onmouseover="this.src='images/home_2_fade.png'" onmouseout="this.src='images/home_2.png'" style="width: 46.74%; vertical-align: top;"></a><a href="demo1-4.html"><img src="images/home_3.png"  onmouseover="this.src='images/home_3_fade.png'" onmouseout="this.src='images/home_3.png'" style="width: 27.93%; vertical-align: top;"></a>
 					</div>
+					<br/>
+					<hr style="height:10px; background-color:gray;">
 					<br/><br/>
 					<div class="row">
 						<div class="col-3 col-12-medium">
@@ -118,8 +120,16 @@
 					<strong>마스크 파일 : &nbsp;&nbsp;&nbsp;</strong>
 					<input type="file" id="file_mask" accept="image/*" onchange="setImageThumbnail(event, '#mask_container');"/>
 					<br/><br/>
-					<div id="image_container"><img src="examples/image3.jpg" style="max-width: 50%;"></div>
-					<div id="mask_container"><img src="examples/mask3.jpg" style="max-width: 50%;"></div>
+					<div class="row">
+						<div class="column">
+							이미지
+							<div id="image_container"><img src="examples/image3.jpg" style="max-width:100%;"></div>
+						</div>
+						<div class="column">
+							마스크
+							<div id="mask_container"><img src="examples/mask3.jpg" style="max-width:100%;"></div>
+						</div>
+					</div>
 					<br/><br/>
 					<button onclick="submitData(event)" style="width: 95%; background-color: #002178;">통합 시연</button>		
 					<br/><br/>

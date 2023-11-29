@@ -160,41 +160,7 @@ function postData(input_url, jsonArray, num) {
         success:function(data){
             var obj = JSON.parse(data);
             console.log(obj);
-            if (num == 1) {
-                $('#json_results'+num).html("");
-                if(input_url.endsWith('POSTECH')) { // POSTECH
-                    var jsonSceneGraph = obj.scene_graph_json;
-                    document.getElementById('json_results1_postech').style.visibility = 'visible';
-                    $('#json_results1_postech').html(JSON.stringify(jsonSceneGraph));
-
-                    var resultSceneGraph = document.createElement("img");
-                    resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
-                    resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-                    $('#img_results1_postech').html("");
-                    document.querySelector('#img_results1_postech').appendChild(resultSceneGraph);
-                    } 
-                else { // KETI
-                    var jsonSceneGraph = obj.scene_graph_json;
-                    document.getElementById('json_results1_keti').style.visibility = 'visible';
-                    $('#json_results1_keti').html(JSON.stringify(jsonSceneGraph));
-                    
-                    var resultSceneGraph = document.createElement("img");
-                    resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
-                    resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-                    $('#img_results1_keti').html("");
-                    document.querySelector('#img_results1_keti').appendChild(resultSceneGraph);
-                    /*
-                    원래 KETI의 결과에는 object detection도 포함되어 있음.
-                    이 부분을 포함시키면 "파일 미리보기"의 이미지가 object detection되어 bounding box가 생긴 이미지로 바뀜.
-                    var resultImage = document.createElement("img");
-                    resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-                    resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-                    $('#image_container'+num).empty();
-                    document.querySelector('#image_container'+num).appendChild(resultImage); 
-                    */
-                }	
-            }
-            else if (num == 2 || num == 3) {
+            if (num == 1 || num == 2 || num == 3) {
                 var scene_graph_result = JSON.stringify(obj.scene_graph_json);
                 $('#json_results'+num).html(scene_graph_result);
                 visualize_json(scene_graph_result, '#json_canvas_result'+num);

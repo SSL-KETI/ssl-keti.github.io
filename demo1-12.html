@@ -20,7 +20,7 @@
 				jsonArray = JSON.stringify(jsonArray);
 				$.ajax({
 					type: "GET",
-					url: "https://ketiair.com:10001/api/part1_KETI_cache",
+					url: "url/api/part1_KETI_cache",
 					data: jsonArray,
 					success:function(data){
 						var obj = JSON.parse(data);
@@ -36,7 +36,6 @@
 							var resultSceneGraph = document.createElement("img");
 							resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph); 
 							resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-							document.querySelector('#img_results1_keti').appendChild(resultSceneGraph);
 						}
 					},
 					error:function(data){
@@ -108,7 +107,7 @@
 					<input type="file" id="file_img1" accept="image/*" onchange="setImageThumbnail(event, '#image_container1');"/>
 					<br/><br/>
 					
-					<div>
+					<div style="visibility: hidden">
 						<input type="checkbox" id="checkbox_postech" name="postech" checked>
 						<label for="postech" style="font-size: 1.5em">Postech</label> &nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="checkbox" id="checkbox_keti" name="keti">
@@ -124,12 +123,13 @@
 					</p>
 						
 					<h4>결과</h4>
-					<div id="json_results1">Json & Image Results</div>
-					<div id="img_results1"></div>
-					<div id="img_results1_postech"></div>
-					<pre id="json_results1_postech" style="max-height: 20em; visibility: hidden;">json results</pre>
-					<div id="img_results1_keti"></div>
+					<pre id="json_results1" style="max-height: 20em;">json result</pre>
+					<canvas id="json_canvas_result1" width="800" height="600"></canvas>
+					<!--
+					<div id="json_results1" style="max-height: 20em;">json result</div>
+					<pre id="json_results1_postech" style="max-height: 20em;">json result</pre>
 					<pre id="json_results1_keti" style="max-height: 20em; visibility: hidden;">json results</pre>
+					-->
 				</div>
 			</div>
 
@@ -175,11 +175,17 @@
 
 			<script>
 				window.onload = function() {
-					container = document.getElementById("box2");
-					canvas = document.getElementById("json_canvas_preview2");
-					canvas.width = container.clientWidth - 50;
+					container = document.getElementById("box1");
+					canvas_preview2 = document.getElementById("json_canvas_preview2");
+					canvas_preview2.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview2").innerText;
 					visualize_json(scene_graph, "#json_canvas_preview2")
+
+					json_canvas_result1 = document.getElementById("json_canvas_result1");
+					json_canvas_result1.width = container.clientWidth - 50;
+
+					json_canvas_result2 = document.getElementById("json_canvas_result2");
+					json_canvas_result2.width = container.clientWidth - 50;
 				}
 
 				function submitData(event, num, name) {
@@ -191,10 +197,8 @@
 						var base64image;
 
 						$('#json_results'+num).html("loading...");
-						$('#img_results1_postech').html("");
-						$('#img_results1_keti').html("");
-						document.getElementById('json_results1_postech').style.visibility = 'hidden';
-						document.getElementById('json_results1_keti').style.visibility = 'hidden';
+						//document.getElementById('json_results1_postech').style.visibility = 'hidden';
+						//document.getElementById('json_results1_keti').style.visibility = 'hidden';
 						
 						var is_postech_checked = $('#checkbox_postech').prop("checked");
 						var is_keti_checked = $('#checkbox_keti').prop("checked");
@@ -297,24 +301,12 @@
 						var commaIndex = img_base64.indexOf(",");
 						img_base64 = img_base64.slice(commaIndex+1);
 						
-						if(num == 1) {
-							var jsonArray = new Object();
-							jsonArray['image_contents'] = img_base64;
-							jsonArray = JSON.stringify(jsonArray);
+						var jsonArray = new Object();
+						jsonArray['image_contents'] = img_base64;
+						jsonArray = JSON.stringify(jsonArray);
 
-							for(var i=0; i < checked_boxes.length; i++) {
-								postData(input_url+checked_boxes[i], jsonArray, num);
-							}
-						}
-						else {
-							var jsonData = document.getElementById("json_preview2").innerText;
-							jsonData = JSON.parse(jsonData);
-
-							var jsonArray = new Object();
-							jsonArray['image_contents'] = img_base64;
-							jsonArray['scene_graph'] = jsonData;
-							jsonArray = JSON.stringify(jsonArray);
-							postData(input_url+"part2_UNIST", jsonArray, num);
+						for(var i=0; i < checked_boxes.length; i++) {
+							postData(input_url+checked_boxes[i], jsonArray, num);
 						}
 					}
 					img.src = image_url
