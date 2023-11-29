@@ -66,51 +66,63 @@
 					<div class="row">
 						<div class="col-3 col-12-medium">
 							<h3>Part1</h3>
-							<label>
-								<input type="radio" name="part1" value="part1_POSTECH" checked="checked" />
-								<span>POSTECH</span>
-							</label><br/>
-							 <label>
-								<input type="radio" name="part1" value="part1_KETI"/>
-								<span>KETI</span>
-							</label>
+							이미지로부터 장면그래프 추출
+							<div id="part1_labels" style="visibility: hidden;">
+								<label>
+									<input type="radio" name="part1" value="part1_POSTECH" checked="checked" />
+									<span>POSTECH</span>
+								</label><br/>
+								<label>
+									<input type="radio" name="part1" value="part1_KETI"/>
+									<span>KETI</span>
+								</label>
+							</div>
 						</div>
 						<div class="col-3 col-12-medium">
 							<h3>Part2</h3>
-							<label>
-								<input type="radio" name="part2" value="part2_UNIST" checked="checked" />
-								<span>UNIST</span>
-							</label><br/>
-							<label>
-								<input type="radio" name="part2" value="part2_Birmingham" disabled />
-								<span>Birmingham</span>
-							</label>
+							추출된 장면그래프에 속성 추가
+							<div id="part2_labels" style="visibility: hidden;">
+								<label>
+									<input type="radio" name="part2" value="part2_UNIST" checked="checked" />
+									<span>UNIST</span>
+								</label><br/>
+								<label>
+									<input type="radio" name="part2" value="part2_Birmingham" disabled />
+									<span>Birmingham</span>
+								</label>
+							</div>
 						</div>
 						<div class="col-3 col-12-medium">
 							<h3>Part3</h3>
-							<label>
-								<input type="radio" name="part3" value="part3_KAIST" checked="checked" />
-								<span>KAIST</span>
-							</label><br/>
-							<label>
-								<input type="radio" name="part3" value="part3_KETI" disabled />
-								<span>KETI</span>
-							</label><br/>
+							보이지 않는 부분을 시각적 상식으로 <br/>추론하여 장면그래프 복원
+							<div id="part3_labels" style="visibility: hidden;">
+								<label>
+									<input type="radio" name="part3" value="part3_KAIST" checked="checked" />
+									<span>KAIST</span>
+								</label><br/>
+								<label>
+									<input type="radio" name="part3" value="part3_KETI" disabled />
+									<span>KETI</span>
+								</label><br/>
+							</div>
 						</div>
 						<div class="col-3 col-12-medium">
 							<h3>Part4</h3>
-							<label>
-								<input type="radio" name="part4" value="part4_KETI" checked="checked"/>
-								<span>KETI</span>
-							</label><br/>
-							<label>
-								<input type="radio" name="part4" value="part4_SNU" />
-								<span>SNU</span>
-							</label><br/>
-							<label>
-								<input type="radio" name="part4" value="part4_POSTECH"/>
-								<span>POSTECH</span>
-							</label>
+							장면그래프를 통하여 이미지 복원
+							<div id="part4_labels" style="visibility: hidden;">
+								<label>
+									<input type="radio" name="part4" value="part4_KETI"/>
+									<span>KETI</span>
+								</label><br/>
+								<label>
+									<input type="radio" name="part4" value="part4_SNU" />
+									<span>SNU</span>
+								</label><br/>
+								<label>
+									<input type="radio" name="part4" value="part4_POSTECH" checked="checked"/>
+									<span>POSTECH</span>
+								</label>
+							</div>
 						</div>
 					</div>
 					<br/>
@@ -146,18 +158,6 @@
 			</div>
 
 			<script>
-				function setImageThumbnail(event, image_area) {
-					var reader = new FileReader(); 
-					reader.onload = function(event) { 
-						var img = document.createElement("img"); 
-						img.setAttribute("src", event.target.result); 
-						img.setAttribute("style", "max-width: 100%; height: auto;");
-						$(image_area).empty();
-						document.querySelector(image_area).appendChild(img);
-					}; 
-					reader.readAsDataURL(event.target.files[0]); 
-				}
-
 				function submitData(event) {
 					var readerImg = new FileReader();
 					var readerMask = new FileReader();
@@ -273,52 +273,19 @@
 						url: input_url+checked_radios[num-1],
 						data: jsonArray,
 						success:function(data){
+							$('#image_result1').html("");
 							var obj = JSON.parse(data);
-							if(num == 1) { //Part1
+							if(num == 1 || num == 2 || num == 3) {
 								var outputSceneGraph = obj.scene_graph_json;
-								document.getElementById('json_result1').style.visibility = 'visible';
-								document.getElementById('caption1').style.visibility = 'visible';
-								$('#json_result1').html(JSON.stringify(outputSceneGraph));
+								outputSceneGraph['image_name'] = '1.jpg';
+								document.getElementById('json_result'+num).style.visibility = 'visible';
+								document.getElementById('caption'+num).style.visibility = 'visible';
+								$('#json_result'+num).html(JSON.stringify(outputSceneGraph));
 								
-								var resultSceneGraph = document.createElement("img");
-								resultSceneGraph.setAttribute("src", 'data:image/png;base64,' + obj.scene_graph_img); 
-								resultSceneGraph.setAttribute("style", "max-width: 70%; height: auto;"); 
-								$('#image_result1').html("");
-								document.querySelector('#image_result1').appendChild(resultSceneGraph);
-								
-								jsonArray = JSON.parse(jsonArray)
-								jsonArray['scene_graph'] = outputSceneGraph
+								jsonArray = JSON.parse(jsonArray);
+								jsonArray['scene_graph'] = outputSceneGraph;
 								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
-								postData(input_url, jsonArray, checked_radios, 2);
-							}
-							else if(num == 2) { //Part2
-								var attributes = obj.attributes;
-								document.getElementById('json_result2').style.visibility = 'visible';
-								document.getElementById('caption2').style.visibility = 'visible';
-								$('#json_result2').html(JSON.stringify(attributes));
-
-								document.getElementById('caption3').style.visibility = 'visible';
-								document.getElementById('json_result3').style.visibility = 'visible';
-								$('#json_result3').html(JSON.stringify(attributes));
-								postData(input_url, jsonArray, checked_radios, 4);
-								/* This part will be used in 3rd year.
-								jsonArray = JSON.parse(jsonArray)
-								jsonArray['scene_graph'] = attributes
-								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
-								postData(input_url, jsonArray, checked_radios, 3);
-								*/
-							}
-							else if(num == 3) { //Part3
-								/*
-								var sceneGraphJson = obj.scene_graph_json;
-								document.getElementById('json_result3').style.visibility = 'visible';
-								document.getElementById('caption3').style.visibility = 'visible';
-
-								jsonArray = JSON.parse(jsonArray)
-								jsonArray['scene_graph'] = sceneGraphJson
-								jsonArray = JSON.stringify(jsonArray); // 'image_contents', 'mask_contents', 'scene_graph'
-								postData(input_url, jsonArray, checked_radios, 4);
-								*/
+								postData(input_url, jsonArray, checked_radios, num+1);
 							}
 							else if(num == 4) { //Part4
 								document.getElementById('caption4').style.visibility = 'visible';
