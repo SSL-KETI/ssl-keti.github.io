@@ -15,7 +15,8 @@ function setJsonThumbnail(event, json_area) {
     reader.onload = function(event) { 
         $(json_area).html("");
         $(json_area).html(event.target.result);
-        visualize_json(event.target.result, "#json_canvas_preview"+json_area.slice(-1));
+        var num = json_area.slice(-1);
+        visualize_json('sys'+num+'_input', event.target.result, "#json_canvas_preview"+num);
     };
     reader.readAsText(event.target.files[0]);
 }

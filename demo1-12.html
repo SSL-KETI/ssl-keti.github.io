@@ -174,18 +174,23 @@
 			</div>
 
 			<script>
+				var sysObj = {'sys1_output': '', 'sys2_input': '', 'sys2_output': ''}
 				window.onload = function() {
 					container = document.getElementById("box1");
 					canvas_preview2 = document.getElementById("json_canvas_preview2");
 					canvas_preview2.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview2").innerText;
-					visualize_json(scene_graph, "#json_canvas_preview2")
 
 					json_canvas_result1 = document.getElementById("json_canvas_result1");
 					json_canvas_result1.width = container.clientWidth - 50;
 
 					json_canvas_result2 = document.getElementById("json_canvas_result2");
 					json_canvas_result2.width = container.clientWidth - 50;
+					
+					sysObj['sys1_output'] = arbor.ParticleSystem(1000, 400, 1);
+					sysObj['sys2_input'] = arbor.ParticleSystem(1000, 400, 1);
+					sysObj['sys2_output'] = arbor.ParticleSystem(1000, 400, 1);
+					visualize_json('sys2_input', scene_graph, "#json_canvas_preview2")
 				}
 
 				function submitData(event, num, name) {

@@ -107,6 +107,7 @@
 			</div>
 
 			<script>
+				var sysObj = {'sys3_input': '', 'sys3_output': ''}
 				window.onload = function() {
 					container = document.getElementById("box3");
 					canvas_preview = document.getElementById("json_canvas_preview3");
@@ -114,7 +115,9 @@
 					canvas_preview.width = container.clientWidth - 50;
 					canvas_result.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview3").innerText;
-					visualize_json(scene_graph, "#json_canvas_preview3")
+					
+					sysObj['sys3_input'] = arbor.ParticleSystem(1000, 400, 1);
+					visualize_json('sys3_input', scene_graph, "#json_canvas_preview3")
 				}
 
 				function submitData(event, num, name) {

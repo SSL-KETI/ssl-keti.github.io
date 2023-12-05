@@ -123,12 +123,15 @@
 			</div>
 
 			<script>
+				var sysObj = {'sys4_input': ''}
 				window.onload = function() {
 					container = document.getElementById("box4");
 					canvas = document.getElementById("json_canvas_preview4");
 					canvas.width = container.clientWidth - 50;
 					var scene_graph = document.getElementById("json_preview4").innerText;
-					visualize_json(scene_graph, "#json_canvas_preview4")
+					
+					sysObj['sys4_input'] = arbor.ParticleSystem(1000, 400, 1);
+					visualize_json('sys4_input', scene_graph, "#json_canvas_preview4")
 				}
 
 				function submitData(event, num) {
