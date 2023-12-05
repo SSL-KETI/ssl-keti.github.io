@@ -153,6 +153,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 }
 
 function postData(input_url, jsonArray, num) {
+    $('#json_results'+num).html("loading...");
     $.ajax({
         type: "POST",
         url: input_url,
@@ -166,7 +167,7 @@ function postData(input_url, jsonArray, num) {
                 visualize_json(scene_graph_result, '#json_canvas_result'+num);
             }
             else if (num == 4) {
-                $('#image_result4_snu').html("");
+                $('#json_results'+num).html("");
                 var resultImage = document.createElement("img");
                 resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
                 resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 

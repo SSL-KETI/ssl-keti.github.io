@@ -196,7 +196,6 @@
 						var jsonArray = new Object();
 						var base64image;
 
-						$('#json_results'+num).html("loading...");
 						//document.getElementById('json_results1_postech').style.visibility = 'hidden';
 						//document.getElementById('json_results1_keti').style.visibility = 'hidden';
 						
@@ -242,7 +241,6 @@
 						
 						// 파일을 넣지 않을 경우
 						if(!file_check_img && !file_check_mask && !file_check_json) {
-							$('#json_results'+num).html("loading...");
 							img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
 							mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
 							getBase64ImageFromURLBothImages(input_url+"part2_UNIST", num, img_url, mask_url, '');
@@ -259,7 +257,6 @@
 							readerImg.onload = function() {
 								readerMask.onload = function() {
 									readerJson.onload = function() {
-										$('#json_results'+num).html("loading...");
 										var base64image = getBase64Image(readerImg);
 										var base64mask = getBase64Image(readerMask);
 										var jsonData = JSON.parse(readerJson.result);
