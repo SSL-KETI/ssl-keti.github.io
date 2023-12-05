@@ -52,7 +52,7 @@
 
 			<!-- Main -->
 			<div id="main-wrapper" style="background-color: white;">
-				<div class="container" style="text-align: center;">
+				<div id="box-all" class="container" style="text-align: center;">
 					<br/><br/>
 					<h2 style="text-align: center; font-weight: 130; margin-bottom: 0.8em;">통합시연</h2>
 					<hr color="black" width="10%" size="4px">
@@ -135,11 +135,11 @@
 					<div class="row">
 						<div class="column">
 							이미지
-							<div id="image_container"><img src="examples/image3.jpg" style="max-width:100%;"></div>
+							<div id="image_container"><img src="examples/2023/demo_samples/594/594_masked.jpg" style="max-width:100%;"></div>
 						</div>
 						<div class="column">
 							마스크
-							<div id="mask_container"><img src="examples/mask3.jpg" style="max-width:100%;"></div>
+							<div id="mask_container"><img src="examples/2023/demo_samples/594/594_mask.png" style="max-width:100%;"></div>
 						</div>
 					</div>
 					<br/><br/>
@@ -148,16 +148,33 @@
 					<div id="caption1" style="visibility: hidden;"><h3>Part1 결과</h3></div>
 					<div id="image_result1"></div> 
 					<pre id="json_result1" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
+					<canvas id="json_canvas_result1" width="800" height="600"></canvas>
 					<div id="caption2" style="visibility: hidden;"><h3>Part2 결과</h3></div>
 					<pre id="json_result2" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
+					<canvas id="json_canvas_result2" width="800" height="600"></canvas>
 					<div id="caption3" style="visibility: hidden;"><h3>Part3 결과</h3></div>
 					<pre id="json_result3" style="max-height: 20em; visibility: hidden;">json results</pre><br/>
+					<canvas id="json_canvas_result3" width="800" height="600"></canvas>
 					<div id="caption4" style="visibility: hidden;"><h3>Part4 결과</h3></div>
 					<div id="image_result4"></div> 
 				</div>
 			</div>
 
 			<script>
+				var sysObj = {'sys1_output': '', 'sys2_input': '', 'sys2_output': '', 
+							'sys3_input': '', 'sys3_output': '', 'sys4_input': ''};
+				
+				window.onload = function() {
+					container = document.getElementById("box-all");
+
+					json_canvas_result1 = document.getElementById("json_canvas_result1");
+					json_canvas_result2 = document.getElementById("json_canvas_result2");
+					json_canvas_result3 = document.getElementById("json_canvas_result3");
+					json_canvas_result1.width = container.clientWidth - 50;
+					json_canvas_result2.width = container.clientWidth - 50;
+					json_canvas_result3.width = container.clientWidth - 50;
+				}
+
 				function submitData(event) {
 					var readerImg = new FileReader();
 					var readerMask = new FileReader();
@@ -183,11 +200,9 @@
 					var file_check_mask = $("#file_mask").val();
 					// 파일을 넣지 않을 경우
 					if(!file_check_img && !file_check_mask) {
-						$('#image_result1').html("loading...");
 						getBase64ImageFromURL(input_url, checked_radios);
 					}
 					else if (file_check_img && file_check_mask) {
-						$('#image_result1').html("loading...");
 						var img = document.getElementById("file_img").files[0];
 						readerImg.readAsDataURL(img);
 
@@ -268,6 +283,9 @@
 				}
 
 				function postData(input_url, jsonArray, checked_radios, num) {
+					if (num == 1) {
+						$('#image_result1').html("loading...");
+					}
 					$.ajax({
 						type: "POST",
 						url: input_url+checked_radios[num-1],
@@ -281,6 +299,7 @@
 								document.getElementById('json_result'+num).style.visibility = 'visible';
 								document.getElementById('caption'+num).style.visibility = 'visible';
 								$('#json_result'+num).html(JSON.stringify(outputSceneGraph));
+								visualize_json('sys'+num+'_output', JSON.stringify(outputSceneGraph), '#json_canvas_result'+num);
 								
 								jsonArray = JSON.parse(jsonArray);
 								jsonArray['scene_graph'] = outputSceneGraph;
@@ -372,8 +391,12 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/arbor.js"></script>
+			<script src="assets/js/graphics.js"></script>
+			<script src="assets/js/renderer.js"></script>
 			<script src="assets/js/thumbnail.js"></script>
 			<script src="assets/js/main_connection_info.js"></script>
+			<script src="assets/js/json_visualizer.js"></script>
 
 	</body>
 </html>
