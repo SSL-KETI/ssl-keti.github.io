@@ -115,7 +115,8 @@
 					<br/>
 					<hr style="height:10px; background-color:gray;">
 					<h4>결과</h4>
-					<div id="image_result4_snu">image result</div>
+					<div id="json_results4">image result</div>
+					<div id="image_result4_snu"></div>
 				</div>
 			</div>
 
@@ -127,8 +128,6 @@
 					var readerImg = new FileReader();
 					var readerMask = new FileReader();
 					var readerSemantic = new FileReader();
-
-					$('#image_result4_snu').html("loading...");
 
 					var checked_boxes = ['part4_SNU'];
 
