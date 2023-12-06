@@ -164,6 +164,7 @@
 			</div>
 
 			<script>
+				var in_process = false;
 				var sysObj = {'sys1_output': '', 'sys2_input': '', 'sys2_output': '', 
 							'sys3_input': '', 'sys3_output': '', 'sys4_input': ''};
 				
@@ -178,9 +179,7 @@
 					json_canvas_result3.width = container.clientWidth - 50;
 				}
 
-				function submitData(event) {
-					var readerImg = new FileReader();
-					var readerMask = new FileReader();
+				function hidePreviousResults() {
 					$('#image_result2').html("");
 					$('#json_result3').html("");
 					$('#image_result4').html("");
@@ -191,6 +190,11 @@
 					document.getElementById('caption2').style.visibility = 'hidden';
 					document.getElementById('caption3').style.visibility = 'hidden';
 					document.getElementById('caption4').style.visibility = 'hidden';
+				}
+
+				function submitData(event) {
+					var readerImg = new FileReader();
+					var readerMask = new FileReader();
 					
 					var checked_radios = [];
 					for(var i = 1; i <= 4; i++) {
@@ -223,7 +227,13 @@
 								jsonArray['mask_contents'] = base64mask
 
 								jsonArray = JSON.stringify(jsonArray);
-								postData(input_url, jsonArray, checked_radios, 1);
+								if (in_process) {
+									alert("아직 이전 요청을 처리하고 있습니다.");
+								}
+								else {
+									hidePreviousResults();
+									postData(input_url, jsonArray, checked_radios, 1);
+								}
 							}
 						}
 					}
@@ -270,8 +280,13 @@
 							jsonArray['mask_contents'] = img_mask;
 							jsonArray = JSON.stringify(jsonArray);
 							
-							//Starting Part1
-							postData(input_url, jsonArray, checked_radios, 1);
+							if (in_process) {
+								alert("아직 이전 요청을 처리하고 있습니다.");
+							}
+							else {
+								hidePreviousResults();
+								postData(input_url, jsonArray, checked_radios, 1);
+							}
 						}
 					}
 					img.src = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/demo_samples/594/594_masked.jpg';
@@ -287,6 +302,7 @@
 
 				function postData(input_url, jsonArray, checked_radios, num) {
 					if (num == 1) {
+						in_process = true;
 						$('#image_result1').html("loading...");
 					}
 					$.ajax({
@@ -316,9 +332,11 @@
 								inpaintResult.setAttribute("style", "max-width: 70%; height: auto;"); 
 								$('#image_result4').html("");
 								document.querySelector('#image_result4').appendChild(inpaintResult);
+								in_process = false;
 							}
 						},
 						error:function(data){
+							in_process = false;
 							alert(JSON.stringify(data));
 						}
 					});

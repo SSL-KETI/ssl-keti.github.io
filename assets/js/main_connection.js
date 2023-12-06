@@ -1,3 +1,5 @@
+var in_process = false;
+
 // 파일을 선택하지 않았을 때 원본 이미지 & 마스크 이미지를 인터넷에서 불러오는 함수
 function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, checked_boxes) {
     var img = new Image();
@@ -113,41 +115,49 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 }
 
 function postData(input_url, jsonArray, num) {
-    $('#json_results'+num).html("loading...");
-    $.ajax({
-        type: "POST",
-        url: input_url,
-        data: jsonArray,
-        success:function(data){
-            var obj = JSON.parse(data);
-            console.log(obj);
-            if (num == 1 || num == 2 || num == 3) {
-                var scene_graph_result = JSON.stringify(obj.scene_graph_json);
-                $('#json_results'+num).html(scene_graph_result);
-                visualize_json('sys'+num+'_output', scene_graph_result, '#json_canvas_result'+num);
-            }
-            else if (num == 4) {
-                $('#json_results'+num).html("");
-                var resultImage = document.createElement("img");
-                resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
-                resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
-                
-                var input_img = document.getElementById('image_container4');
-                resultImage.setAttribute("style", "width: "+input_img.clientWidth+"px; height: auto;");
-                if(input_url.endsWith('SNU')) {  //SNU 
-                    $('#image_result4_snu').empty();
-                    document.querySelector('#image_result4_snu').appendChild(resultImage); 
-                } else if(input_url.endsWith('POSTECH')) {  //POSTECH
-                    $('#image_result4_postech').empty();
-                    document.querySelector('#image_result4_postech').appendChild(resultImage); 
-                } else {  //KETI
-                    $('#image_result4_keti').empty();
-                    document.querySelector('#image_result4_keti').appendChild(resultImage); 
+    if (in_process) {
+        alert("아직 이전 요청을 처리하고 있습니다.");
+    }
+    else {
+        in_process = true;
+        $('#json_results'+num).html("loading...");
+        $.ajax({
+            type: "POST",
+            url: input_url,
+            data: jsonArray,
+            success:function(data){
+                var obj = JSON.parse(data);
+                console.log(obj);
+                if (num == 1 || num == 2 || num == 3) {
+                    var scene_graph_result = JSON.stringify(obj.scene_graph_json);
+                    $('#json_results'+num).html(scene_graph_result);
+                    visualize_json('sys'+num+'_output', scene_graph_result, '#json_canvas_result'+num);
                 }
+                else if (num == 4) {
+                    $('#json_results'+num).html("");
+                    var resultImage = document.createElement("img");
+                    resultImage.setAttribute("src", 'data:image/png;base64,' + obj.image_contents); 
+                    resultImage.setAttribute("style", "max-width: 100%; height: auto;"); 
+                    
+                    var input_img = document.getElementById('image_container4');
+                    resultImage.setAttribute("style", "width: "+input_img.clientWidth+"px; height: auto;");
+                    if(input_url.endsWith('SNU')) {  //SNU 
+                        $('#image_result4_snu').empty();
+                        document.querySelector('#image_result4_snu').appendChild(resultImage); 
+                    } else if(input_url.endsWith('POSTECH')) {  //POSTECH
+                        $('#image_result4_postech').empty();
+                        document.querySelector('#image_result4_postech').appendChild(resultImage); 
+                    } else {  //KETI
+                        $('#image_result4_keti').empty();
+                        document.querySelector('#image_result4_keti').appendChild(resultImage); 
+                    }
+                }
+                in_process = false;
+            },
+            error:function(data){
+                in_process = false;
+                alert(JSON.stringify(data));
             }
-        },
-        error:function(data){
-            alert(JSON.stringify(data));
-        }
-    });
+        });
+    }
 }
