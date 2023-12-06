@@ -121,6 +121,9 @@ function postData(input_url, jsonArray, num) {
     else {
         in_process = true;
         $('#json_results'+num).html("loading...");
+        if (num == 1 || num == 2 || num == 3) {
+            clear_json_visualizer('sys'+num+'_output', '#json_canvas_result'+num);
+        }
         $.ajax({
             type: "POST",
             url: input_url,
@@ -156,6 +159,7 @@ function postData(input_url, jsonArray, num) {
             },
             error:function(data){
                 in_process = false;
+                $('#json_results'+num).html("Error occurred. Try again.");
                 alert(JSON.stringify(data));
             }
         });

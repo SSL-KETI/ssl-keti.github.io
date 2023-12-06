@@ -36,3 +36,15 @@ function visualize_json(sys_name, json_input, canvas_id) {
     }
     sysObj[sys_name].graft(data);
 }
+
+function clear_json_visualizer(sys_name, canvas_id) {
+    delete sysObj[sys_name].renderer;
+    delete sysObj[sys_name];
+
+    sysObj[sys_name] = arbor.ParticleSystem(1000, 400, 1);
+    sysObj[sys_name].parameters({ gravity: true });
+    sysObj[sys_name].renderer = Renderer(canvas_id);
+
+    var data = { nodes: {'0': {'color': 'white'}}, edges: {} }
+    sysObj[sys_name].graft(data);
+}

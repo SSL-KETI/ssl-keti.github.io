@@ -304,6 +304,9 @@
 					if (num == 1) {
 						in_process = true;
 						$('#image_result1').html("loading...");
+						for(var j = 1; j <= 3; j++) {
+							clear_json_visualizer('sys'+j+'_output', '#json_canvas_result'+j);
+						}
 					}
 					$.ajax({
 						type: "POST",
@@ -337,6 +340,16 @@
 						},
 						error:function(data){
 							in_process = false;
+							$('#image_result1').html("");
+							if(num == 1 || num == 2 || num == 3) {
+								document.getElementById('json_result'+num).style.visibility = 'visible';
+								document.getElementById('caption'+num).style.visibility = 'visible';
+								$('#json_result'+num).html("Error occurred. Try again.");
+							}
+							else if(num == 4) {
+								document.getElementById('caption4').style.visibility = 'visible';
+								$('#image_result4').html("Error occurred. Try again.");
+							}
 							alert(JSON.stringify(data));
 						}
 					});
