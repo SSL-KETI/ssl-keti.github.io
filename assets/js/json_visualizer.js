@@ -15,24 +15,26 @@ function visualize_json(sys_name, json_input, canvas_id) {
         data['nodes'][object.object_id] = { 'color': 'green', 'shape': 'dot', 'label': object.class_name, '_id':object.object_id };
     }
 
-    let predicate_count = 1000;
-    for (let i = 0; i < obj.predicates.length; i++) {
-        predicate = obj.predicates[i];
-        if (predicate.predicate_name == 'Unknown') {
-            continue;
+    if ("predicates" in obj){
+        let predicate_count = 1000;
+        for (let i = 0; i < obj.predicates.length; i++) {
+            predicate = obj.predicates[i];
+            if (predicate.predicate_name == 'Unknown') {
+                continue;
+            }
+            if (predicate.object_id != -1) {
+                data['nodes'][predicate_count] = { 'color': 'darkred', 'shape': 'square', 'label': predicate.predicate_name, '_id':predicate_count};
+                data['edges'][predicate_count] = {};
+                data['edges'][predicate_count][predicate.subject_id] = {}
+                data['edges'][predicate_count][predicate.object_id] = {}
+            }
+            else {
+                data['nodes'][predicate_count] = { 'color': 'orange', 'shape': 'square', 'label': predicate.predicate_name, '_id':predicate_count };
+                data['edges'][predicate_count] = {};
+                data['edges'][predicate_count][predicate.subject_id] = {}
+            }
+            predicate_count += 1;
         }
-        if (predicate.object_id != -1) {
-            data['nodes'][predicate_count] = { 'color': 'darkred', 'shape': 'square', 'label': predicate.predicate_name, '_id':predicate_count};
-            data['edges'][predicate_count] = {};
-            data['edges'][predicate_count][predicate.subject_id] = {}
-            data['edges'][predicate_count][predicate.object_id] = {}
-        }
-        else {
-            data['nodes'][predicate_count] = { 'color': 'orange', 'shape': 'square', 'label': predicate.predicate_name, '_id':predicate_count };
-            data['edges'][predicate_count] = {};
-            data['edges'][predicate_count][predicate.subject_id] = {}
-        }
-        predicate_count += 1;
     }
     sysObj[sys_name].graft(data);
 }
