@@ -12,7 +12,12 @@ function visualize_json(sys_name, json_input, canvas_id) {
 
     for (let i = 0; i < obj.objects.length; i++) {
         object = obj.objects[i];
-        data['nodes'][object.object_id] = { 'color': 'green', 'shape': 'dot', 'label': object.class_name, '_id':object.object_id };
+        if ("is_newly_generated" in object) {
+            data['nodes'][object.object_id] = { 'color': 'blue', 'shape': 'dot', 'label': object.class_name, '_id':object.object_id };
+        }
+        else {
+            data['nodes'][object.object_id] = { 'color': 'green', 'shape': 'dot', 'label': object.class_name, '_id':object.object_id };
+        }
     }
 
     if ("predicates" in obj){
