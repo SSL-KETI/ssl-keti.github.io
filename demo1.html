@@ -232,16 +232,33 @@
 						var mask = document.getElementById("file_mask").files[0];
 						readerMask.readAsDataURL(mask);
 
+						var imageLoadCount = 0
+						var jsonArray = new Object();
+						var base64image = null;
+						var base64mask = null;
+
 						readerImg.onload = function() {
-							readerMask.onload = function() {
-								var jsonArray = new Object();
-
-								base64image = getBase64Image(readerImg);
+							base64image = getBase64Image(readerImg);
+							imageLoadCount += 1;
+							if (imageLoadCount == 2) {
 								jsonArray['image_contents'] = base64image;
-
-								base64mask = getBase64Image(readerMask);
 								jsonArray['mask_contents'] = base64mask
-
+								jsonArray = JSON.stringify(jsonArray);
+								if (in_process) {
+									alert("아직 이전 요청을 처리하고 있습니다.");
+								}
+								else {
+									hidePreviousResults();
+									postData(input_url, jsonArray, checked_radios, 1);
+								}
+							}
+						}
+						readerMask.onload = function() {
+							base64mask = getBase64Image(readerMask);
+							imageLoadCount += 1;
+							if (imageLoadCount == 2) {
+								jsonArray['image_contents'] = base64image;
+								jsonArray['mask_contents'] = base64mask
 								jsonArray = JSON.stringify(jsonArray);
 								if (in_process) {
 									alert("아직 이전 요청을 처리하고 있습니다.");
@@ -266,32 +283,53 @@
 				function getBase64ImageFromURL(input_url, checked_radios){
 					var img = new Image();
 					var mask = new Image();
+					var imageLoadCount = 0
+					var img_base64 = null;
+					var img_mask = null;
 					img.setAttribute('crossOrigin', 'anonymous');
 					mask.setAttribute('crossOrigin', 'anonymous');
 					
+					var jsonArray = new Object();
+					
 					img.onload = imgData => {
-						mask.onload = imgData => {
-							var canvas = document.createElement("canvas");
-							canvas.width = img.width;
-							canvas.height = img.height;
-							var ctx = canvas.getContext("2d");
-							ctx.drawImage(img, 0, 0);
-							var dataURL = canvas.toDataURL("image/png");
-							var img_base64 = dataURL;
-							var commaIndex = img_base64.indexOf(",");
-							img_base64 = img_base64.slice(commaIndex+1);
+						var canvas = document.createElement("canvas");
+						canvas.width = img.width;
+						canvas.height = img.height;
+						var ctx = canvas.getContext("2d");
+						ctx.drawImage(img, 0, 0);
+						var dataURL = canvas.toDataURL("image/png");
+						img_base64 = dataURL;
+						var commaIndex = img_base64.indexOf(",");
+						img_base64 = img_base64.slice(commaIndex+1);
 
-							var canvas2 = document.createElement("canvas");
-							canvas2.width = mask.width;
-							canvas2.height = mask.height;
-							var ctx2 = canvas2.getContext("2d");
-							ctx2.drawImage(mask, 0, 0);
-							var dataURL_mask = canvas2.toDataURL("image/png");
-							var img_mask = dataURL_mask;
-							var commaIndex = img_mask.indexOf(",");
-							img_mask = img_mask.slice(commaIndex+1);
+						imageLoadCount += 1;
+						if (imageLoadCount == 2) {
+							jsonArray['image_contents'] = img_base64;
+							jsonArray['mask_contents'] = img_mask;
+							jsonArray = JSON.stringify(jsonArray);
 							
-							var jsonArray = new Object();
+							if (in_process) {
+								alert("아직 이전 요청을 처리하고 있습니다.");
+							}
+							else {
+								hidePreviousResults();
+								postData(input_url, jsonArray, checked_radios, 1);
+							}
+						}
+					}
+					mask.onload = imgData => {
+						var canvas2 = document.createElement("canvas");
+						canvas2.width = mask.width;
+						canvas2.height = mask.height;
+						var ctx2 = canvas2.getContext("2d");
+						ctx2.drawImage(mask, 0, 0);
+						var dataURL_mask = canvas2.toDataURL("image/png");
+						img_mask = dataURL_mask;
+						var commaIndex = img_mask.indexOf(",");
+						img_mask = img_mask.slice(commaIndex+1);
+
+						imageLoadCount += 1;
+						if (imageLoadCount == 2) {
 							jsonArray['image_contents'] = img_base64;
 							jsonArray['mask_contents'] = img_mask;
 							jsonArray = JSON.stringify(jsonArray);

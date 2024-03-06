@@ -4,7 +4,7 @@ var in_process = false;
 function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, checked_boxes) {
     var img = new Image();
     var mask = new Image();
-    var imageLoadCount = 0
+    var imageLoadCount = 0;
     var img_original = null;
     var img_mask = null;
 
@@ -80,56 +80,97 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
     mask.setAttribute('crossOrigin', 'anonymous');
     semantic.setAttribute('crossOrigin', 'anonymous');
     
+    var img_original = null;
+    var img_mask = null;
+    var img_semantic = null;
+    var jsonArray = new Object();
+    var imageLoadCount = 0;
+
     img.onload = imgData => {
-        mask.onload = imgData => {
-            semantic.onload = imgData => {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.width;
-                canvas.height = img.height;
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
-                var dataURL_original = canvas.toDataURL("image/png");
-                var img_original = dataURL_original;
-                var commaIndex = img_original.indexOf(",");
-                img_original = img_original.slice(commaIndex+1);
-                
-                var canvas2 = document.createElement("canvas");
-                canvas2.width = mask.width;
-                canvas2.height = mask.height;
-                var ctx2 = canvas2.getContext("2d");
-                ctx2.drawImage(mask, 0, 0);
-                var dataURL_mask = canvas2.toDataURL("image/png");
-                var img_mask = dataURL_mask;
-                var commaIndex = img_mask.indexOf(",");
-                img_mask = img_mask.slice(commaIndex+1);
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var dataURL_original = canvas.toDataURL("image/png");
+        img_original = dataURL_original;
+        var commaIndex = img_original.indexOf(",");
+        img_original = img_original.slice(commaIndex+1);
 
-                var canvas3 = document.createElement("canvas");
-                canvas3.width = semantic.width;
-                canvas3.height = semantic.height;
-                var ctx3 = canvas3.getContext("2d");
-                ctx3.drawImage(semantic, 0, 0);
-                var dataURL_canvas = canvas3.toDataURL("image/png");
-                var img_semantic = dataURL_canvas;
-                var commaIndex = img_semantic.indexOf(",");
-                img_semantic = img_semantic.slice(commaIndex+1);
-
-                var jsonArray = new Object();
-                jsonArray['image_contents'] = img_original;
-                jsonArray['mask_contents'] = img_mask;
-                jsonArray['gt_contents'] = img_original;
-                jsonArray['semantic_image_contents'] = img_semantic;
-                jsonArray = JSON.stringify(jsonArray);
-                if (num == 4) {
-                    for(var i=0; i < checked_boxes.length; i++) {
-                        postData(input_url+checked_boxes[i], jsonArray, num);
-                    }
+        imageLoadCount += 1;
+        if (imageLoadCount == 3) {
+            jsonArray['image_contents'] = img_original;
+            jsonArray['mask_contents'] = img_mask;
+            jsonArray['gt_contents'] = img_original;
+            jsonArray['semantic_image_contents'] = img_semantic;
+            jsonArray = JSON.stringify(jsonArray);
+            if (num == 4) {
+                for(var i=0; i < checked_boxes.length; i++) {
+                    postData(input_url+checked_boxes[i], jsonArray, num);
                 }
-                else {
-                    postData(input_url, jsonArray, num)
-                }
-            }   
+            }
+            else {
+                postData(input_url, jsonArray, num)
+            }
         }
     }
+    mask.onload = imgData => {
+        var canvas2 = document.createElement("canvas");
+        canvas2.width = mask.width;
+        canvas2.height = mask.height;
+        var ctx2 = canvas2.getContext("2d");
+        ctx2.drawImage(mask, 0, 0);
+        var dataURL_mask = canvas2.toDataURL("image/png");
+        img_mask = dataURL_mask;
+        var commaIndex = img_mask.indexOf(",");
+        img_mask = img_mask.slice(commaIndex+1);
+
+        imageLoadCount += 1;
+        if (imageLoadCount == 3) {
+            jsonArray['image_contents'] = img_original;
+            jsonArray['mask_contents'] = img_mask;
+            jsonArray['gt_contents'] = img_original;
+            jsonArray['semantic_image_contents'] = img_semantic;
+            jsonArray = JSON.stringify(jsonArray);
+            if (num == 4) {
+                for(var i=0; i < checked_boxes.length; i++) {
+                    postData(input_url+checked_boxes[i], jsonArray, num);
+                }
+            }
+            else {
+                postData(input_url, jsonArray, num)
+            }
+        }
+    }
+    semantic.onload = imgData => {
+        var canvas3 = document.createElement("canvas");
+        canvas3.width = semantic.width;
+        canvas3.height = semantic.height;
+        var ctx3 = canvas3.getContext("2d");
+        ctx3.drawImage(semantic, 0, 0);
+        var dataURL_canvas = canvas3.toDataURL("image/png");
+        img_semantic = dataURL_canvas;
+        var commaIndex = img_semantic.indexOf(",");
+        img_semantic = img_semantic.slice(commaIndex+1);
+
+        imageLoadCount += 1;
+        if (imageLoadCount == 3) {
+            jsonArray['image_contents'] = img_original;
+            jsonArray['mask_contents'] = img_mask;
+            jsonArray['gt_contents'] = img_original;
+            jsonArray['semantic_image_contents'] = img_semantic;
+            jsonArray = JSON.stringify(jsonArray);
+            if (num == 4) {
+                for(var i=0; i < checked_boxes.length; i++) {
+                    postData(input_url+checked_boxes[i], jsonArray, num);
+                }
+            }
+            else {
+                postData(input_url, jsonArray, num)
+            }
+        }
+    }
+    
     img.src = img_url;
     mask.src = mask_url;
     semantic.src = semantic_url;

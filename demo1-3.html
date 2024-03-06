@@ -144,22 +144,47 @@
 						readerMask.readAsDataURL(mask);
 						readerJson.readAsText(json);
 
+						var jsonArray = new Object();
+						var base64image = null;
+						var base64mask = null;
+						var jsonData = null;
+    					var imageLoadCount = 0;
+						
 						readerImg.onload = function() {
-							readerMask.onload = function() {
-								readerJson.onload = function() {
-									var base64image = getBase64Image(readerImg);
-									var base64mask = getBase64Image(readerMask);
-									var jsonData = JSON.parse(readerJson.result);
-									jsonData['image_name'] = '1.jpg';
+							base64image = getBase64Image(readerImg);
+							imageLoadCount += 1;
+							if (imageLoadCount == 3) {
+								jsonArray['image_contents'] = base64image
+								jsonArray['mask_contents'] = base64mask
+								jsonArray['scene_graph'] = jsonData
+								jsonArray = JSON.stringify(jsonArray);
 
-									var jsonArray = new Object();
-									jsonArray['image_contents'] = base64image
-									jsonArray['mask_contents'] = base64mask
-									jsonArray['scene_graph'] = jsonData
-									jsonArray = JSON.stringify(jsonArray);
+								postData(input_url+name, jsonArray, 3)
+							}
+						}
+						readerMask.onload = function() {
+							base64mask = getBase64Image(readerMask);
+							imageLoadCount += 1;
+							if (imageLoadCount == 3) {
+								jsonArray['image_contents'] = base64image
+								jsonArray['mask_contents'] = base64mask
+								jsonArray['scene_graph'] = jsonData
+								jsonArray = JSON.stringify(jsonArray);
 
-									postData(input_url+name, jsonArray, 3)
-								}
+								postData(input_url+name, jsonArray, 3)
+							}
+						}
+						readerJson.onload = function() {
+							jsonData = JSON.parse(readerJson.result);
+							jsonData['image_name'] = '1.jpg';
+							imageLoadCount += 1;
+							if (imageLoadCount == 3) {
+								jsonArray['image_contents'] = base64image
+								jsonArray['mask_contents'] = base64mask
+								jsonArray['scene_graph'] = jsonData
+								jsonArray = JSON.stringify(jsonArray);
+
+								postData(input_url+name, jsonArray, 3)
 							}
 						}
 					}
