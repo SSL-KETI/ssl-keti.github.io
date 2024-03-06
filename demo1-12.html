@@ -215,7 +215,8 @@
 						}
 						var file_check = $("#file_img1").val();
 						if(!file_check) {
-							getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/2.jpg', input_url, num, checked_boxes);
+							//getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/2.jpg', input_url, num, checked_boxes);
+							getBase64ImageFromURL('examples/2.jpg', input_url, num, checked_boxes);
 						}
 						else {
 							var img = document.getElementById("file_img"+num).files[0];
