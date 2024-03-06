@@ -215,7 +215,6 @@
 						}
 						var file_check = $("#file_img1").val();
 						if(!file_check) {
-							//getBase64ImageFromURL('https://raw.githubusercontent.com/SSL-KETI/image_backup/main/2.jpg', input_url, num, checked_boxes);
 							getBase64ImageFromURL('examples/2.jpg', input_url, num, checked_boxes);
 						}
 						else {
@@ -247,8 +246,8 @@
 						
 						// 파일을 넣지 않을 경우
 						if(!file_check_img && !file_check_mask && !file_check_json) {
-							img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/masked_img.jpg';
-							mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/mask.png';
+							img_url = 'examples/2023/masked_img.jpg';
+							mask_url = 'examples/2023/mask.png';
 							getBase64ImageFromURLBothImages(input_url+"part2_UNIST", num, img_url, mask_url, '');
 						}
 						// 파일을 넣을 경우

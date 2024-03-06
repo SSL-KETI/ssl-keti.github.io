@@ -136,9 +136,9 @@
 					var file_check_semantic = $("#file_semantic4").val();
 					// 파일을 넣지 않을 경우
 					if(!file_check_img && !file_check_mask && !file_check_semantic) {
-						img_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_input.jpg';
-						mask_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_mask.png';
-						semantic_url = 'https://raw.githubusercontent.com/SSL-KETI/ssl-keti.github.io/main/examples/2023/part4_face_label.png';
+						img_url = 'examples/2023/part4_face_input.jpg';
+						mask_url = 'examples/2023/part4_face_mask.png';
+						semantic_url = 'examples/2023/part4_face_label.png';
 						getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, semantic_url, checked_boxes);
 					}
 					// 파일을 넣을 경우
