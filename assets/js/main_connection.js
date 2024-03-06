@@ -4,38 +4,59 @@ var in_process = false;
 function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, checked_boxes) {
     var img = new Image();
     var mask = new Image();
+    var imageLoadCount = 0
+    var img_original = null;
+    var img_mask = null;
+
     img.setAttribute('crossOrigin', 'anonymous');
     mask.setAttribute('crossOrigin', 'anonymous');
     
+    var scene_graph = document.getElementById("json_preview"+num).innerText;
+    scene_graph = JSON.parse(scene_graph);
+    var jsonArray = new Object();
+    jsonArray['scene_graph'] = scene_graph;
+    
     img.onload = imgData => {
-        mask.onload = imgData => {
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            var dataURL_original = canvas.toDataURL("image/png");
-            var img_original = dataURL_original;
-            var commaIndex = img_original.indexOf(",");
-            img_original = img_original.slice(commaIndex+1);
-            
-            var canvas2 = document.createElement("canvas");
-            canvas2.width = mask.width;
-            canvas2.height = mask.height;
-            var ctx2 = canvas2.getContext("2d");
-            ctx2.drawImage(mask, 0, 0);
-            var dataURL_mask = canvas2.toDataURL("image/png");
-            var img_mask = dataURL_mask;
-            var commaIndex = img_mask.indexOf(",");
-            img_mask = img_mask.slice(commaIndex+1);
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var dataURL_original = canvas.toDataURL("image/png");
+        img_original = dataURL_original;
+        var commaIndex = img_original.indexOf(",");
+        img_original = img_original.slice(commaIndex+1);
 
-            var scene_graph = document.getElementById("json_preview"+num).innerText;
-            scene_graph = JSON.parse(scene_graph);
-
-            var jsonArray = new Object();
+        imageLoadCount += 1;
+        if (imageLoadCount == 2) {
             jsonArray['image_contents'] = img_original;
             jsonArray['mask_contents'] = img_mask;
-            jsonArray['scene_graph'] = scene_graph;
+            jsonArray = JSON.stringify(jsonArray);
+            if (num == 4) {
+                for(var i=0; i < checked_boxes.length; i++) {
+                    postData(input_url+checked_boxes[i], jsonArray, num);
+                }
+            }
+            else {
+                postData(input_url, jsonArray, num)
+            }
+        }
+    }
+    mask.onload = imgData => {
+        var canvas2 = document.createElement("canvas");
+        canvas2.width = mask.width;
+        canvas2.height = mask.height;
+        var ctx2 = canvas2.getContext("2d");
+        ctx2.drawImage(mask, 0, 0);
+        var dataURL_mask = canvas2.toDataURL("image/png");
+        var img_mask = dataURL_mask;
+        var commaIndex = img_mask.indexOf(",");
+        img_mask = img_mask.slice(commaIndex+1);
+
+        imageLoadCount += 1;
+        if (imageLoadCount == 2) {
+            jsonArray['image_contents'] = img_original;
+            jsonArray['mask_contents'] = img_mask;
             jsonArray = JSON.stringify(jsonArray);
             if (num == 4) {
                 for(var i=0; i < checked_boxes.length; i++) {
