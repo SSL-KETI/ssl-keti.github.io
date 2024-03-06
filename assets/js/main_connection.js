@@ -49,10 +49,10 @@ function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, chec
         var ctx2 = canvas2.getContext("2d");
         ctx2.drawImage(mask, 0, 0);
         var dataURL_mask = canvas2.toDataURL("image/png");
-        var img_mask = dataURL_mask;
+        img_mask = dataURL_mask;
         var commaIndex = img_mask.indexOf(",");
         img_mask = img_mask.slice(commaIndex+1);
-
+        
         imageLoadCount += 1;
         if (imageLoadCount == 2) {
             jsonArray['image_contents'] = img_original;
