@@ -317,15 +317,7 @@
 					img.setAttribute('crossOrigin', 'anonymous');
 					
 					img.onload = imgData => {
-						var canvas = document.createElement("canvas");
-						canvas.width = img.width;
-						canvas.height = img.height;
-						var ctx = canvas.getContext("2d");
-						ctx.drawImage(img, 0, 0);
-						var dataURL = canvas.toDataURL("image/png");
-						var img_base64 = dataURL;
-						var commaIndex = img_base64.indexOf(",");
-						img_base64 = img_base64.slice(commaIndex+1);
+						img_base64 = imageToDataURL(img);
 						
 						var jsonArray = new Object();
 						jsonArray['image_contents'] = img_base64;

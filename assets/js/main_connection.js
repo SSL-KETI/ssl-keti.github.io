@@ -17,15 +17,7 @@ function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, chec
     jsonArray['scene_graph'] = scene_graph;
     
     img.onload = imgData => {
-        var canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        var dataURL_original = canvas.toDataURL("image/png");
-        img_original = dataURL_original;
-        var commaIndex = img_original.indexOf(",");
-        img_original = img_original.slice(commaIndex+1);
+        img_original = imageToDataURL(img);
 
         imageLoadCount += 1;
         if (imageLoadCount == 2) {
@@ -43,15 +35,7 @@ function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, chec
         }
     }
     mask.onload = imgData => {
-        var canvas2 = document.createElement("canvas");
-        canvas2.width = mask.width;
-        canvas2.height = mask.height;
-        var ctx2 = canvas2.getContext("2d");
-        ctx2.drawImage(mask, 0, 0);
-        var dataURL_mask = canvas2.toDataURL("image/png");
-        img_mask = dataURL_mask;
-        var commaIndex = img_mask.indexOf(",");
-        img_mask = img_mask.slice(commaIndex+1);
+        img_mask = imageToDataURL(mask);
         
         imageLoadCount += 1;
         if (imageLoadCount == 2) {
@@ -72,6 +56,20 @@ function getBase64ImageFromURLBothImages(input_url, num, img_url, mask_url, chec
     mask.src = mask_url;
 }
 
+function imageToDataURL(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var dataURL_original = canvas.toDataURL("image/png");
+    var img_original = dataURL_original;
+    var commaIndex = img_original.indexOf(",");
+    img_original = img_original.slice(commaIndex+1);
+
+    return img_original
+}
+
 function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, semantic_url, checked_boxes) {
     var img = new Image();
     var mask = new Image();
@@ -86,15 +84,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
     var imageLoadCount = 0;
 
     img.onload = imgData => {
-        var canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        var dataURL_original = canvas.toDataURL("image/png");
-        img_original = dataURL_original;
-        var commaIndex = img_original.indexOf(",");
-        img_original = img_original.slice(commaIndex+1);
+        img_original = imageToDataURL(img);
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
@@ -102,15 +92,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
         }
     }
     mask.onload = imgData => {
-        var canvas2 = document.createElement("canvas");
-        canvas2.width = mask.width;
-        canvas2.height = mask.height;
-        var ctx2 = canvas2.getContext("2d");
-        ctx2.drawImage(mask, 0, 0);
-        var dataURL_mask = canvas2.toDataURL("image/png");
-        img_mask = dataURL_mask;
-        var commaIndex = img_mask.indexOf(",");
-        img_mask = img_mask.slice(commaIndex+1);
+        img_mask = imageToDataURL(mask);
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
@@ -118,15 +100,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
         }
     }
     semantic.onload = imgData => {
-        var canvas3 = document.createElement("canvas");
-        canvas3.width = semantic.width;
-        canvas3.height = semantic.height;
-        var ctx3 = canvas3.getContext("2d");
-        ctx3.drawImage(semantic, 0, 0);
-        var dataURL_canvas = canvas3.toDataURL("image/png");
-        img_semantic = dataURL_canvas;
-        var commaIndex = img_semantic.indexOf(",");
-        img_semantic = img_semantic.slice(commaIndex+1);
+        img_semantic = imageToDataURL(semantic);
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
