@@ -98,7 +98,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
         }
     }
     mask.onload = imgData => {
@@ -114,7 +114,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
         }
     }
     semantic.onload = imgData => {
@@ -130,7 +130,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
         }
     }
 
@@ -139,7 +139,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
     semantic.src = semantic_url;
 }
 
-function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic) {
+function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic, input_url) {
     var jsonArray = new Object();
     jsonArray['image_contents'] = rgb_img;
     jsonArray['mask_contents'] = mask;
@@ -147,9 +147,7 @@ function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic) {
     jsonArray['semantic_image_contents'] = semantic;
     jsonArray = JSON.stringify(jsonArray);
 
-    for(var i=0; i < checked_boxes.length; i++) {
-        postData(input_url+checked_boxes[i], jsonArray, num);
-    }
+    postData(input_url, jsonArray, num);
 }
 
 function postData(input_url, jsonArray, num) {
