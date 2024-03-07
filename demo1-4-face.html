@@ -161,21 +161,21 @@
 							base64image = getBase64Image(readerImg);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0]);
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0], num);
 							}
 						}
 						readerMask.onload = function() {
 							base64mask = getBase64Image(readerMask);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0]);
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0], num);
 							}
 						}
 						readerSemantic.onload = function() {
 							base64semantic = getBase64Image(readerSemantic);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0]);
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic, input_url+checked_boxes[0], num);
 							}
 						}
 					}

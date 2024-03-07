@@ -98,7 +98,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0], num);
         }
     }
     mask.onload = imgData => {
@@ -114,7 +114,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0], num);
         }
     }
     semantic.onload = imgData => {
@@ -130,7 +130,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
 
         imageLoadCount += 1;
         if (imageLoadCount == 3) {
-            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0]);
+            writeThreeImagesInJsonAndPost(img_original, img_mask, img_semantic, input_url+checked_boxes[0], num);
         }
     }
 
@@ -139,7 +139,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
     semantic.src = semantic_url;
 }
 
-function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic, input_url) {
+function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic, input_url, num) {
     var jsonArray = new Object();
     jsonArray['image_contents'] = rgb_img;
     jsonArray['mask_contents'] = mask;
