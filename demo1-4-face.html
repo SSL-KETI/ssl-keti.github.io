@@ -161,42 +161,21 @@
 							base64image = getBase64Image(readerImg);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-								jsonArray['image_contents'] = base64image;
-								jsonArray['mask_contents'] = base64mask;
-								jsonArray['gt_contents'] = base64image;
-								jsonArray['semantic_image_contents'] = base64semantic;
-								jsonArray = JSON.stringify(jsonArray);
-								for(var i=0; i < checked_boxes.length; i++) {
-									postData(input_url+checked_boxes[i], jsonArray, num);
-								}
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic);
 							}
 						}
 						readerMask.onload = function() {
 							base64mask = getBase64Image(readerMask);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-								jsonArray['image_contents'] = base64image;
-								jsonArray['mask_contents'] = base64mask;
-								jsonArray['gt_contents'] = base64image;
-								jsonArray['semantic_image_contents'] = base64semantic;
-								jsonArray = JSON.stringify(jsonArray);
-								for(var i=0; i < checked_boxes.length; i++) {
-									postData(input_url+checked_boxes[i], jsonArray, num);
-								}
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic);
 							}
 						}
 						readerSemantic.onload = function() {
 							base64semantic = getBase64Image(readerSemantic);
 							imageLoadCount += 1;
 							if (imageLoadCount == 3) {
-								jsonArray['image_contents'] = base64image;
-								jsonArray['mask_contents'] = base64mask;
-								jsonArray['gt_contents'] = base64image;
-								jsonArray['semantic_image_contents'] = base64semantic;
-								jsonArray = JSON.stringify(jsonArray);
-								for(var i=0; i < checked_boxes.length; i++) {
-									postData(input_url+checked_boxes[i], jsonArray, num);
-								}
+            					writeThreeImagesInJsonAndPost(base64image, base64mask, base64semantic);
 							}
 						}
 					}
