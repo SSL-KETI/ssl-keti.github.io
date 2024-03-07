@@ -139,7 +139,7 @@ function getBase64ImageFromURLThreeImages(input_url, num, img_url, mask_url, sem
     semantic.src = semantic_url;
 }
 
-function writeThreeImagesInJsonAndPost(rgb_img, mask, sematic) {
+function writeThreeImagesInJsonAndPost(rgb_img, mask, semantic) {
     var jsonArray = new Object();
     jsonArray['image_contents'] = rgb_img;
     jsonArray['mask_contents'] = mask;
